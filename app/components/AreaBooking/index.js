@@ -16,25 +16,24 @@ class AreaBooking extends React.Component {
 		this.state = {
 			selected: false,
 			header: 'Varaa tila',
-			items: [{id:1, text: '11:00'},
-			{id:2, text: '13:00'}, {id:3, text:'16:00'}]
+			activeIndex: 0,
+			items: [
+				{id:1, text: '11:00'},
+				{id:2, text: '13:00'},
+				{id:3, text:'16:00'}
+			]
 		}
 
-		this.clickHandler = this.clickHandler.bind(this);
+		this.switchButtonState = this.switchButtonState.bind(this);
 	}
 
-	setInitialState(){
 
-	}
-
-	clickHandler(){
-
-	}
-
-	switchButtonState(state){
+	switchButtonState(evt){
+		console.log('click', evt.target.id);
 
 		this.setState({
-			selected: state
+			selected: true,
+			activeIndex: evt.target.id
 		})
 
 	}
@@ -45,8 +44,8 @@ class AreaBooking extends React.Component {
     	<Wrapper>
 	      	<div>
 		      	<Title>{this.state.header}</Title>
-		      	<ButtonList items={this.state.items} onButtonClick={this.switchButtonState.bind(this)} />
-		        <Submit selected={this.state.selected} />
+		      	<ButtonList items={this.state.items} onButtonClick={this.switchButtonState} />
+		        <Submit disabled={this.state.selected} />
 		        
 		     </div>
       	</Wrapper>
