@@ -19,16 +19,21 @@ class ButtonList extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			activeButtonIndex: {}
+			activeButton: this.props.active
 		}
 	}
 
+	componentDidMount(props){
+		
+	}
 
 	render() {
 	    return (
 	      <Wrapper>
-	        {this.props.items.map(item => (
-	          <BookingButton id={item.id} className onClick={this.props.onButtonClick} key={item.id}>Kello {item.text} saakka</BookingButton>
+	        {this.props.items.map((item, index) => (
+	          <BookingButton id={item.id} className={item.active ? 'active' : ''} onClick={(e) => this.props.onButtonClick(e, index)} key={item.id}>
+	          	Kello {item.text} saakka
+	          </BookingButton>
 	        ))}
 	      </Wrapper>
 	    );

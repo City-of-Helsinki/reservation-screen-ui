@@ -13,44 +13,52 @@ class AreaBooking extends React.Component {
 
 	constructor(props){
 		super(props);
+
 		this.state = {
-			selected: false,
+			disabled: true,
 			header: 'Varaa tila',
-			activeIndex: 0,
+			activeIndex: '',
+			activeClass: 'btn-active',
 			items: [
-				{id:1, text: '11:00'},
-				{id:2, text: '13:00'},
-				{id:3, text:'16:00'}
+				{id:'button-1', text: '11:00', active: false},
+				{id:'button-2', text: '13:00', active: false},
+				{id:'button-3', text:'16:00', active: false}
 			]
 		}
 
 		this.switchButtonState = this.switchButtonState.bind(this);
 	}
 
+	switchButtonState(evt, btnIndex){
 
-	switchButtonState(evt){
-		console.log('click', evt.target.id);
+		let btns = this.state.items;
+		btns[btnIndex].active = true;
+
+		if(evt.target.id == this.state.activeIndex){
+			this.setState({
+				disabled: true,
+				activeIndex: ''
+			})
+			return;
+		}
 
 		this.setState({
-			selected: true,
+			disabled: false,
 			activeIndex: evt.target.id
 		})
-
 	}
 
-  render() {
-  	
-    return (
-    	<Wrapper>
-	      	<div>
-		      	<Title>{this.state.header}</Title>
-		      	<ButtonList items={this.state.items} onButtonClick={this.switchButtonState} />
-		        <Submit disabled={this.state.selected} />
-		        
-		     </div>
-      	</Wrapper>
-    );
-  }
+  	render() {  	
+    	return (
+	    	<Wrapper>
+		      	<div>
+			      	<Title>{this.state.header}</Title>
+			      	<ButtonList items={this.state.items} onButtonClick={this.switchButtonState} />
+			        <Submit disabled={this.state.disabled} />		        
+			     </div>
+	      	</Wrapper>
+	    );
+  	}
 }
 
 export default AreaBooking;
