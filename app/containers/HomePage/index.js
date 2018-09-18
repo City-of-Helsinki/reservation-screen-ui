@@ -75,11 +75,9 @@ export class HomePage extends React.PureComponent {
 
     this.state = {
       theme: themeSoon,
+      theme: themeFree,
     };
-      theme: themeFree
-    }
   }
-
   /**
    * when initial state username is not null, submit the form to load repos
    */
