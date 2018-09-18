@@ -5,18 +5,23 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-// const selectHome = state => state.get('home');
-
+// Home state from store.
 const selectHome = state => state.get('home', initialState);
 
+/**
+ * Select list of free slots.
+ */
 const makeFreeSlots = () =>
   createSelector(selectHome, state => state.get('reservations'));
 
-const makeUpcomingReservations = () =>
+/**
+ * Select all upcoming reservations.
+ */
+const makeUpcomingReservations = date =>
   createSelector(selectHome, state => {
     let resource = state.get('resource');
-    if (resource && resource.reservations) {
-      return resource.reservations;
+    if (resource && resource.has('reservations')) {
+      return resource.get('reservations').toArray();
     } else {
       return [];
     }
