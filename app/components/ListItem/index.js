@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import Item from './Item';
 import Wrapper from './Wrapper';
@@ -7,7 +8,10 @@ import Wrapper from './Wrapper';
 function ListItem(props) {
   return (
     <Wrapper>
-      <Item>{props.item.id}</Item>
+      <Item>
+        {moment(props.item.begin).format('HH.mm')} -{' '}
+        {moment(props.item.end).format('HH.mm')}
+      </Item>
     </Wrapper>
   );
 }

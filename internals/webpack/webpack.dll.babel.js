@@ -35,6 +35,10 @@ module.exports = require('./webpack.base.babel')({
     library: '[name]',
   },
   plugins: [
+    // This is supposed to fix moment.js locale error. But it broke something else
+    // so keeping this commented out.
+    // new webpack.IgnorePlugin(/\.\/locale$/),
+
     new webpack.DllPlugin({
       name: '[name]',
       path: join(outputPath, '[name].json'),

@@ -30,8 +30,12 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 import { loadRepos } from '../App/actions';
-import { changeUsername } from './actions';
-import { makeSelectUsername } from './selectors';
+import { changeUsername, loadReservations } from './actions';
+import {
+  makeSelectUsername,
+  makeFreeSlots,
+  makeUpcomingReservations,
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -44,32 +48,34 @@ import BackgroundImage from './images/bg-wave-green.png';
 import BackgroundImageSoon from './images/bg-wave-yellow.png';
 import BackgroundImageTaken from './images/bg-wave-red.png';
 
-const themeFree = {  // vapaa
-  primaryColor: "#63e080",
-  secondaryColor: "#effbf2",
-  bgImage: BackgroundImage
+const themeFree = {
+  // vapaa
+  primaryColor: '#63e080',
+  secondaryColor: '#effbf2',
+  bgImage: BackgroundImage,
 };
 
-const themeSoon = { // vapautuu kohta
-  primaryColor: "#f7d366",
-  secondaryColor: "#fefaef",
-  bgImage: BackgroundImageSoon
+const themeSoon = {
+  // vapautuu kohta
+  primaryColor: '#f7d366',
+  secondaryColor: '#fefaef',
+  bgImage: BackgroundImageSoon,
 };
 
-const themeTaken = { // varattu
-  primaryColor: "#f15f6d",
-  secondaryColor: "#fdeff0",
-  bgImage: BackgroundImageTaken
+const themeTaken = {
+  // varattu
+  primaryColor: '#f15f6d',
+  secondaryColor: '#fdeff0',
+  bgImage: BackgroundImageTaken,
 };
 
 export class HomePage extends React.PureComponent {
-
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
-      theme: themeSoon
-    }
+      theme: themeSoon,
+    };
   }
 
   /**
@@ -77,6 +83,8 @@ export class HomePage extends React.PureComponent {
    */
   componentDidMount() {
     const self = this;
+
+    this.props.onLoadReservations();
 
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
@@ -106,7 +114,7 @@ export class HomePage extends React.PureComponent {
               content="A React.js Boilerplate application homepage"
             />
           </Helmet>
-          <Booking />
+          <Booking upcomingReservations={this.props.upcomingReservations} />
         </Article>
       </ThemeProvider>
     );
@@ -129,6 +137,7 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
+    onLoadReservations: evt => dispatch(loadReservations()),
   };
 }
 
@@ -137,6 +146,8 @@ const mapStateToProps = createStructuredSelector({
   username: makeSelectUsername(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
+  upcomingReservations: makeUpcomingReservations(),
+  freeSlots: makeFreeSlots(),
 });
 
 const withConnect = connect(

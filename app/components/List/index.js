@@ -10,7 +10,8 @@ function List(props) {
 
   // If we have items, render them
   if (props.items) {
-    content = props.items.map(item => (
+    const itemsSlice = props.items.slice(0, props.limit);
+    content = itemsSlice.map(item => (
       <ComponentToRender key={`item-${item.id}`} item={item} />
     ));
   } else {

@@ -6,24 +6,24 @@ import Content from './Content';
 
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {
-	constructor(props){
-		super();
-		this.state = {
-			room: 'Studiotila 1',
-			status: 'Tila on vapaa',
-			until: 'klo 13:00 saakka'
-		}
-	}
+  constructor(props) {
+    super();
+    this.state = {
+      room: 'Studiotila 1',
+      status: 'Tila on vapaa',
+      until: 'klo 13:00 saakka',
+    };
+  }
 
-	render() {
-		return (
-		  <Wrapper>
-		  	<Clock />
-		  	<Content />
-		    <Upcoming />
-		  </Wrapper>
-		);
-	}
+  render() {
+    return (
+      <Wrapper>
+        <Clock />
+        <Content />
+        <Upcoming upcomingReservations={this.props.upcomingReservations} />
+      </Wrapper>
+    );
+  }
 }
 
 export default AreaStatus;
