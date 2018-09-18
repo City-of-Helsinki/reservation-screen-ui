@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import H1 from 'components/H1';
 import H2 from 'components/H2';
 import P from './P';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 
 
 const Wrapper = styled.div`
@@ -15,16 +17,16 @@ class Content extends React.Component {
 		this.state = {
 			room: 'Studiotila 1',
 			status: 'Tila on vapaa',
-			until: 'klo 13:00 saakka'
+			until: '13:00'
 		}
 	}
 
 	render() {
 		return (
 		  <Wrapper className="c-content">
-		    <H1>{this.state.room}</H1>
-		    <P>{this.state.status}</P>
-		    <H2>{this.state.until}</H2>
+		    <H1><FormattedMessage {...messages.areaTitle} /></H1>
+		    <P><FormattedMessage {...messages.areaStatus} /></P>
+		    <H2><FormattedMessage {...messages.areaOccupatedUntil} /> {this.state.until}</H2>
 		  </Wrapper>
 		);
 	}

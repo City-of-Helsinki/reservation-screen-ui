@@ -44,5 +44,8 @@
     "Zeige die Github Repositories von",
   "boilerplate.containers.LocaleToggle.de": "",
   "boilerplate.containers.LocaleToggle.en": "",
-  "boilerplate.containers.NotFoundPage.header": "Seite nicht gefunden."
+  "boilerplate.containers.NotFoundPage.header": "Seite nicht gefunden.",
+  "boilerplate.components.AreaStatus.area.header": "Das Studio",
+  "boilerplate.components.AreaStatus.area.status": "ist verfügbar",
+  "boilerplate.components.AreaStatus.area.until": "Aus"
 }

@@ -76,6 +76,8 @@ export class HomePage extends React.PureComponent {
     this.state = {
       theme: themeSoon,
     };
+      theme: themeFree
+    }
   }
 
   /**

@@ -4,8 +4,10 @@ import Wrapper from './Wrapper';
 import Title from './H3';
 import { ThemeProvider } from 'styled-components';
 import Submit from './Submit';
+import LocaleToggle from 'containers/LocaleToggle';
 
 import styled from 'styled-components';
+
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -17,7 +19,7 @@ class AreaBooking extends React.Component {
 		this.state = {
 			disabled: true,
 			header: 'Varaa tila',
-			activeIndex: '',
+			activeButton: '',
 			activeClass: 'btn-active',
 			items: [
 				{id:'button-1', text: '11:00', active: false},
@@ -29,29 +31,47 @@ class AreaBooking extends React.Component {
 		this.switchButtonState = this.switchButtonState.bind(this);
 	}
 
-	switchButtonState(evt, btnIndex){
-
-		let btns = this.state.items;
-		btns[btnIndex].active = true;
-
-		if(evt.target.id == this.state.activeIndex){
+	switchSubmitButtonState(btn){
+		if(btn == this.state.activeButton){
 			this.setState({
 				disabled: true,
-				activeIndex: ''
+				activeButton: ''
 			})
 			return;
 		}
 
 		this.setState({
 			disabled: false,
-			activeIndex: evt.target.id
+			activeButton: btn
 		})
 	}
+
+	switchButtonState(evt, btnIndex){
+
+		let btns = this.state.items;
+		let clickedBtn = btns[btnIndex];
+		let filteredButtons = btns.filter(function(btn, i) {
+			if(i !== btnIndex){
+				return btn;	
+			}		  	
+		});
+
+		filteredButtons.map((item) =>
+			item.active = false
+		)
+
+		btns[btnIndex].active = !btns[btnIndex].active ? true : false;
+		
+		this.switchSubmitButtonState(clickedBtn);
+	}
+
+
 
   	render() {  	
     	return (
 	    	<Wrapper>
 		      	<div>
+		      		<LocaleToggle />
 			      	<Title>{this.state.header}</Title>
 			      	<ButtonList items={this.state.items} onButtonClick={this.switchButtonState} />
 			        <Submit disabled={this.state.disabled} />		        
