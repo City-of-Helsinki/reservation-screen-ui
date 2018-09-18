@@ -13,6 +13,8 @@ Run `npm install`
 
 Run `npm start`
 
+Tests: `npm test`
+
 ## Requirements
 
 - Node 8
