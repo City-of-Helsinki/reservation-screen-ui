@@ -1,6 +1,7 @@
 import React from 'react';
 import BasicButton from 'components/BasicButton';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const BookingButton = styled(BasicButton)`
   margin: 0 auto 1rem;
@@ -18,11 +19,11 @@ class ButtonList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeButton: this.props.active,
+      // activeButton: this.props.active,
     };
   }
 
-  componentDidMount(props) {}
+  componentDidMount() {}
 
   render() {
     return (
@@ -41,5 +42,10 @@ class ButtonList extends React.Component {
     );
   }
 }
+
+ButtonList.propTypes = {
+  items: PropTypes.array,
+  onButtonClick: PropTypes.func,
+};
 
 export default ButtonList;
