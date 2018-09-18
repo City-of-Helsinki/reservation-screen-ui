@@ -14,16 +14,24 @@ import styled from 'styled-components';
 const Ul = styled.ul`
   list-style-type: none;
   display: flex;
+  justify-content: center;
 `;
 
 const Li = styled.li`
-  padding-left: 1rem;
+  margin-left: 1rem;
   color: black;
+  font-weight: bold;
+  text-align: center;
+  ${({ active }) =>
+    active &&
+    `
+    color: silver;
+    border-bottom: 2px solid silver;
+  `};
 `;
 
 function Toggle(props) {
   let content = <Li>--</Li>;
-
   // If we have items, render them
   if (props.values) {
     content = props.values.map(value => (
@@ -33,17 +41,14 @@ function Toggle(props) {
         value={value}
         message={props.messages[value]}
         onClick={props.onLangClick}
+        active={props.value === value}
       >
         {value}
       </Li>
     ));
   }
 
-  return (
-    <Ul value={props.value} onChange={props.onToggle}>
-      {content}
-    </Ul>
-  );
+  return <Ul>{content}</Ul>;
 }
 
 Toggle.propTypes = {
