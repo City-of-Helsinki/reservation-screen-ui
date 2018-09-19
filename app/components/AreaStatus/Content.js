@@ -12,15 +12,16 @@ const Wrapper = styled.div`
 
 class Content extends React.Component {
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			room: 'Studiotila 1',
 			status: 'Tila on vapaa',
-			until: 'Klo 13:00',
+			until: '13:00',
 		};
 	}
 
 	render() {
+		const { until, room } = this.state;
 		return (
 			<Wrapper className="c-content">
 				<H1>
@@ -30,8 +31,10 @@ class Content extends React.Component {
 					<FormattedMessage {...messages.areaStatus} />
 				</P>
 				<H2>
-					{this.state.until}{' '}
-					<FormattedMessage {...messages.areaOccupiedUntil} />{' '}
+					<FormattedMessage
+						{...messages.areaOccupiedUntil}
+						values={{ time: until }}
+					/>
 				</H2>
 			</Wrapper>
 		);

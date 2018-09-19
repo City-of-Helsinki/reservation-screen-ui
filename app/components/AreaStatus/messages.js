@@ -8,14 +8,14 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   areaTitle: {
     id: 'boilerplate.components.AreaStatus.area.header',
-    defaultMessage: 'Space title',
+    defaultMessage: 'Tilan nimi',
   },
   areaStatus: {
     id: 'boilerplate.components.AreaStatus.area.status',
-    defaultMessage: 'is available',
+    defaultMessage: 'on vapaa',
   },
   areaOccupiedUntil: {
     id: 'boilerplate.components.AreaStatus.area.until',
-    defaultMessage: 'until',
+    defaultMessage: 'Klo {time} saakka',
   },
 });
