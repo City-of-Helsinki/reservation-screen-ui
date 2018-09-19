@@ -32,8 +32,8 @@ const Li = styled.li`
 
 function Toggle(props) {
   let content = <Li>--</Li>;
+
   // If we have items, render them
-  console.log(props.messages);
   if (props.values) {
     content = props.values.map(value => (
       <Li

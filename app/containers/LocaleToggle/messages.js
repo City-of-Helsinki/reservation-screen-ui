@@ -18,4 +18,8 @@ export default defineMessages({
 		id: 'boilerplate.containers.LocaleToggle.fi',
 		defaultMessage: 'Suomeksi',
 	},
+	sv: {
+		id: 'boilerplate.containers.LocaleToggle.sv',
+		defaultMessage: 'På svenska',
+	},
 });
