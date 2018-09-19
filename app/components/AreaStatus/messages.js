@@ -14,8 +14,8 @@ export default defineMessages({
     id: 'boilerplate.components.AreaStatus.area.status',
     defaultMessage: 'is available',
   },
-  areaOccupatedUntil: {
+  areaOccupiedUntil: {
     id: 'boilerplate.components.AreaStatus.area.until',
     defaultMessage: 'until',
-  }
+  },
 });

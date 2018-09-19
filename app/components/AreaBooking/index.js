@@ -7,13 +7,13 @@ import Submit from './Submit';
 import LocaleToggle from 'containers/LocaleToggle';
 
 import styled from 'styled-components';
-
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 
 class AreaBooking extends React.Component {
-
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.state = {
@@ -22,63 +22,80 @@ class AreaBooking extends React.Component {
 			activeButton: '',
 			activeClass: 'btn-active',
 			items: [
-				{id:'button-1', text: '11:00', active: false},
-				{id:'button-2', text: '13:00', active: false},
-				{id:'button-3', text:'16:00', active: false}
-			]
-		}
+				{ id: 'button-1', text: '11:00', active: false },
+				{ id: 'button-2', text: '13:00', active: false },
+				{ id: 'button-3', text: '16:00', active: false },
+			],
+		};
 
 		this.switchButtonState = this.switchButtonState.bind(this);
+		this.toggleScene = this.toggleScene.bind(this);
+		this.verifyBooking = this.verifyBooking.bind(this);
 	}
 
-	switchSubmitButtonState(btn){
-		if(btn == this.state.activeButton){
+	switchSubmitButtonState(btn) {
+		if (btn == this.state.activeButton) {
 			this.setState({
 				disabled: true,
-				activeButton: ''
-			})
+				activeButton: '',
+			});
 			return;
 		}
 
 		this.setState({
 			disabled: false,
-			activeButton: btn
-		})
+			activeButton: btn,
+		});
 	}
 
-	switchButtonState(evt, btnIndex){
-
+	switchButtonState(evt, btnIndex) {
 		let btns = this.state.items;
 		let clickedBtn = btns[btnIndex];
 		let filteredButtons = btns.filter(function(btn, i) {
-			if(i !== btnIndex){
-				return btn;	
-			}		  	
+			if (i !== btnIndex) {
+				return btn;
+			}
 		});
 
-		filteredButtons.map((item) =>
-			item.active = false
-		)
-
+		filteredButtons.map(item => (item.active = false));
 		btns[btnIndex].active = !btns[btnIndex].active ? true : false;
-		
 		this.switchSubmitButtonState(clickedBtn);
 	}
 
+	toggleScene(evt, action) {
+		console.log('toggle');
+		switch (action) {
+			case 'CANCEL':
+				return action;
+			case 'VERIFY':
+				return action;
+		}
+	}
 
+	verifyBooking() {
+		console.log('verified');
+	}
 
-  	render() {  	
-    	return (
-	    	<Wrapper>
-		      	<div>
-		      		<LocaleToggle />
-			      	<Title>{this.state.header}</Title>
-			      	<ButtonList items={this.state.items} onButtonClick={this.switchButtonState} />
-			        <Submit disabled={this.state.disabled} />		        
-			     </div>
-	      	</Wrapper>
-	    );
-  	}
+	render() {
+		return (
+			<Wrapper>
+				<div>
+					<LocaleToggle />
+					<Title>
+						<FormattedMessage {...messages.bookingTitle} />
+					</Title>
+					<ButtonList
+						items={this.state.items}
+						onButtonClick={this.switchButtonState}
+					/>
+					<Submit
+						disabled={this.state.disabled}
+						onSubmitClick={this.toggleScene}
+					/>
+				</div>
+			</Wrapper>
+		);
+	}
 }
 
 export default AreaBooking;

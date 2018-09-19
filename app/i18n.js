@@ -25,8 +25,8 @@ const DEFAULT_LOCALE = 'fi';
 
 // prettier-ignore
 const appLocales = [
-  'en',
   'fi',
+  'en',
   'sv'
 ];
 

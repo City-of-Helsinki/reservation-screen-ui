@@ -40,8 +40,12 @@
   "boilerplate.containers.HomePage.tryme.header": "Try me!",
   "boilerplate.containers.HomePage.tryme.message":
     "Show Github repositories by",
-  "boilerplate.containers.LocaleToggle.de": "de",
-  "boilerplate.containers.LocaleToggle.en": "en",
+  "boilerplate.containers.LocaleToggle.de": "deutch",
+  "boilerplate.containers.LocaleToggle.en": "english",
   "boilerplate.containers.NotFoundPage.header": "Page not found.",
-  "boilerplate.components.AreaStatus.area.header": "Space title"
+  "boilerplate.components.AreaStatus.area.header": "Space title",
+  "boilerplate.components.AreaStatus.area.status": "is available",
+  "boilerplate.components.AreaStatus.area.until": "until",
+  "boilerplate.components.AreaBooking.button.submit": "Submit",
+  "boilerplate.components.AreaBooking.title": "Book this space"
 }

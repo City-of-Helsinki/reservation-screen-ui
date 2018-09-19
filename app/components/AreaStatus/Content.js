@@ -6,31 +6,36 @@ import P from './P';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-
 const Wrapper = styled.div`
 	margin-bottom: 30px;
 `;
 
 class Content extends React.Component {
-	constructor(props){
+	constructor(props) {
 		super();
 		this.state = {
 			room: 'Studiotila 1',
 			status: 'Tila on vapaa',
-			until: '13:00'
-		}
+			until: 'Klo 13:00',
+		};
 	}
 
 	render() {
 		return (
-		  <Wrapper className="c-content">
-		    <H1><FormattedMessage {...messages.areaTitle} /></H1>
-		    <P><FormattedMessage {...messages.areaStatus} /></P>
-		    <H2><FormattedMessage {...messages.areaOccupatedUntil} /> {this.state.until}</H2>
-		  </Wrapper>
+			<Wrapper className="c-content">
+				<H1>
+					<FormattedMessage {...messages.areaTitle} />
+				</H1>
+				<P>
+					<FormattedMessage {...messages.areaStatus} />
+				</P>
+				<H2>
+					{this.state.until}{' '}
+					<FormattedMessage {...messages.areaOccupiedUntil} />{' '}
+				</H2>
+			</Wrapper>
 		);
 	}
 }
 
 export default Content;
-

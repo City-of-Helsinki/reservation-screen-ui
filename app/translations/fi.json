@@ -45,5 +45,7 @@
   "boilerplate.containers.NotFoundPage.header": "Page not found.",
   "boilerplate.components.AreaStatus.area.header": "Tilan nimi",
   "boilerplate.components.AreaStatus.area.status": "on vapaa",
-  "boilerplate.components.AreaStatus.area.until": "saakka"
+  "boilerplate.components.AreaStatus.area.until": "saakka",
+  "boilerplate.components.AreaBooking.button.submit": "Varaa",
+  "boilerplate.components.AreaBooking.title": "Varaa tila"
 }
