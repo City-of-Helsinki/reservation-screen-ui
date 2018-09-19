@@ -33,17 +33,18 @@ const Li = styled.li`
 function Toggle(props) {
   let content = <Li>--</Li>;
   // If we have items, render them
+  console.log(props.messages);
   if (props.values) {
     content = props.values.map(value => (
       <Li
         key={value}
         lang={value}
         value={value}
-        message={props.messages[value]}
+        message={props.messages[value].defaultMessage}
         onClick={props.onLangClick}
         active={props.value === value}
       >
-        {value}
+        {props.messages[value].defaultMessage}
       </Li>
     ));
   }
