@@ -5,11 +5,14 @@ import Title from './H3';
 import { ThemeProvider } from 'styled-components';
 import Submit from './Submit';
 import LocaleToggle from 'containers/LocaleToggle';
+import Confirm from 'components/Confirm';
 
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import {} from './actions';
+import { toggleScene, switchSubmitButtonState } from './actions';
+
+import Scenes from './Scenes';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -29,23 +32,10 @@ class AreaBooking extends React.Component {
 		};
 
 		this.switchButtonState = this.switchButtonState.bind(this);
-		this.toggleScene = this.toggleScene.bind(this);
 		this.verifyBooking = this.verifyBooking.bind(this);
-	}
-
-	switchSubmitButtonState(btn) {
-		if (btn == this.state.activeButton) {
-			this.setState({
-				disabled: true,
-				activeButton: '',
-			});
-			return;
-		}
-
-		this.setState({
-			disabled: false,
-			activeButton: btn,
-		});
+		// imported functions
+		this.toggleScene = toggleScene.bind(this);
+		this.switchSubmitButtonState = switchSubmitButtonState.bind(this);
 	}
 
 	switchButtonState(evt, btnIndex) {
@@ -62,34 +52,11 @@ class AreaBooking extends React.Component {
 		this.switchSubmitButtonState(clickedBtn);
 	}
 
-	toggleScene(evt) {
-		this.setState({
-			isBooking: true,
-		});
-	}
-
 	verifyBooking() {
 		console.log('verified');
 	}
 
 	render() {
-		const isBooking = this.state.isBooking;
-		let scene;
-		if (isBooking) {
-			scene = (
-				<ButtonList
-					items={this.state.items}
-					onButtonClick={this.switchButtonState}
-				/>
-			);
-		} else {
-			scene = (
-				<ButtonList
-					items={this.state.items}
-					onButtonClick={this.switchButtonState}
-				/>
-			);
-		}
 		return (
 			<Wrapper>
 				<div>
@@ -97,7 +64,11 @@ class AreaBooking extends React.Component {
 					<Title>
 						<FormattedMessage {...messages.bookingTitle} />
 					</Title>
-					{scene}
+					<Scenes
+						items={this.state.items}
+						status={this.state.isBooking}
+						onButtonClick={this.switchButtonState}
+					/>
 					<Submit
 						disabled={this.state.disabled}
 						onSubmitClick={this.toggleScene}
