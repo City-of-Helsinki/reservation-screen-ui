@@ -3,7 +3,7 @@
   "boilerplate.containers.LocaleToggle.en": "en",
   "boilerplate.containers.NotFoundPage.header": "Page not found.",
   "boilerplate.components.AreaStatus.area.header": "Rum namn",
-  "boilerplate.components.AreaStatus.area.status": "är fri",
+  "boilerplate.components.AreaStatus.area.status": "är ledig",
   "boilerplate.components.AreaStatus.area.until": "til klockan {time}",
   "boilerplate.components.AreaBooking.button.submit": "Skicka",
   "boilerplate.components.AreaBooking.title": "Boka detta rum",

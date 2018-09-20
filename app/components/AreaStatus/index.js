@@ -9,11 +9,6 @@ import messages from './messages';
 class AreaStatus extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      room: 'Studiotila 1',
-      status: 'Tila on vapaa',
-      until: 'klo 13:00 saakka',
-    };
   }
 
   render() {

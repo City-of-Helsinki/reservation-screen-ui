@@ -20,13 +20,11 @@ const Ul = styled.ul`
 const Li = styled.li`
   margin-left: 1rem;
   color: black;
-  font-weight: bold;
   text-align: center;
   ${({ active }) =>
     active &&
     `
     color: silver;
-    border-bottom: 2px solid silver;
   `};
 `;
 

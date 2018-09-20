@@ -9,6 +9,7 @@ import LocaleToggle from 'containers/LocaleToggle';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import {} from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -18,9 +19,8 @@ class AreaBooking extends React.Component {
 
 		this.state = {
 			disabled: true,
-			header: 'Varaa tila',
 			activeButton: '',
-			activeClass: 'btn-active',
+			isBooking: false,
 			items: [
 				{ id: 'button-1', text: '11:00', active: false },
 				{ id: 'button-2', text: '13:00', active: false },
@@ -62,14 +62,10 @@ class AreaBooking extends React.Component {
 		this.switchSubmitButtonState(clickedBtn);
 	}
 
-	toggleScene(evt, action) {
-		console.log('toggle');
-		switch (action) {
-			case 'CANCEL':
-				return action;
-			case 'VERIFY':
-				return action;
-		}
+	toggleScene(evt) {
+		this.setState({
+			isBooking: true,
+		});
 	}
 
 	verifyBooking() {
@@ -77,6 +73,23 @@ class AreaBooking extends React.Component {
 	}
 
 	render() {
+		const isBooking = this.state.isBooking;
+		let scene;
+		if (isBooking) {
+			scene = (
+				<ButtonList
+					items={this.state.items}
+					onButtonClick={this.switchButtonState}
+				/>
+			);
+		} else {
+			scene = (
+				<ButtonList
+					items={this.state.items}
+					onButtonClick={this.switchButtonState}
+				/>
+			);
+		}
 		return (
 			<Wrapper>
 				<div>
@@ -84,10 +97,7 @@ class AreaBooking extends React.Component {
 					<Title>
 						<FormattedMessage {...messages.bookingTitle} />
 					</Title>
-					<ButtonList
-						items={this.state.items}
-						onButtonClick={this.switchButtonState}
-					/>
+					{scene}
 					<Submit
 						disabled={this.state.disabled}
 						onSubmitClick={this.toggleScene}
