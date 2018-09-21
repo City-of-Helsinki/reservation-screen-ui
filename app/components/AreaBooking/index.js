@@ -6,12 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import Submit from './Submit';
 import LocaleToggle from 'containers/LocaleToggle';
 import Confirm from 'components/Confirm';
-
-import styled from 'styled-components';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import { toggleScene, switchSubmitButtonState } from './actions';
-
+import { toggleScene, switchSubmitButtonState, cancelBooking } from './actions';
 import Scenes from './Scenes';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -35,6 +30,7 @@ class AreaBooking extends React.Component {
 		this.switchButtonState = this.switchButtonState.bind(this);
 		this.verifyBooking = this.verifyBooking.bind(this);
 		// imported functions
+		this.cancelBooking = cancelBooking.bind(this);
 		this.toggleScene = toggleScene.bind(this);
 		this.switchSubmitButtonState = switchSubmitButtonState.bind(this);
 	}
@@ -74,7 +70,9 @@ class AreaBooking extends React.Component {
 					/>
 					<Submit
 						disabled={this.state.disabled}
+						cancel={this.state.bookingInProgress}
 						onSubmitClick={this.toggleScene}
+						onCancelClick={this.cancelBooking}
 					/>
 				</div>
 			</Wrapper>

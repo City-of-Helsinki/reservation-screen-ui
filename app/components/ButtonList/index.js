@@ -19,7 +19,7 @@ class ButtonList extends React.Component {
             onClick={e => this.props.onButtonClick(e, index)}
             key={item.id}
           >
-            Kello {item.text} saakka
+            {item.text} - {item.text}
           </BookingButton>
         ))}
       </Wrapper>

@@ -8,6 +8,13 @@ module.exports = {
 			});
 		}
 	},
+	cancelBooking: function(event) {
+		this.setState({
+			bookingInProgress: false,
+			activeButton: '',
+		});
+		this.switchButtonState(null, 0);
+	},
 	switchSubmitButtonState(btn) {
 		if (btn == this.state.activeButton) {
 			this.setState({

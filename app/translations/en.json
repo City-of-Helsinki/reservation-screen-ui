@@ -11,5 +11,6 @@
 	"boilerplate.components.Upcoming.title": "Upcoming bookings",
 	"boilerplate.components.Confirm.starts":
 		"Your booking starts {br} at {time}",
-	"boilerplate.components.Confirm.ends": "Your booking ends {br} at {time}"
+	"boilerplate.components.Confirm.ends": "Your booking ends {br} at {time}",
+	"boilerplate.components.Confirm.cancel": "Cancel booking"
 }

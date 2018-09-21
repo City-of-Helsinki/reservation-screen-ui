@@ -15,11 +15,31 @@ const SubmitButton = styled(BasicButton)`
 	font-size: 24px;
 	transition: 0.2s opacity linear 0.2s;
 
+	margin-bottom: 30px;
+
 	&[disabled] {
 		opacity: 0.4;
 		pointer-events: none;
 	}
 `;
+
+const CancelBtn = styled.div`
+	display: block;
+	color: red;
+	text-decoration: none;
+`;
+
+function CancelButton(props) {
+	if (!props.visible) {
+		return null;
+	} else {
+		return (
+			<CancelBtn onClick={props.onCancelClick}>
+				<FormattedMessage {...messages.cancel} />
+			</CancelBtn>
+		);
+	}
+}
 
 class Submit extends React.Component {
 	constructor(props) {
@@ -36,6 +56,10 @@ class Submit extends React.Component {
 				>
 					<FormattedMessage {...messages.submitButton} />
 				</SubmitButton>
+				<CancelButton
+					visible={this.props.cancel}
+					onCancelClick={this.props.onCancelClick}
+				/>
 			</div>
 		);
 	}

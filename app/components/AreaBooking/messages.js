@@ -18,4 +18,8 @@ export default defineMessages({
 		id: 'boilerplate.components.AreaBooking.confirm.title',
 		defaultMessage: 'Vahvista varaus',
 	},
+	cancel: {
+		id: 'boilerplate.components.Confirm.cancel',
+		defaultMessage: 'Peruuta varaus',
+	},
 });
