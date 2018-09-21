@@ -26,4 +26,8 @@ export default defineMessages({
 		id: 'boilerplate.components.Confirm.cancelledTitle',
 		defaultMessage: 'Varaus peruttu',
 	},
+	resetLink: {
+		id: 'boilerplate.components.Confirm.resetLink',
+		defaultMessage: 'Palaa alkuun',
+	},
 });

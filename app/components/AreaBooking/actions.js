@@ -12,9 +12,16 @@ module.exports = {
 		this.setState({
 			bookingInProgress: false,
 			isCancelled: true,
-			activeButton: '',
+			onConfirmed: true,
 		});
-		this.switchButtonState(null, 0);
+		this.resetButtons();
+	},
+	resetBooking: function(event) {
+		this.setState({
+			isCancelled: false,
+			onConfirmed: false,
+		});
+		this.resetButtons();
 	},
 	switchSubmitButtonState(btn) {
 		if (btn == this.state.activeButton) {

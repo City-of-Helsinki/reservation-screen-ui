@@ -7,6 +7,7 @@ import messages from './messages';
 import Title from './H3';
 import NormalImg from 'components/Img';
 import IconSuccess from './icon-success.svg';
+import IconSuccessWarning from './icon-success-warning.svg';
 
 const Wrapper = styled.div`
 	display: block;
@@ -45,7 +46,7 @@ class Scenes extends React.Component {
 			title = (
 				<div>
 					<IconWrapper>
-						<Icon src={IconSuccess} alt="Icon Success" />
+						<Icon src={IconSuccessWarning} alt="Icon Success" />
 					</IconWrapper>
 				</div>
 			);

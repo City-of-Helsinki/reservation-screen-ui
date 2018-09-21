@@ -6,7 +6,12 @@ import { ThemeProvider } from 'styled-components';
 import Submit from './Submit';
 import LocaleToggle from 'containers/LocaleToggle';
 import Confirm from 'components/Confirm';
-import { toggleScene, switchSubmitButtonState, cancelBooking } from './actions';
+import {
+	toggleScene,
+	switchSubmitButtonState,
+	cancelBooking,
+	resetBooking,
+} from './actions';
 import Scenes from './Scenes';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -20,6 +25,7 @@ class AreaBooking extends React.Component {
 			activeButton: '',
 			bookingInProgress: false,
 			isCancelled: false,
+			onConfirmed: false,
 			timeframe: '',
 			items: [
 				{ id: 'button-1', text: '11:00', active: false },
@@ -30,7 +36,9 @@ class AreaBooking extends React.Component {
 
 		this.switchButtonState = this.switchButtonState.bind(this);
 		this.verifyBooking = this.verifyBooking.bind(this);
+		this.resetButtons = this.resetButtons.bind(this);
 		// imported functions
+		this.resetBooking = resetBooking.bind(this);
 		this.cancelBooking = cancelBooking.bind(this);
 		this.toggleScene = toggleScene.bind(this);
 		this.switchSubmitButtonState = switchSubmitButtonState.bind(this);
@@ -58,6 +66,13 @@ class AreaBooking extends React.Component {
 		console.log('verified');
 	}
 
+	resetButtons() {
+		this.setState({
+			activeButton: '',
+		});
+		this.switchButtonState(null, 0);
+	}
+
 	render() {
 		return (
 			<Wrapper>
@@ -72,10 +87,13 @@ class AreaBooking extends React.Component {
 					/>
 					<Submit
 						disabled={this.state.disabled}
+						bookingInProgress={this.state.bookingInProgress}
 						cancel={this.state.bookingInProgress}
 						onSubmitClick={this.toggleScene}
 						onCancelClick={this.cancelBooking}
+						onResetClick={this.resetBooking}
 						isCancelled={!this.state.isCancelled}
+						onConfirmed={this.state.onConfirmed}
 					/>
 				</div>
 			</Wrapper>
