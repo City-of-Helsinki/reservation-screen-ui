@@ -12,5 +12,6 @@
 	"boilerplate.components.Confirm.starts":
 		"Boking börjas {br} klockan {time}",
 	"boilerplate.components.Confirm.ends": "Boking ändas {br} klockan {time}",
-	"boilerplate.components.Confirm.cancel": "Upphäva bokning"
+	"boilerplate.components.Confirm.cancel": "Upphäva bokning",
+	"boilerplate.components.Confirm.cancelledTitle": "Bokning upphävad!"
 }

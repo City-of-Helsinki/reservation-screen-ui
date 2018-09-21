@@ -19,6 +19,7 @@ class AreaBooking extends React.Component {
 			disabled: true,
 			activeButton: '',
 			bookingInProgress: false,
+			isCancelled: false,
 			timeframe: '',
 			items: [
 				{ id: 'button-1', text: '11:00', active: false },
@@ -67,12 +68,14 @@ class AreaBooking extends React.Component {
 						bookingInProgress={this.state.bookingInProgress}
 						onButtonClick={this.switchButtonState}
 						time={this.state.timeframe}
+						isCancelled={this.state.isCancelled}
 					/>
 					<Submit
 						disabled={this.state.disabled}
 						cancel={this.state.bookingInProgress}
 						onSubmitClick={this.toggleScene}
 						onCancelClick={this.cancelBooking}
+						isCancelled={!this.state.isCancelled}
 					/>
 				</div>
 			</Wrapper>

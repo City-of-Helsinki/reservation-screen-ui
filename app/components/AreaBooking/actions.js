@@ -11,6 +11,7 @@ module.exports = {
 	cancelBooking: function(event) {
 		this.setState({
 			bookingInProgress: false,
+			isCancelled: true,
 			activeButton: '',
 		});
 		this.switchButtonState(null, 0);

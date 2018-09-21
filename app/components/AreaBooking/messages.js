@@ -22,4 +22,8 @@ export default defineMessages({
 		id: 'boilerplate.components.Confirm.cancel',
 		defaultMessage: 'Peruuta varaus',
 	},
+	cancelledTitle: {
+		id: 'boilerplate.components.Confirm.cancelledTitle',
+		defaultMessage: 'Varaus peruttu',
+	},
 });

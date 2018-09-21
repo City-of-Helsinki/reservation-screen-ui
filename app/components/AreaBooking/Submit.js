@@ -4,7 +4,7 @@ import BasicButton from 'components/BasicButton';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-const SubmitButton = styled(BasicButton)`
+const StyledButton = styled(BasicButton)`
 	background-color: #63e080;
 	border: 0;
 	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
@@ -29,7 +29,7 @@ const CancelBtn = styled.div`
 	text-decoration: none;
 `;
 
-function CancelButton(props) {
+function CancelLink(props) {
 	if (!props.visible) {
 		return null;
 	} else {
@@ -37,6 +37,21 @@ function CancelButton(props) {
 			<CancelBtn onClick={props.onCancelClick}>
 				<FormattedMessage {...messages.cancel} />
 			</CancelBtn>
+		);
+	}
+}
+
+function SubmitButton(props) {
+	if (!props.visible) {
+		return null;
+	} else {
+		return (
+			<StyledButton
+				onClick={props.onSubmitClick}
+				disabled={props.disabled}
+			>
+				<FormattedMessage {...messages.submitButton} />
+			</StyledButton>
 		);
 	}
 }
@@ -50,13 +65,14 @@ class Submit extends React.Component {
 		return (
 			<div>
 				<SubmitButton
+					visible={this.props.isCancelled}
 					disabled={this.props.disabled}
 					className={this.props.active}
-					onClick={this.props.onSubmitClick}
+					onSubmitClick={this.props.onSubmitClick}
 				>
 					<FormattedMessage {...messages.submitButton} />
 				</SubmitButton>
-				<CancelButton
+				<CancelLink
 					visible={this.props.cancel}
 					onCancelClick={this.props.onCancelClick}
 				/>

@@ -12,5 +12,6 @@
   "boilerplate.components.Upcoming.title": "Tuleva varaukset",
   "boilerplate.components.Confirm.starts": "Varauksesi alkaa {br} kello {time}",
   "boilerplate.components.Confirm.ends": "Varauksesi loppuu {br} kello {time}",
-  "boilerplate.components.Confirm.cancel": "Peruuta varaus"
+  "boilerplate.components.Confirm.cancel": "Peruuta varaus",
+  "boilerplate.components.Confirm.cancelledTitle": "Varaus peruttu"
 }
