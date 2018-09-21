@@ -12,10 +12,11 @@ const H4 = styled.h4`
   margin: 0;
 `;
 
+const maxNum = 3;
+
 class Upcoming extends React.Component {
   constructor(props) {
     super(props);
-    const maxNum = 3;
   }
 
   render() {
@@ -25,7 +26,7 @@ class Upcoming extends React.Component {
           <FormattedMessage {...messages.title} />
         </H4>
         <List
-          limit="3"
+          limit={maxNum}
           items={this.props.upcomingReservations}
           component={ListItem}
         />

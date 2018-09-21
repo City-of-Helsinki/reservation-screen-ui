@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import BasicButton from 'components/BasicButton';
+import NormalImg from 'components/Img';
+import ChevronLeft from './icon-chevron-left.png';
+
+const fontSize = '20px';
 
 export const StyledButton = styled(BasicButton)`
 	background-color: #63e080;
@@ -29,8 +33,20 @@ export const CancelButton = styled.div`
 
 export const ResetButton = styled.div`
 	display: block;
-	color: silver;
+	color: #686e6a;
 	text-decoration: none;
+	font-size: ${fontSize};
+	padding-left: ${fontSize};
+	position: relative;
+
+	&:before {
+		content: ' ';
+		transform: translateY(3px);
+		display: inline-block;
+		background-image: url(${ChevronLeft});
+		background-size: contain;
+		background-repeat: no-repeat;
+		width: ${fontSize};
+		height: ${fontSize};
+	}
 `;
-
-

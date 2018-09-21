@@ -11,7 +11,7 @@ function ListItem(props) {
 			<Item>
 				{moment(props.item.begin).format('HH.mm')} -{' '}
 				{moment(props.item.end).format('HH.mm')}
-				<span>{' ' + props.item.state}</span>
+				<span>{' ' + props.item.id}</span>
 			</Item>
 		</Wrapper>
 	);
