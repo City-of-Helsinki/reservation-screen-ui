@@ -7,9 +7,6 @@ import BookingButton from './BookingButton';
 class ButtonList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeButton: this.props.active,
-    };
   }
 
   render() {

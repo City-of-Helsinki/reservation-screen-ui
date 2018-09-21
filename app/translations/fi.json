@@ -7,6 +7,9 @@
   "boilerplate.components.AreaStatus.area.status": "on vapaa",
   "boilerplate.components.AreaStatus.area.until": "klo {time} saakka",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
-  "boilerplate.components.AreaBooking.title": "Varaa tila",
-  "boilerplate.components.Upcoming.title": "Tuleva varaukset"
+  "boilerplate.components.AreaBooking.booking.title": "Varaa tila",
+  "boilerplate.components.AreaBooking.confirm.title": "Vahvista varaus",
+  "boilerplate.components.Upcoming.title": "Tuleva varaukset",
+  "boilerplate.components.Confirm.starts": "Varauksesi alkaa {br} kello {time}",
+  "boilerplate.components.Confirm.ends": "Varauksesi loppuu {br} kello {time}"
 }

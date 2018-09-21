@@ -23,7 +23,8 @@ class AreaBooking extends React.Component {
 		this.state = {
 			disabled: true,
 			activeButton: '',
-			isBooking: false,
+			bookingInProgress: false,
+			timeframe: '',
 			items: [
 				{ id: 'button-1', text: '11:00', active: false },
 				{ id: 'button-2', text: '13:00', active: false },
@@ -49,6 +50,10 @@ class AreaBooking extends React.Component {
 
 		filteredButtons.map(item => (item.active = false));
 		btns[btnIndex].active = !btns[btnIndex].active ? true : false;
+
+		this.setState({
+			timeframe: clickedBtn.text,
+		});
 		this.switchSubmitButtonState(clickedBtn);
 	}
 
@@ -61,13 +66,11 @@ class AreaBooking extends React.Component {
 			<Wrapper>
 				<div>
 					<LocaleToggle />
-					<Title>
-						<FormattedMessage {...messages.bookingTitle} />
-					</Title>
 					<Scenes
 						items={this.state.items}
-						status={this.state.isBooking}
+						bookingInProgress={this.state.bookingInProgress}
 						onButtonClick={this.switchButtonState}
+						time={this.state.timeframe}
 					/>
 					<Submit
 						disabled={this.state.disabled}

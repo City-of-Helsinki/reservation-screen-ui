@@ -1,11 +1,16 @@
 {
-  "boilerplate.containers.LocaleToggle.de": "de",
-  "boilerplate.containers.LocaleToggle.en": "en",
-  "boilerplate.containers.NotFoundPage.header": "Page not found.",
-  "boilerplate.components.AreaStatus.area.header": "Rum namn",
-  "boilerplate.components.AreaStatus.area.status": "är ledig",
-  "boilerplate.components.AreaStatus.area.until": "til klockan {time}",
-  "boilerplate.components.AreaBooking.button.submit": "Skicka",
-  "boilerplate.components.AreaBooking.title": "Boka detta rum",
-  "boilerplate.components.Upcoming.title": "Kommande bokning"
+	"boilerplate.containers.LocaleToggle.de": "de",
+	"boilerplate.containers.LocaleToggle.en": "en",
+	"boilerplate.containers.NotFoundPage.header": "Page not found.",
+	"boilerplate.components.AreaStatus.area.header": "Rum namn",
+	"boilerplate.components.AreaStatus.area.status": "är ledig",
+	"boilerplate.components.AreaStatus.area.until": "til klockan {time}",
+	"boilerplate.components.AreaBooking.button.submit": "Skicka",
+	"boilerplate.components.AreaBooking.booking.title": "Boka detta rum",
+	"boilerplate.components.AreaBooking.confirm.title": "Säkra bokning",
+	"boilerplate.components.Upcoming.title": "Kommande bokning",
+	"boilerplate.components.Confirm.starts":
+		"Din boking börjar {br} klockan {time}",
+	"boilerplate.components.Confirm.ends":
+		"Din boking sluts {br} klockan {time}"
 }

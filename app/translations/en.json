@@ -1,11 +1,15 @@
 {
-  "boilerplate.containers.LocaleToggle.de": "deutch",
-  "boilerplate.containers.LocaleToggle.en": "english",
-  "boilerplate.containers.NotFoundPage.header": "Page not found.",
-  "boilerplate.components.AreaStatus.area.header": "Space title",
-  "boilerplate.components.AreaStatus.area.status": "is available",
-  "boilerplate.components.AreaStatus.area.until": "until {time} o'clock",
-  "boilerplate.components.AreaBooking.button.submit": "Submit",
-  "boilerplate.components.AreaBooking.title": "Book this space",
-  "boilerplate.components.Upcoming.title": "Upcoming bookings"
+	"boilerplate.containers.LocaleToggle.de": "deutch",
+	"boilerplate.containers.LocaleToggle.en": "english",
+	"boilerplate.containers.NotFoundPage.header": "Page not found.",
+	"boilerplate.components.AreaStatus.area.header": "Space title",
+	"boilerplate.components.AreaStatus.area.status": "is available",
+	"boilerplate.components.AreaStatus.area.until": "until {time} o'clock",
+	"boilerplate.components.AreaBooking.button.submit": "Submit",
+	"boilerplate.components.AreaBooking.booking.title": "Book this space",
+	"boilerplate.components.AreaBooking.confirm.title": "Confirm your booking",
+	"boilerplate.components.Upcoming.title": "Upcoming bookings",
+	"boilerplate.components.Confirm.starts":
+		"Your booking starts {br} at {time}",
+	"boilerplate.components.Confirm.ends": "Your booking ends {br} at {time}"
 }

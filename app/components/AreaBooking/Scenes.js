@@ -2,6 +2,9 @@ import React from 'react';
 import Confirm from 'components/Confirm';
 import ButtonList from 'components/ButtonList';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
+import Title from './H3';
 
 const Wrapper = styled.div`
 	display: block;
@@ -10,27 +13,21 @@ const Wrapper = styled.div`
 class Scenes extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			status: props.status,
-			items: props.items,
-		};
 	}
 
 	render() {
-		let booking = this.state.isBooking;
+		let booking = this.props.bookingInProgress;
 		let scene;
+		let title;
 
-		if (this.state.status) {
-			scene = (
-				<Confirm
-					items={this.state.items}
-					// onButtonClick={this.switchButtonState}
-				/>
-			);
+		if (this.props.bookingInProgress) {
+			title = <FormattedMessage {...messages.confirmTitle} />;
+			scene = <Confirm items={this.props.items} time={this.props.time} />;
 		} else {
+			title = <FormattedMessage {...messages.bookingTitle} />;
 			scene = (
 				<ButtonList
-					items={this.state.items}
+					items={this.props.items}
 					onButtonClick={this.props.onButtonClick}
 				/>
 			);
@@ -38,7 +35,10 @@ class Scenes extends React.Component {
 
 		return (
 			<div>
-				<Wrapper>{scene}</Wrapper>
+				<Wrapper>
+					<Title>{title}</Title>
+					{scene}
+				</Wrapper>
 			</div>
 		);
 	}

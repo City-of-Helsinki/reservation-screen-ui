@@ -1,10 +1,10 @@
 module.exports = {
 	toggleScene: function(event) {
-		if (this.state.isBooking) {
+		if (this.state.bookingInProgress) {
 			this.verifyBooking();
 		} else {
 			this.setState({
-				isBooking: true,
+				bookingInProgress: true,
 			});
 		}
 	},

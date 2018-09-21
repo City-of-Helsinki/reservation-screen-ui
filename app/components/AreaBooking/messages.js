@@ -6,12 +6,16 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  submitButton: {
-    id: 'boilerplate.components.AreaBooking.button.submit',
-    defaultMessage: 'Varaa',
-  },
-  bookingTitle: {
-    id: 'boilerplate.components.AreaBooking.title',
-    defaultMessage: 'Varaa tila',
-  },
+	submitButton: {
+		id: 'boilerplate.components.AreaBooking.button.submit',
+		defaultMessage: 'Varaa',
+	},
+	bookingTitle: {
+		id: 'boilerplate.components.AreaBooking.booking.title',
+		defaultMessage: 'Varaa tila',
+	},
+	confirmTitle: {
+		id: 'boilerplate.components.AreaBooking.confirm.title',
+		defaultMessage: 'Vahvista varaus',
+	},
 });
