@@ -70,7 +70,9 @@ class AreaBooking extends React.Component {
 		this.setState({
 			activeButton: '',
 		});
-		this.switchButtonState(null, 0);
+
+		let btns = this.state.items;
+		btns.map(item => (item.active = false));
 	}
 
 	render() {
