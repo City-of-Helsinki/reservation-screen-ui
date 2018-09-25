@@ -25,13 +25,13 @@ export const StyledButton = styled(BasicButton)`
 	}
 `;
 
-export const CancelButton = styled.div`
+export const CancelLink = styled.div`
 	display: block;
 	color: red;
 	text-decoration: none;
 `;
 
-export const ResetButton = styled.div`
+export const ResetLink = styled.div`
 	display: block;
 	color: #686e6a;
 	text-decoration: none;

@@ -1,18 +1,19 @@
 import React from 'react';
-import ButtonList from './ButtonList';
 import Wrapper from './Wrapper';
-import Title from './H3';
 import { ThemeProvider } from 'styled-components';
-import Submit from './Submit';
+import Submit from 'components/Submit';
 import LocaleToggle from 'containers/LocaleToggle';
 import Confirm from 'components/Confirm';
+import Scene from 'components/Scene';
 import {
 	toggleScene,
 	switchSubmitButtonState,
+	switchButtonState,
 	cancelBooking,
-	resetBooking,
+	resetScene,
+	verifyBooking,
+	resetButtons,
 } from './actions';
-import Scenes from './Scenes';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -26,6 +27,9 @@ class AreaBooking extends React.Component {
 			bookingInProgress: false,
 			isCancelled: false,
 			onConfirmed: false,
+			isVerified: false,
+			buttonVisible: true,
+			view: '',
 			timeframe: '',
 			items: [
 				{ id: 'button-1', text: '11:00', active: false },
@@ -34,45 +38,13 @@ class AreaBooking extends React.Component {
 			],
 		};
 
-		this.switchButtonState = this.switchButtonState.bind(this);
-		this.verifyBooking = this.verifyBooking.bind(this);
-		this.resetButtons = this.resetButtons.bind(this);
-		// imported functions
-		this.resetBooking = resetBooking.bind(this);
+		this.switchButtonState = switchButtonState.bind(this);
+		this.resetButtons = resetButtons.bind(this);
+		this.verifyBooking = verifyBooking.bind(this);
+		this.resetScene = resetScene.bind(this);
 		this.cancelBooking = cancelBooking.bind(this);
 		this.toggleScene = toggleScene.bind(this);
 		this.switchSubmitButtonState = switchSubmitButtonState.bind(this);
-	}
-
-	switchButtonState(evt, btnIndex) {
-		let btns = this.state.items;
-		let clickedBtn = btns[btnIndex];
-		let filteredButtons = btns.filter(function(btn, i) {
-			if (i !== btnIndex) {
-				return btn;
-			}
-		});
-
-		filteredButtons.map(item => (item.active = false));
-		btns[btnIndex].active = !btns[btnIndex].active ? true : false;
-
-		this.setState({
-			timeframe: clickedBtn.text,
-		});
-		this.switchSubmitButtonState(clickedBtn);
-	}
-
-	verifyBooking() {
-		console.log('verified');
-	}
-
-	resetButtons() {
-		this.setState({
-			activeButton: '',
-		});
-
-		let btns = this.state.items;
-		btns.map(item => (item.active = false));
 	}
 
 	render() {
@@ -80,22 +52,28 @@ class AreaBooking extends React.Component {
 			<Wrapper>
 				<div>
 					<LocaleToggle />
-					<Scenes
+					<Scene
+						view={this.state.view}
 						items={this.state.items}
 						bookingInProgress={this.state.bookingInProgress}
 						onButtonClick={this.switchButtonState}
 						time={this.state.timeframe}
 						isCancelled={this.state.isCancelled}
+						isVerified={this.state.isVerified}
 					/>
 					<Submit
-						disabled={this.state.disabled}
-						bookingInProgress={this.state.bookingInProgress}
-						cancel={this.state.bookingInProgress}
 						onSubmitClick={this.toggleScene}
 						onCancelClick={this.cancelBooking}
-						onResetClick={this.resetBooking}
+						onResetClick={this.resetScene}
+						onVerifyClick={this.verifyBooking}
+						disabled={this.state.disabled}
+						buttonVisible={this.state.buttonVisible}
+						bookingInProgress={this.state.bookingInProgress}
+						cancel={this.state.bookingInProgress}
 						isCancelled={!this.state.isCancelled}
 						onConfirmed={this.state.onConfirmed}
+						isVerified={this.state.isVerified}
+						view={this.state.view}
 					/>
 				</div>
 			</Wrapper>
