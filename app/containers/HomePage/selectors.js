@@ -17,13 +17,24 @@ const makeFreeSlots = () =>
 /**
  * Select all upcoming reservations.
  */
-const makeUpcomingReservations = date =>
+const makeUpcomingReservations = (date, amount) =>
   createSelector(selectHome, state => {
-    let resource = state.get('resource');
+    // Start by getting resource from store.
+    const resource = state.get('resource');
+
+    // Continue only if resource exists and has reservations.
     if (resource && resource.has('reservations')) {
-      return resource.get('reservations').toArray();
+      // Get list of upcoming reservations.
+      const futureReservations = resource
+        .get('reservations')
+        .filter(reservation => {
+          return new Date(reservation.get('begin')).getTime() > date.getTime();
+        });
+
+      // Slice the amount we wanted.
+      return futureReservations.slice(0, amount);
     } else {
-      return [];
+      return fromJS([]);
     }
   });
 

@@ -146,7 +146,10 @@ const mapStateToProps = createStructuredSelector({
   username: makeSelectUsername(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  upcomingReservations: makeUpcomingReservations(),
+  upcomingReservations: makeUpcomingReservations(
+    new Date('2018-09-17T08:00:00+03:00'),
+    3,
+  ),
   freeSlots: makeFreeSlots(),
 });
 

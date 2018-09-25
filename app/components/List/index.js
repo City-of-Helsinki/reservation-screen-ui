@@ -12,7 +12,7 @@ function List(props) {
   if (props.items) {
     const itemsSlice = props.items.slice(0, props.limit);
     content = itemsSlice.map(item => (
-      <ComponentToRender key={`item-${item.id}`} item={item} />
+      <ComponentToRender key={`item-${item.get('id')}`} item={item} />
     ));
   } else {
     // Otherwise render a single component

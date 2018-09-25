@@ -25,7 +25,7 @@ function homeReducer(state = initialState, action) {
       // Delete prefixed '@' from the github username
       return state.set('username', action.name.replace(/@/gi, ''));
     case LOAD_RESERVATIONS_SUCCESS:
-      return state.set('resource', action.resource);
+      return state.set('resource', fromJS(action.resource));
     default:
       return state;
   }
