@@ -3,16 +3,12 @@ import Wrapper from './Wrapper';
 import Upcoming from 'components/Upcoming';
 import Clock from 'components/Clock';
 import Content from './Content';
+import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {
   constructor(props) {
-    super();
-    this.state = {
-      room: 'Studiotila 1',
-      status: 'Tila on vapaa',
-      until: 'klo 13:00 saakka',
-    };
+    super(props);
   }
 
   render() {

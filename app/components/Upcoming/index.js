@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import H3 from 'components/H3';
 import List from 'components/List';
 import ListItem from 'components/ListItem';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 
 const H4 = styled.h4`
   font-size: 28px;
@@ -10,21 +12,24 @@ const H4 = styled.h4`
   margin: 0;
 `;
 
+const maxNum = 3;
+
 class Upcoming extends React.Component {
   constructor(props) {
     super(props);
-    const maxNum = 3;
-
-    this.state = {
-      text: 'Tulevat varaukset',
-    };
   }
 
   render() {
     return (
       <div className="c-upcoming">
-        <H4>{this.state.text}</H4>
-        <List limit="3" items={this.props.upcomingReservations} component={ListItem} />
+        <H4>
+          <FormattedMessage {...messages.title} />
+        </H4>
+        <List
+          limit={maxNum}
+          items={this.props.upcomingReservations}
+          component={ListItem}
+        />
       </div>
     );
   }

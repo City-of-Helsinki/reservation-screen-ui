@@ -9,22 +9,45 @@ import PropTypes from 'prop-types';
 
 import Select from './Select';
 import ToggleOption from '../ToggleOption';
+import styled from 'styled-components';
+
+const Ul = styled.ul`
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+`;
+
+const Li = styled.li`
+  margin-left: 1rem;
+  color: black;
+  text-align: center;
+  ${({ active }) =>
+    active &&
+    `
+    color: silver;
+  `};
+`;
 
 function Toggle(props) {
-  let content = <option>--</option>;
+  let content = <Li>--</Li>;
 
   // If we have items, render them
   if (props.values) {
     content = props.values.map(value => (
-      <ToggleOption key={value} value={value} message={props.messages[value]} />
+      <Li
+        key={value}
+        lang={value}
+        value={value}
+        message={props.messages[value].defaultMessage}
+        onClick={props.onLangClick}
+        active={props.value === value}
+      >
+        {props.messages[value].defaultMessage}
+      </Li>
     ));
   }
 
-  return (
-    <Select value={props.value} onChange={props.onToggle}>
-      {content}
-    </Select>
-  );
+  return <Ul>{content}</Ul>;
 }
 
 Toggle.propTypes = {

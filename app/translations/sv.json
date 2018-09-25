@@ -1,0 +1,17 @@
+{
+	"boilerplate.containers.LocaleToggle.de": "de",
+	"boilerplate.containers.LocaleToggle.en": "en",
+	"boilerplate.containers.NotFoundPage.header": "Page not found.",
+	"boilerplate.components.AreaStatus.area.header": "Rum namn",
+	"boilerplate.components.AreaStatus.area.status": "är ledig",
+	"boilerplate.components.AreaStatus.area.until": "til klockan {time}",
+	"boilerplate.components.AreaBooking.button.submit": "Boka",
+	"boilerplate.components.AreaBooking.booking.title": "Boka detta rum",
+	"boilerplate.components.AreaBooking.confirm.title": "Säkra bokning",
+	"boilerplate.components.Upcoming.title": "Kommande bokning",
+	"boilerplate.components.Confirm.starts":
+		"Boking börjas {br} klockan {time}",
+	"boilerplate.components.Confirm.ends": "Boking ändas {br} klockan {time}",
+	"boilerplate.components.Confirm.cancel": "Upphäva bokning",
+	"boilerplate.components.Confirm.cancelledTitle": "Bokning upphävad!"
+}

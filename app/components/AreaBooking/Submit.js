@@ -1,47 +1,77 @@
 import React from 'react';
 import styled from 'styled-components';
 import BasicButton from 'components/BasicButton';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
+import { StyledButton, CancelButton, ResetButton } from './buttons';
 
-const SubmitButton = styled(BasicButton)`
-	background-color: #63e080;
-	border: 0;
-	box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-	padding-left: 4rem;
-	padding-right: 4rem;
-	line-height: 4.4rem;
-	border-radius: 2.2rem;
-	font-size: 24px;
-	transition: 0.2s opacity linear 0.2s;
+function CancelLink(props) {
+	if (!props.visible) {
+		return null;
+	} else {
+		return (
+			<CancelButton onClick={props.onCancelClick}>
+				<FormattedMessage {...messages.cancel} />
+			</CancelButton>
+		);
+	}
+}
 
-	&[disabled]{
-		opacity: 0.4;
-		pointer-events: none;
-	}	
-`;
+function SubmitButton(props) {
+	if (!props.visible) {
+		return null;
+	} else {
+		return (
+			<StyledButton
+				onClick={props.onSubmitClick}
+				disabled={props.disabled}
+			>
+				<FormattedMessage {...messages.submitButton} />
+			</StyledButton>
+		);
+	}
+}
+
+function ResetLink(props) {
+	if (!props.visible) {
+		return null;
+	} else {
+		return (
+			<ResetButton onClick={props.onResetClick}>
+				<FormattedMessage {...messages.resetLink} />
+			</ResetButton>
+		);
+	}
+}
 
 class Submit extends React.Component {
-
-	constructor(props){
+	constructor(props) {
 		super(props);
-		this.state = {
-			selected: this.props.selected
-		}
-		this.SubmitHandle = this.SubmitHandle.bind(this);
-	}
-
-	SubmitHandle(e){
-		e.preventDefault();
-		console.log('dfdsfd');
 	}
 
 	render() {
 		return (
 			<div>
-				<SubmitButton disabled={this.props.disabled} className={this.props.active} onClick={this.SubmitHandle}>Varaa</SubmitButton>
+				<SubmitButton
+					visible={this.props.isCancelled}
+					disabled={this.props.disabled}
+					className={this.props.active}
+					onSubmitClick={this.props.onSubmitClick}
+				>
+					<FormattedMessage {...messages.submitButton} />
+				</SubmitButton>
+				<CancelLink
+					visible={this.props.cancel}
+					onCancelClick={this.props.onCancelClick}
+				/>
+
+				<ResetLink
+					onResetClick={this.props.onResetClick}
+					visible={this.props.onConfirmed}
+				/>
 			</div>
 		);
 	}
 }
-
 
 export default Submit;

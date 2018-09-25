@@ -6,18 +6,19 @@ import Item from './Item';
 import Wrapper from './Wrapper';
 
 function ListItem(props) {
-  return (
-    <Wrapper>
-      <Item>
-        {moment(props.item.begin).format('HH.mm')} -{' '}
-        {moment(props.item.end).format('HH.mm')}
-      </Item>
-    </Wrapper>
-  );
+	return (
+		<Wrapper>
+			<Item>
+				{moment(props.item.begin).format('HH.mm')} -{' '}
+				{moment(props.item.end).format('HH.mm')}
+				<span>{' ' + props.item.id}</span>
+			</Item>
+		</Wrapper>
+	);
 }
 
 ListItem.propTypes = {
-  item: PropTypes.any,
+	item: PropTypes.any,
 };
 
 export default ListItem;
