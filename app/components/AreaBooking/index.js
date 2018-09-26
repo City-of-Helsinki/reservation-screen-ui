@@ -25,12 +25,8 @@ class AreaBooking extends React.Component {
 		this.state = {
 			disabled: true,
 			activeButton: '',
-			bookingInProgress: false,
-			isCancelled: false,
-			onConfirmed: false,
-			isVerified: false,
 			buttonVisible: true,
-			view: '',
+			view: 'INIT',
 			timeframe: '',
 			items: [
 				{ id: 'button-1', text: '11:00', active: false },
@@ -73,10 +69,6 @@ class AreaBooking extends React.Component {
 						onVerifyClick={this.verifyBooking}
 						disabled={this.state.disabled}
 						buttonVisible={this.state.buttonVisible}
-						bookingInProgress={this.state.bookingInProgress}
-						cancel={this.state.bookingInProgress}
-						isCancelled={!this.state.isCancelled}
-						onConfirmed={this.state.onConfirmed}
 						view={this.state.view}
 					/>
 				</div>

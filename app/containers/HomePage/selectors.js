@@ -4,6 +4,7 @@
 
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
+import { fromJS } from 'immutable';
 
 // Home state from store.
 const selectHome = state => state.get('home', initialState);

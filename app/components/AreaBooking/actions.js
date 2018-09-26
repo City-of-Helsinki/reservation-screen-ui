@@ -1,28 +1,23 @@
 module.exports = {
 	toggleScene: function(event) {
-		if (this.state.bookingInProgress) {
+		if (this.state.view === 'CTA') {
 			this.verifyBooking();
 		} else {
 			this.setState({
 				view: 'CTA',
-				bookingInProgress: true,
 			});
 		}
 	},
 	cancelBooking: function(event) {
-		console.log('cancelBooking');
 		this.setState({
 			view: 'CANCELLED',
-			bookingInProgress: false,
 			buttonVisible: false,
 			timeframe: '',
 		});
 	},
 	verifyBooking: function(event) {
-		console.log('verifyBooking!');
 		this.setState({
 			view: 'VERIFIED',
-			bookingInProgress: false,
 			buttonVisible: false,
 		});
 	},
@@ -33,9 +28,6 @@ module.exports = {
 		this.setState({
 			disabled: true,
 			activeButton: '',
-			bookingInProgress: false,
-			isCancelled: false,
-			onConfirmed: false,
 			buttonVisible: true,
 			view: '',
 			timeframe: '',
@@ -78,6 +70,7 @@ module.exports = {
 		filteredButtons.map(item => (item.active = false));
 		btns[btnIndex].active = !btns[btnIndex].active ? true : false;
 
+		// TODO: Change to the actual booked time slot
 		this.setState({
 			timeframe: clickedBtn.text,
 		});
