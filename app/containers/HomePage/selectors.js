@@ -7,20 +7,14 @@ import { initialState } from './reducer';
 import { fromJS } from 'immutable';
 
 // Home state from store.
-const selectHome = state => {
-  if (state) {
-    state.get('home', initialState);
-  }
-};
+const selectHome = state => state.get('home', initialState);
 
 /**
  * Select list of free slots.
  */
 const makeFreeSlots = () =>
   createSelector(selectHome, state => {
-    if (state) {
-      return state.get('reservations');
-    }
+    return state.get('reservations');
   });
 
 /**
@@ -28,10 +22,6 @@ const makeFreeSlots = () =>
  */
 const makeUpcomingReservations = (date, amount) =>
   createSelector(selectHome, state => {
-    if (!state) {
-      return fromJS([]);
-    }
-
     // Start by getting resource from store.
     const resource = state.get('resource');
 
@@ -55,26 +45,13 @@ const makeUpcomingReservations = (date, amount) =>
  * Select resource name.
  */
 const makeSelectResourceName = () =>
-  createSelector(selectHome, state => {
-    if (state) {
-      return state
-        .get('resource')
-        .get('name')
-        .get('fi');
-    } else {
-      return 'N/A';
-    }
-  });
+  createSelector(selectHome, state => state.getIn(['resource', 'name', 'fi']));
 
 /**
  * Return true is the space is open right now.
  */
 const makeSelectIsResourceFree = date =>
   createSelector(selectHome, state => {
-    if (!state) {
-      return true;
-    }
-
     // Start by getting resource from store.
     const resource = state.get('resource');
 

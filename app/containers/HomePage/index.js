@@ -156,7 +156,7 @@ const mapStateToProps = createStructuredSelector({
     new Date('2018-09-17T08:00:00+03:00'),
   ),
   resourceName: makeSelectResourceName(),
-  freeSlots: makeFreeSlots(),
+  //  freeSlots: makeFreeSlots(),
 });
 
 const withConnect = connect(
