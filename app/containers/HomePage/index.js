@@ -48,14 +48,14 @@ import BackgroundImage from './images/bg-wave-green.png';
 import BackgroundImageSoon from './images/bg-wave-yellow.png';
 import BackgroundImageTaken from './images/bg-wave-red.png';
 
-const themeFree = {
+const themeAvailableNow = {
   // vapaa
   primaryColor: '#63e080',
   secondaryColor: '#effbf2',
   bgImage: BackgroundImage,
 };
 
-const themeSoon = {
+const themeAvailableSoon = {
   // vapautuu kohta
   primaryColor: '#f7d366',
   secondaryColor: '#fefaef',
@@ -72,10 +72,10 @@ const themeTaken = {
 export class HomePage extends React.PureComponent {
   constructor(props) {
     super(props);
-
     this.state = {
-      theme: themeSoon,
-      theme: themeFree,
+      theme: themeAvailableSoon,
+      // theme: themeAvailableNow,
+      // theme: themeTaken,
     };
   }
   /**
@@ -89,6 +89,7 @@ export class HomePage extends React.PureComponent {
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
+    console.log();
   }
 
   render() {

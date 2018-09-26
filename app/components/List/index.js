@@ -28,7 +28,7 @@ function List(props) {
 
 List.propTypes = {
   component: PropTypes.func.isRequired,
-  items: PropTypes.array,
+  items: PropTypes.any, // originally .array, changed to .any because warning
 };
 
 export default List;

@@ -71,6 +71,8 @@ class AreaBooking extends React.Component {
 						buttonVisible={this.state.buttonVisible}
 						view={this.state.view}
 					/>
+
+					<LinkReset />
 				</div>
 			</Wrapper>
 		);
