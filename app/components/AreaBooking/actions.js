@@ -23,16 +23,23 @@ module.exports = {
 		this.setState({
 			view: 'VERIFIED',
 			bookingInProgress: false,
-			isVerified: true,
 			buttonVisible: false,
 		});
 	},
-	resetScene: function(event) {
+	resetScene: function() {
+		let btns = this.state.items;
+		btns.map(item => (item.active = false));
+
 		this.setState({
-			view: '',
+			disabled: true,
+			activeButton: '',
 			bookingInProgress: false,
+			isCancelled: false,
+			onConfirmed: false,
+			buttonVisible: true,
+			view: '',
+			timeframe: '',
 		});
-		this.resetButtons();
 	},
 	resetButtons: function(event) {
 		this.setState({

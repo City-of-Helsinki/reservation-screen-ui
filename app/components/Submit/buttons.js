@@ -36,7 +36,6 @@ export const ResetLink = styled.div`
 	color: #686e6a;
 	text-decoration: none;
 	font-size: ${fontSize};
-	padding-left: ${fontSize};
 	position: relative;
 
 	&:before {

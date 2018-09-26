@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import NormalImg from 'components/Img';
 
 export const Wrapper = styled.div`
+	position: relative;
 	display: block;
 `;
 

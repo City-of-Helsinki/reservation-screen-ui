@@ -15,11 +15,9 @@ class Scene extends React.Component {
 	}
 
 	render() {
-		let booking = this.props.bookingInProgress;
 		let scene;
 		let title;
 		let view = this.props.view;
-		console.log('view: ', view);
 		switch (view) {
 			case 'CTA':
 				title = (
@@ -75,7 +73,7 @@ class Scene extends React.Component {
 		}
 
 		return (
-			<div>
+			<div className="c-scene-buttons">
 				<Wrapper>
 					{title}
 					{scene}

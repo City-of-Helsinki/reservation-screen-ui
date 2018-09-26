@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import BasicButton from 'components/BasicButton';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+
 import { StyledButton, CancelLink, ResetLink } from './buttons';
 
 function SubmitButton(props) {
@@ -19,6 +20,10 @@ function SubmitButton(props) {
 		return false;
 	}
 }
+
+const Wrapper = styled.div`
+	position: relative;
+`;
 
 function HelperLink(props) {
 	switch (props.view) {
@@ -52,7 +57,7 @@ class Submit extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<Wrapper className="c-submit-helpers">
 				<SubmitButton
 					visible={this.props.buttonVisible}
 					confirmed={this.props.isVerified}
@@ -69,7 +74,7 @@ class Submit extends React.Component {
 					onResetClick={this.props.onResetClick}
 					onVerifyClick={this.props.onVerifyClick}
 				/>
-			</div>
+			</Wrapper>
 		);
 	}
 }

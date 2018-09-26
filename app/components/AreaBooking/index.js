@@ -5,6 +5,7 @@ import Submit from 'components/Submit';
 import LocaleToggle from 'containers/LocaleToggle';
 import Confirm from 'components/Confirm';
 import Scene from 'components/Scene';
+import Timer from 'components/Timer';
 import {
 	toggleScene,
 	switchSubmitButtonState,
@@ -50,8 +51,13 @@ class AreaBooking extends React.Component {
 	render() {
 		return (
 			<Wrapper>
-				<div>
+				<div className="b-scene-buttons">
 					<LocaleToggle />
+					{this.state.view === 'CTA' ? (
+						<Timer onTimesUp={this.resetScene} />
+					) : (
+						''
+					)}
 					<Scene
 						view={this.state.view}
 						items={this.state.items}
@@ -59,7 +65,6 @@ class AreaBooking extends React.Component {
 						onButtonClick={this.switchButtonState}
 						time={this.state.timeframe}
 						isCancelled={this.state.isCancelled}
-						isVerified={this.state.isVerified}
 					/>
 					<Submit
 						onSubmitClick={this.toggleScene}
@@ -72,7 +77,6 @@ class AreaBooking extends React.Component {
 						cancel={this.state.bookingInProgress}
 						isCancelled={!this.state.isCancelled}
 						onConfirmed={this.state.onConfirmed}
-						isVerified={this.state.isVerified}
 						view={this.state.view}
 					/>
 				</div>

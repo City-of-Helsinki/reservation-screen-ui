@@ -11,7 +11,7 @@ class ButtonList extends React.Component {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper className="c-buttonlist">
         {this.props.items.map((item, index) => (
           <BookingButton
             id={item.id}
