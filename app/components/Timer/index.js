@@ -33,17 +33,20 @@ class Timer extends React.Component {
 				});
 			} else {
 				clearInterval(self.interval);
-				self.props.onTimesUp();
+				self.onTimesUp();
 			}
-		}, 60);
+		}, 62);
 	}
 
 	componentWillUnmount() {
-		console.log('UNMOUNT');
 		const self = this;
 		clearInterval(self.interval);
 		percentage = 0;
 	}
+
+	onTimesUp = () => {
+		console.log('Reset app! (From Timer)');
+	};
 
 	render() {
 		return (
