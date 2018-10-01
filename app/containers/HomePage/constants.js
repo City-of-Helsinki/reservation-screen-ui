@@ -13,5 +13,5 @@ export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
 export const LOAD_RESERVATIONS = 'oodi/Home/LOAD_USERNAME';
 export const LOAD_RESERVATIONS_SUCCESS = 'oodi/Home/LOAD_RESERVATIONS_SUCCESS';
 export const LOAD_RESERVATIONS_ERROR = 'oodi/Home/LOAD_RESERVATIONS_ERROR';
-export const INIT_CLOCK = 'oodi/Home/INIT_CLOCK';
+export const UPDATE_CLOCK = 'oodi/Home/UPDATE_CLOCK';
 export const CHANGE_SCENE = 'oodi/Home/CHANGE_SCENE';

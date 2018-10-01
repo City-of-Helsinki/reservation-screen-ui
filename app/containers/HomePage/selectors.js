@@ -73,11 +73,17 @@ const makeSelectIsResourceFree = date =>
 const makeSelectScene = () =>
   createSelector(selectHome, homeState => homeState.get('scene'));
 
+const makeSelectDate = () =>
+  createSelector(selectHome, homeState => {
+    return homeState.get('date');
+  });
+
 export {
   selectHome,
   makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
   makeSelectIsResourceFree,
+  makeSelectDate,
   makeSelectScene,
 };

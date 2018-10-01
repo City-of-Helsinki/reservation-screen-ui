@@ -30,7 +30,7 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 import { loadRepos } from '../App/actions';
-import { loadReservations, initClock } from './actions';
+import { loadReservations, updateClock } from './actions';
 import {
   makeFreeSlots,
   makeUpcomingReservations,
@@ -83,7 +83,20 @@ export class HomePage extends React.PureComponent {
     const self = this;
 
     this.props.onLoadReservations();
-    this.props.onInitClock(new Date());
+
+    // Get clock parameter from address line. For debugging.
+    // Do not update clock.
+    if (window.location.toString().match(/date=/)) {
+      const forceDate = window.location.toString().replace(/.*date=/, '');
+      this.props.onUpdateClock(new Date(forceDate));
+    }
+    // Init clock and update every minute.
+    else {
+      this.props.onUpdateClock(new Date());
+      setInterval(() => {
+        this.props.onUpdateClock(new Date());
+      }, 6000);
+    }
   }
 
   render() {
@@ -132,7 +145,7 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
-    onInitClock: evt => dispatch(initClock()),
+    onUpdateClock: date => dispatch(updateClock(date)),
     onLoadReservations: evt => dispatch(loadReservations()),
   };
 }

@@ -5,6 +5,12 @@ import Clock from 'components/Clock';
 import Content from './Content';
 import messages from './messages';
 
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+
+import { makeSelectDate } from 'containers/HomePage/selectors';
+
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {
   constructor(props) {
@@ -14,7 +20,7 @@ class AreaStatus extends React.Component {
   render() {
     return (
       <Wrapper>
-        <Clock />
+        <Clock date={this.props.date} />
         <Content
           resourceName={this.props.resourceName}
           isResourceFree={this.props.isResourceFree}
@@ -25,4 +31,10 @@ class AreaStatus extends React.Component {
   }
 }
 
-export default AreaStatus;
+const mapStateToProps = createStructuredSelector({
+  date: makeSelectDate(),
+});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect)(AreaStatus);

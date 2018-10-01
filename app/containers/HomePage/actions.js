@@ -1,15 +1,15 @@
 import {
   CHANGE_USERNAME,
-  INIT_CLOCK,
+  UPDATE_CLOCK,
   LOAD_RESERVATIONS,
   LOAD_RESERVATIONS_SUCCESS,
   LOAD_RESERVATIONS_ERROR,
   CHANGE_SCENE,
 } from './constants';
 
-export function initClock(date) {
+export function updateClock(date) {
   return {
-    type: INIT_CLOCK,
+    type: UPDATE_CLOCK,
     date,
   };
 }
