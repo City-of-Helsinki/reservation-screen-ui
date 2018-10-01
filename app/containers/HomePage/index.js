@@ -36,7 +36,6 @@ import {
   makeUpcomingReservations,
   makeSelectResourceName,
   makeSelectIsResourceFree,
-  makeSelectScene,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -56,7 +55,6 @@ const themeAvailableNow = {
   secondaryColor: '#effbf2',
   bgImage: BackgroundImage,
 };
-
 const themeAvailableSoon = {
   // vapautuu kohta
   primaryColor: '#f7d366',
@@ -134,8 +132,8 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
-    onInitClock: evt => dispatch(initClock),
-    onLoadReservations: evt => dispatch(loadReservations),
+    onInitClock: evt => dispatch(initClock()),
+    onLoadReservations: evt => dispatch(loadReservations()),
   };
 }
 
@@ -143,7 +141,6 @@ const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  scene: makeSelectScene(),
   upcomingReservations: makeUpcomingReservations(
     new Date('2018-09-17T08:00:00+03:00'),
     3,

@@ -84,4 +84,5 @@ export {
   makeUpcomingReservations,
   makeSelectResourceName,
   makeSelectIsResourceFree,
+  makeSelectScene,
 };

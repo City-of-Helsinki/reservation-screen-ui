@@ -16,6 +16,7 @@ class Booking extends React.Component {
           upcomingReservations={this.props.upcomingReservations}
           resourceName={this.props.resourceName}
           isResourceFree={this.props.isResourceFree}
+          
         />
         <AreaBooking />
       </Wrapper>

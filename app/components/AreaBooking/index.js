@@ -12,43 +12,60 @@ import SceneAction from 'components/SceneAction';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import messages from './messages';
 
-/* eslint-disable react/prefer-stateless-function */
+import {
+  makeSelectScene,
+} from 'containers/HomePage/selectors';
 
-const SceneToggler = (props) =>{
-	switch(props.scene){
-		case 'ACTION':
-			return <SceneAction onClick={props.onClick} />;
-		default:
-			return <SceneStart />
-	}
-}
+/* eslint-disable react/prefer-stateless-function */
 
 class AreaBooking extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			disabled: true,
-			view: 'START'
 		};
 	}
-
-	confirmClick = () => {
-		console.log('confirm clicked!');
-		this.setState({
-			view: 'ACTION'
-		})
-	};
 
 	render() {
 		return (
 			<Wrapper>
 				<div>
 					<LocaleToggle />
-					<SceneToggler scene={this.state.view} onClick={this.confirmClick} />
+
+					{this.props.scene == 'Start' && <SceneStart />}
+					{this.props.scene == 'Action' && <SceneAction />}
+					{this.props.scene == 'Cancel' && <SceneCancel />}
+					{this.props.scene == 'Start' && <SceneStart />}
 				</div>
 			</Wrapper>
 		);
 	}
 }
 
-export default AreaBooking;
+// export function mapDispatchToProps(dispatch) {
+//   return {
+//     onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
+//     onSubmitForm: evt => {
+//       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+//       dispatch(loadRepos());
+//     },
+//     onInitClock: evt => dispatch(initClock),
+//     onLoadReservations: evt => dispatch(loadReservations),
+//   };
+// }
+
+const mapStateToProps = createStructuredSelector({
+  scene: makeSelectScene(),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  // mapDispatchToProps,
+);
+
+const withReducer = injectReducer({ key: 'home', reducer });
+
+export default compose(
+  withReducer,
+  withConnect,
+)(AreaBooking);
