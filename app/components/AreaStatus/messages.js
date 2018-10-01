@@ -11,7 +11,7 @@ export default defineMessages({
     defaultMessage: 'Tila on vapaa',
   },
   resourceIsNotFree: {
-    id: 'boilerplate.components.AreaStatus.area.resourceIsNotFre',
+    id: 'boilerplate.components.AreaStatus.area.resourceIsNotFree',
     defaultMessage: 'Tila on varattu',
   },
   areaOccupiedUntil: {

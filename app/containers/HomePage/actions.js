@@ -1,9 +1,17 @@
 import {
   CHANGE_USERNAME,
+  INIT_CLOCK,
   LOAD_RESERVATIONS,
   LOAD_RESERVATIONS_SUCCESS,
   LOAD_RESERVATIONS_ERROR,
 } from './constants';
+
+export function initClock(date) {
+  return {
+    type: INIT_CLOCK,
+    date,
+  };
+}
 
 export function changeUsername(name) {
   return {

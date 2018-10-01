@@ -30,7 +30,7 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 import { loadRepos } from '../App/actions';
-import { changeUsername, loadReservations } from './actions';
+import { loadReservations, initClock } from './actions';
 import {
   makeFreeSlots,
   makeUpcomingReservations,
@@ -79,18 +79,12 @@ export class HomePage extends React.PureComponent {
       // theme: themeTaken,
     };
   }
-  /**
-   * when initial state username is not null, submit the form to load repos
-   */
+
   componentDidMount() {
     const self = this;
 
     this.props.onLoadReservations();
-
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    }
-    console.log();
+    this.props.onInitClock(new Date());
   }
 
   render() {
@@ -129,7 +123,6 @@ HomePage.propTypes = {
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   repos: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onSubmitForm: PropTypes.func,
-  username: PropTypes.string,
   onChangeUsername: PropTypes.func,
 };
 
@@ -140,7 +133,8 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
-    onLoadReservations: evt => dispatch(loadReservations()),
+    onInitClock: evt => dispatch(initClock),
+    onLoadReservations: evt => dispatch(loadReservations),
   };
 }
 

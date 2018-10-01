@@ -11,19 +11,23 @@
  */
 import { fromJS } from 'immutable';
 
-import { CHANGE_USERNAME, LOAD_RESERVATIONS_SUCCESS } from './constants';
+import {
+  CHANGE_USERNAME,
+  LOAD_RESERVATIONS_SUCCESS,
+  INIT_CLOCK,
+} from './constants';
 
 // The initial state of the App
 export const initialState = fromJS({
   username: '',
+  currentTime: false,
   resource: null,
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_USERNAME:
-      // Delete prefixed '@' from the github username
-      return state.set('username', action.name.replace(/@/gi, ''));
+    case INIT_CLOCK:
+      return state.set('date', action.date);
     case LOAD_RESERVATIONS_SUCCESS:
       return state.set('resource', fromJS(action.resource));
     default:
