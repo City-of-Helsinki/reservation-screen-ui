@@ -36,6 +36,7 @@ import {
   makeUpcomingReservations,
   makeSelectResourceName,
   makeSelectIsResourceFree,
+  makeSelectScene,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -142,6 +143,7 @@ const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
+  scene: makeSelectScene(),
   upcomingReservations: makeUpcomingReservations(
     new Date('2018-09-17T08:00:00+03:00'),
     3,

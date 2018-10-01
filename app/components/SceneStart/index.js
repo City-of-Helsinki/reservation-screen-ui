@@ -66,9 +66,7 @@ class SceneStart extends React.Component {
 		});
 	};
 
-	confirmClick = () => {
-		console.log('confirm clicked!');
-	};
+	
 
 	render() {
 		return (
@@ -82,7 +80,7 @@ class SceneStart extends React.Component {
 				/>
 				<Submit
 					disabled={this.state.disabled}
-					onClick={this.confirmClick}
+					onClick={() => this.props.onClick()}
 				>
 					<FormattedMessage {...messages.book} />
 				</Submit>

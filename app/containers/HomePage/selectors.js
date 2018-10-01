@@ -74,6 +74,10 @@ const makeSelectIsResourceFree = date =>
     }
   });
 
+const makeSelectScene = () =>
+  createSelector(selectHome, homeState => homeState.get('scene'));
+
+
 export {
   selectHome,
   makeFreeSlots,

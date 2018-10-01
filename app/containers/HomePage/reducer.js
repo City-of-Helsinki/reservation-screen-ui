@@ -22,6 +22,7 @@ export const initialState = fromJS({
   username: '',
   currentTime: false,
   resource: null,
+  scene: 'Start',
 });
 
 function homeReducer(state = initialState, action) {

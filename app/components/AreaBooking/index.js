@@ -14,25 +14,37 @@ import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 
+const SceneToggler = (props) =>{
+	switch(props.scene){
+		case 'ACTION':
+			return <SceneAction onClick={props.onClick} />;
+		default:
+			return <SceneStart />
+	}
+}
+
 class AreaBooking extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			disabled: true,
-			activeButton: '',
-			buttonVisible: true,
-			view: 'INIT',
-			timeframe: '',
+			view: 'START'
 		};
 	}
+
+	confirmClick = () => {
+		console.log('confirm clicked!');
+		this.setState({
+			view: 'ACTION'
+		})
+	};
 
 	render() {
 		return (
 			<Wrapper>
 				<div>
 					<LocaleToggle />
-					<SceneCancel />
+					<SceneToggler scene={this.state.view} onClick={this.confirmClick} />
 				</div>
 			</Wrapper>
 		);
