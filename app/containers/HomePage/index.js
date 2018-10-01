@@ -112,8 +112,14 @@ export class HomePage extends React.PureComponent {
       repos,
     };
 
+    // Choose theme based on availability.
+    let theme = themeAvailableNow;
+    if (!this.props.isResourceFree) {
+      theme = themeTaken;
+    }
+
     return (
-      <ThemeProvider theme={this.state.theme}>
+      <ThemeProvider theme={theme}>
         <Article>
           <Helmet>
             <title>Home</title>
@@ -158,9 +164,7 @@ const mapStateToProps = createStructuredSelector({
     new Date('2018-09-17T08:00:00+03:00'),
     3,
   ),
-  isResourceFree: makeSelectIsResourceFree(
-    new Date('2018-09-17T08:00:00+03:00'),
-  ),
+  isResourceFree: makeSelectIsResourceFree(),
   resourceName: makeSelectResourceName(),
   //  freeSlots: makeFreeSlots(),
 });

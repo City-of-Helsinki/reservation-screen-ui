@@ -48,10 +48,11 @@ const makeSelectResourceName = () =>
 /**
  * Return true is the space is open right now.
  */
-const makeSelectIsResourceFree = date =>
+const makeSelectIsResourceFree = () =>
   createSelector(selectHome, state => {
     // Start by getting resource from store.
     const resource = state.get('resource');
+    const date = state.get('date');
 
     // Continue only if resource exists and has reservations.
     if (resource && resource.has('reservations')) {
@@ -64,7 +65,6 @@ const makeSelectIsResourceFree = date =>
             new Date(reservation.get('end')).getTime() > date.getTime(),
         );
 
-      // Slice the amount we wanted.
       return !(currentReservations.size > 0);
     }
     return false;
