@@ -13,9 +13,7 @@ const selectHome = state => state.get('home', initialState);
  * Select list of free slots.
  */
 const makeFreeSlots = () =>
-  createSelector(selectHome, state => {
-    return state.get('reservations');
-  });
+  createSelector(selectHome, state => state.get('reservations'));
 
 /**
  * Select all upcoming reservations.
@@ -30,15 +28,15 @@ const makeUpcomingReservations = (date, amount) =>
       // Get list of upcoming reservations.
       const futureReservations = resource
         .get('reservations')
-        .filter(reservation => {
-          return new Date(reservation.get('begin')).getTime() > date.getTime();
-        });
+        .filter(
+          reservation =>
+            new Date(reservation.get('begin')).getTime() > date.getTime(),
+        );
 
       // Slice the amount we wanted.
       return futureReservations.slice(0, amount);
-    } else {
-      return fromJS([]);
     }
+    return fromJS([]);
   });
 
 /**
@@ -60,23 +58,20 @@ const makeSelectIsResourceFree = date =>
       // Get list of current.
       const currentReservations = resource
         .get('reservations')
-        .filter(reservation => {
-          return (
-            new Date(reservation.get('begin')).getTime() < date.getTime() &&
-            new Date(reservation.get('end')).getTime() > date.getTime()
-          );
-        });
+        .filter(
+          reservation =>
+          new Date(reservation.get('begin')).getTime() < date.getTime() &&
+            new Date(reservation.get('end')).getTime() > date.getTime(),
+        ));
 
       // Slice the amount we wanted.
-      return currentReservations.size > 0 ? false : true;
-    } else {
-      return false;
+      return !(currentReservations.size > 0);
     }
+    return false;
   });
 
 const makeSelectScene = () =>
   createSelector(selectHome, homeState => homeState.get('scene'));
-
 
 export {
   selectHome,

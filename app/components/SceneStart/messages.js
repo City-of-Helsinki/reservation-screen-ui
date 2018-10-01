@@ -6,8 +6,16 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-	submitButton: {
-		id: 'boilerplate.components.SceneStart.button.submit',
+	cancel: {
+		id: 'boilerplate.components.SceneStart.link.cancel',
+		defaultMessage: 'Peruuta tilaus',
+	},
+	book: {
+		id: 'boilerplate.components.SceneStart.link.book',
 		defaultMessage: 'Varaa',
+	},
+	title: {
+		id: 'boilerplate.components.SceneStart.link.title',
+		defaultMessage: 'Varaa tila',
 	},
 });

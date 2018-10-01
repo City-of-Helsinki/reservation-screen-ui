@@ -41,7 +41,7 @@ import reducer from './reducer';
 import saga from './saga';
 
 import styled, { ThemeProvider } from 'styled-components';
-import Booking from 'layouts/Booking';
+import Booking from 'components/Booking';
 
 /* eslint-disable react/prefer-stateless-function */
 

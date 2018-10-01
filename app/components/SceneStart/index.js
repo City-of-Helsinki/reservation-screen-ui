@@ -66,8 +66,6 @@ class SceneStart extends React.Component {
 		});
 	};
 
-	
-
 	render() {
 		return (
 			<Wrapper>

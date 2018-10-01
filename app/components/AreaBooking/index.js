@@ -23,6 +23,7 @@ import { makeSelectScene } from 'containers/HomePage/selectors';
 /* eslint-disable react/prefer-stateless-function */
 
 class AreaBooking extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +44,7 @@ class AreaBooking extends React.Component {
       </Wrapper>
     );
   }
-}
+
 
 // export function mapDispatchToProps(dispatch) {
 //   return {
@@ -58,17 +59,17 @@ class AreaBooking extends React.Component {
 // }
 
 const mapStateToProps = createStructuredSelector({
-  scene: makeSelectScene(),
+	scene: makeSelectScene(),
 });
 
 const withConnect = connect(
-  mapStateToProps,
-  // mapDispatchToProps,
+	mapStateToProps,
+	// mapDispatchToProps,
 );
 
 const withReducer = injectReducer({ key: 'home', reducer });
 
 export default compose(
-  withReducer,
-  withConnect,
+	withReducer,
+	withConnect,
 )(AreaBooking);
