@@ -13,5 +13,11 @@
 		"Your booking starts {br} at {time}",
 	"boilerplate.components.Confirm.ends": "Your booking ends {br} at {time}",
 	"boilerplate.components.Confirm.cancel": "Cancel booking",
-	"boilerplate.components.Confirm.cancelledTitle": "The booking's cancelled!"
+	"boilerplate.components.Confirm.cancelledTitle": "The booking's cancelled!",
+	"link.cancel.booking": "Cancel booking",
+	"link.book": "Book",
+	"link.confirm.booking": "Confirm booking",
+	"title.confirm.booking": "Confirm booking!",
+	"text.starts.at": "Your booking starts {br} at {time}",
+	"text.ends.at": "Your booking ends {br} at {time}"
 }

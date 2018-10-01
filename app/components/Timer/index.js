@@ -45,7 +45,7 @@ class Timer extends React.Component {
 	}
 
 	onTimesUp = () => {
-		console.log('Reset app! (From Timer)');
+		this.props.onTimesUp();
 	};
 
 	render() {
