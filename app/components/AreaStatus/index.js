@@ -15,7 +15,10 @@ class AreaStatus extends React.Component {
     return (
       <Wrapper>
         <Clock />
-        <Content />
+        <Content
+          resourceName={this.props.resourceName}
+          isResourceFree={this.props.isResourceFree}
+        />
         <Upcoming upcomingReservations={this.props.upcomingReservations} />
       </Wrapper>
     );

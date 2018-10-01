@@ -1,6 +1,9 @@
 import { fromJS } from 'immutable';
 
-import { makeUpcomingReservations } from '../selectors';
+import {
+  makeUpcomingReservations,
+  makeSelectIsResourceFree,
+} from '../selectors';
 import mockResource from './mock/resource.js';
 
 describe('makeUpcomingReservations 10 from 07:00', () => {
@@ -52,5 +55,44 @@ describe('makeUpcomingReservations all from 20:00', () => {
       },
     });
     expect(selector(mockedState).size).toEqual(0);
+  });
+});
+
+describe('makeSelectIsResourceFree', () => {
+  const date = new Date('2018-09-17T07:30:00+03:00');
+  const selector = makeSelectIsResourceFree(date);
+  it('is free at 07:30', () => {
+    const mockedState = fromJS({
+      home: {
+        resource: mockResource,
+      },
+    });
+    expect(selector(mockedState)).toEqual(true);
+  });
+});
+
+describe('makeSelectIsResourceFree', () => {
+  const date = new Date('2018-09-17T08:30:00+03:00');
+  const selector = makeSelectIsResourceFree(date);
+  it('is free at 08:30', () => {
+    const mockedState = fromJS({
+      home: {
+        resource: mockResource,
+      },
+    });
+    expect(selector(mockedState)).toEqual(false);
+  });
+});
+
+describe('makeSelectIsResourceFree', () => {
+  const date = new Date('2018-09-17T20:00:00+03:00');
+  const selector = makeSelectIsResourceFree(date);
+  it('is free at 20:00', () => {
+    const mockedState = fromJS({
+      home: {
+        resource: mockResource,
+      },
+    });
+    expect(selector(mockedState)).toEqual(true);
   });
 });

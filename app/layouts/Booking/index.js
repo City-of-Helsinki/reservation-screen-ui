@@ -12,7 +12,11 @@ class Booking extends React.Component {
   render() {
     return (
       <Wrapper>
-        <AreaStatus upcomingReservations={this.props.upcomingReservations} />
+        <AreaStatus
+          upcomingReservations={this.props.upcomingReservations}
+          resourceName={this.props.resourceName}
+          isResourceFree={this.props.isResourceFree}
+        />
         <AreaBooking />
       </Wrapper>
     );

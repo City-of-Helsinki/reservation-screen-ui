@@ -3,8 +3,8 @@
   "boilerplate.containers.LocaleToggle.en": "en",
   "boilerplate.containers.NotFoundPage.header":
     "Virhe tapahtui, nobody's perfect :(",
-  "boilerplate.components.AreaStatus.area.header": "Tilan nimi",
-  "boilerplate.components.AreaStatus.area.status": "on vapaa",
+  "boilerplate.components.AreaStatus.area.resourceIsFree": "Tila on vapaa",
+  "boilerplate.components.AreaStatus.area.resourceIsNotFree": "Tila on varattu",
   "boilerplate.components.AreaStatus.area.until": "klo {time} saakka",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
   "boilerplate.components.AreaBooking.booking.title": "Varaa tila",

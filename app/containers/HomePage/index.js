@@ -32,9 +32,10 @@ import messages from './messages';
 import { loadRepos } from '../App/actions';
 import { changeUsername, loadReservations } from './actions';
 import {
-  makeSelectUsername,
   makeFreeSlots,
   makeUpcomingReservations,
+  makeSelectResourceName,
+  makeSelectIsResourceFree,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -109,13 +110,14 @@ export class HomePage extends React.PureComponent {
       <ThemeProvider theme={this.state.theme}>
         <Article>
           <Helmet>
-            <title>Home Page</title>
-            <meta
-              name="description"
-              content="A React.js Boilerplate application homepage"
-            />
+            <title>Home</title>
+            <meta name="description" content="Reservation status" />
           </Helmet>
-          <Booking upcomingReservations={this.props.upcomingReservations} />
+          <Booking
+            upcomingReservations={this.props.upcomingReservations}
+            resourceName={this.props.resourceName}
+            isResourceFree={this.props.isResourceFree}
+          />
         </Article>
       </ThemeProvider>
     );
@@ -144,13 +146,16 @@ export function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
-  username: makeSelectUsername(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
   upcomingReservations: makeUpcomingReservations(
     new Date('2018-09-17T08:00:00+03:00'),
     3,
   ),
+  isResourceFree: makeSelectIsResourceFree(
+    new Date('2018-09-17T08:00:00+03:00'),
+  ),
+  resourceName: makeSelectResourceName(),
   freeSlots: makeFreeSlots(),
 });
 

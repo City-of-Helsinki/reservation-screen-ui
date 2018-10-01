@@ -7,38 +7,45 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 const Wrapper = styled.div`
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 `;
 
 class Content extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			room: 'Studiotila 1',
-			status: 'Tila on vapaa',
-			until: '13:00',
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      room: 'Studiotila 1',
+      status: 'Tila on vapaa',
+      until: '13:00',
+    };
+  }
 
-	render() {
-		const { until, room } = this.state;
-		return (
-			<Wrapper className="c-content">
-				<H1>
-					<FormattedMessage {...messages.areaTitle} />
-				</H1>
-				<P>
-					<FormattedMessage {...messages.areaStatus} />
-				</P>
-				<H2>
-					<FormattedMessage
-						{...messages.areaOccupiedUntil}
-						values={{ time: until }}
-					/>
-				</H2>
-			</Wrapper>
-		);
-	}
+  render() {
+    const { until, room } = this.state;
+    return (
+      <Wrapper className="c-content">
+        <H1>{this.props.resourceName}</H1>
+
+        {this.props.isResourceFree && (
+          <P>
+            <FormattedMessage {...messages.resourceIsFree} />
+          </P>
+        )}
+        {!this.props.isResourceFree && (
+          <P>
+            <FormattedMessage {...messages.resourceIsNotFree} />
+          </P>
+        )}
+
+        <H2>
+          <FormattedMessage
+            {...messages.areaOccupiedUntil}
+            values={{ time: until }}
+          />
+        </H2>
+      </Wrapper>
+    );
+  }
 }
 
 export default Content;
