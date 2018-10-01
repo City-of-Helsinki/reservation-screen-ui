@@ -4,42 +4,45 @@ import { ThemeProvider } from 'styled-components';
 import LocaleToggle from 'containers/LocaleToggle';
 import Confirm from 'components/Confirm';
 import Timer from 'components/Timer';
+import { createStructuredSelector } from 'reselect';
 
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import injectReducer from 'utils/injectReducer';
 import SceneStart from 'components/SceneStart';
 import SceneCancel from 'components/SceneCancel';
 import SceneAction from 'components/SceneAction';
 
+import reducer from 'containers/HomePage/reducer';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import messages from './messages';
 
-import {
-  makeSelectScene,
-} from 'containers/HomePage/selectors';
+import { makeSelectScene } from 'containers/HomePage/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 
 class AreaBooking extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			disabled: true,
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      disabled: true,
+    };
+  }
 
-	render() {
-		return (
-			<Wrapper>
-				<div>
-					<LocaleToggle />
-
-					{this.props.scene == 'Start' && <SceneStart />}
-					{this.props.scene == 'Action' && <SceneAction />}
-					{this.props.scene == 'Cancel' && <SceneCancel />}
-					{this.props.scene == 'Start' && <SceneStart />}
-				</div>
-			</Wrapper>
-		);
-	}
+  render() {
+    return (
+      <Wrapper>
+        <div>
+          <LocaleToggle />
+          {this.props.scene == 'Start' && <SceneStart />}
+          {this.props.scene == 'Action' && <SceneAction />}
+          {this.props.scene == 'Cancel' && <SceneCancel />}
+          {this.props.scene == 'Start' && <SceneStart />}
+        </div>
+      </Wrapper>
+    );
+  }
 }
 
 // export function mapDispatchToProps(dispatch) {
