@@ -78,7 +78,7 @@ class SceneStart extends React.Component {
 				/>
 				<Submit
 					disabled={this.state.disabled}
-					onClick={() => this.props.onClick()}
+					onClick={this.props.onButtonClick}
 				>
 					<FormattedMessage {...messages.book} />
 				</Submit>

@@ -15,6 +15,7 @@ import {
   CHANGE_USERNAME,
   LOAD_RESERVATIONS_SUCCESS,
   INIT_CLOCK,
+  CHANGE_SCENE,
 } from './constants';
 
 // The initial state of the App
@@ -31,6 +32,8 @@ function homeReducer(state = initialState, action) {
       return state.set('date', action.date);
     case LOAD_RESERVATIONS_SUCCESS:
       return state.set('resource', fromJS(action.resource));
+    case CHANGE_SCENE:
+      return state.set('scene', action.scene);
     default:
       return state;
   }

@@ -19,44 +19,40 @@ import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import messages from './messages';
 
 import { makeSelectScene } from 'containers/HomePage/selectors';
-
+import { changeScene } from 'containers/HomePage/actions';
 /* eslint-disable react/prefer-stateless-function */
 
 class AreaBooking extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			disabled: true,
+		};
+	}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      disabled: true,
-    };
-  }
+	render() {
+		return (
+			<Wrapper>
+				<div>
+					<LocaleToggle />
+					{this.props.scene == 'Start' && (
+						<SceneStart
+							onButtonClick={this.props.onChangeSceneToAction}
+						/>
+					)}
+					{this.props.scene == 'Action' && <SceneAction />}
+					{this.props.scene == 'Cancel' && <SceneCancel />}
+				</div>
+			</Wrapper>
+		);
+	}
+}
 
-  render() {
-    return (
-      <Wrapper>
-        <div>
-          <LocaleToggle />
-          {this.props.scene == 'Start' && <SceneStart />}
-          {this.props.scene == 'Action' && <SceneAction />}
-          {this.props.scene == 'Cancel' && <SceneCancel />}
-          {this.props.scene == 'Start' && <SceneStart />}
-        </div>
-      </Wrapper>
-    );
-  }
-
-
-// export function mapDispatchToProps(dispatch) {
-//   return {
-//     onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
-//     onSubmitForm: evt => {
-//       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-//       dispatch(loadRepos());
-//     },
-//     onInitClock: evt => dispatch(initClock),
-//     onLoadReservations: evt => dispatch(loadReservations),
-//   };
-// }
+export function mapDispatchToProps(dispatch) {
+	return {
+		onChangeSceneToAction: scene => dispatch(changeScene('Action')),
+	};
+}
 
 const mapStateToProps = createStructuredSelector({
 	scene: makeSelectScene(),
@@ -64,7 +60,7 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(
 	mapStateToProps,
-	// mapDispatchToProps,
+	mapDispatchToProps,
 );
 
 const withReducer = injectReducer({ key: 'home', reducer });

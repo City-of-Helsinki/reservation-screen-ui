@@ -4,6 +4,7 @@ import {
   LOAD_RESERVATIONS,
   LOAD_RESERVATIONS_SUCCESS,
   LOAD_RESERVATIONS_ERROR,
+  CHANGE_SCENE,
 } from './constants';
 
 export function initClock(date) {
@@ -23,6 +24,13 @@ export function changeUsername(name) {
 export function loadReservations() {
   return {
     type: LOAD_RESERVATIONS,
+  };
+}
+
+export function changeScene(scene) {
+  return {
+    type: CHANGE_SCENE,
+    scene,
   };
 }
 

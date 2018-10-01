@@ -60,9 +60,9 @@ const makeSelectIsResourceFree = date =>
         .get('reservations')
         .filter(
           reservation =>
-          new Date(reservation.get('begin')).getTime() < date.getTime() &&
+            new Date(reservation.get('begin')).getTime() < date.getTime() &&
             new Date(reservation.get('end')).getTime() > date.getTime(),
-        ));
+        );
 
       // Slice the amount we wanted.
       return !(currentReservations.size > 0);
