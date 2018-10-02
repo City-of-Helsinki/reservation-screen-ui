@@ -2,12 +2,12 @@ import { fromJS } from 'immutable';
 
 import {
   makeUpcomingReservations,
-  makeSelectIsResourceFree,
+  makeSelectIsResourceAvailable,
 } from '../../selectors';
 import mockResource from '../mock/resource.js';
 
-describe('makeSelectIsResourceFree', () => {
-  const selector = makeSelectIsResourceFree();
+describe('makeSelectIsResourceAvailable', () => {
+  const selector = makeSelectIsResourceAvailable();
   it('is free at 07:30', () => {
     const mockedState = fromJS({
       home: {
@@ -19,8 +19,8 @@ describe('makeSelectIsResourceFree', () => {
   });
 });
 
-describe('makeSelectIsResourceFree', () => {
-  const selector = makeSelectIsResourceFree();
+describe('makeSelectIsResourceAvailable', () => {
+  const selector = makeSelectIsResourceAvailable();
   it('is free at 08:30', () => {
     const mockedState = fromJS({
       home: {
@@ -32,8 +32,8 @@ describe('makeSelectIsResourceFree', () => {
   });
 });
 
-describe('makeSelectIsResourceFree', () => {
-  const selector = makeSelectIsResourceFree();
+describe('makeSelectIsResourceAvailable', () => {
+  const selector = makeSelectIsResourceAvailable();
   it('is free at 20:00', () => {
     const mockedState = fromJS({
       home: {

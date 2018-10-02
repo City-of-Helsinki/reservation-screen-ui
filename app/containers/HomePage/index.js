@@ -96,7 +96,7 @@ export class HomePage extends React.PureComponent {
       this.props.onUpdateClock(new Date());
       setInterval(() => {
         this.props.onUpdateClock(new Date());
-      }, 6000);
+      }, 1000);
     }
   }
 

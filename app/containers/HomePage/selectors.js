@@ -41,6 +41,64 @@ const makeUpcomingReservations = amount =>
   });
 
 /**
+ * Find time until resource is occupied again.
+ */
+const makeSelectAvailableUntil = () =>
+  createSelector(selectHome, state => {
+    // Get resource.
+    const resource = state.get('resource');
+
+    if (!resource) {
+      return false;
+    }
+
+    // Get opening times.
+    const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
+    const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
+
+    // Get current time.
+    const currentTime = state.get('date');
+
+    // Continue if we have reservations.
+    if (resource.has('reservations') && resource.get('reservations').size > 0) {
+      // Just a shortcut here...
+      const reservations = resource.get('reservations');
+
+      // Find current reservation.
+      const currentReservation = reservations.find(
+        reservation =>
+          new Date(reservation.get('begin')).getTime() <=
+            currentTime.getTime() &&
+          new Date(reservation.get('end')).getTime() >= currentTime.getTime(),
+      );
+
+      // Resource is not free at the moment!
+      // Impossible to say "how long the resource is still available."
+      if (currentReservation) {
+        return false;
+      }
+
+      // Find next reservation.
+      const nextReservation = reservations.find(
+        reservation =>
+          new Date(reservation.get('begin')).getTime() > currentTime.getTime(),
+      );
+
+      // Resource is available until the next reservation starts.
+      if (nextReservation) {
+        return new Date(nextReservation.get('begin'));
+      }
+    }
+    // No resevations at all. Next resource is available until closing time.
+    else {
+      // If resource is still closed, next available time is when resource opens.
+      return new Date(closes);
+    }
+
+    return false;
+  });
+
+/**
  * Find time when the resource is available next.
  */
 const makeSelectNextAvailableTime = () =>
@@ -75,9 +133,9 @@ const makeSelectNextAvailableTime = () =>
       // If space is free, add current time to list
       const currentReservation = reservations.find(
         reservation =>
-          new Date(reservation.get('begin')).getTime() <
+          new Date(reservation.get('begin')).getTime() <=
             currentTime.getTime() &&
-          new Date(reservation.get('end')).getTime() > currentTime.getTime(),
+          new Date(reservation.get('end')).getTime() >= currentTime.getTime(),
       );
       if (!currentReservation) {
         freeSlots.push(currentTime);
@@ -174,4 +232,5 @@ export {
   makeSelectDate,
   makeSelectScene,
   makeSelectNextAvailableTime,
+  makeSelectAvailableUntil,
 };

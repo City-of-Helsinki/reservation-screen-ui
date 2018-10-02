@@ -4,7 +4,7 @@ import { makeSelectNextAvailableTime } from '../../selectors';
 import mockResource from '../mock/resource.js';
 import mockResourceNoReservations from '../mock/resource-no-reservations.js';
 import mockResourceSomeReservations from '../mock/resource-some-reservations.js';
-/*
+
 describe('makeSelectNextAvailableTime', () => {
   const selector = makeSelectNextAvailableTime();
   it('returns is 08:00 at 07:30 when no reservations', () => {
@@ -93,7 +93,7 @@ describe('makeSelectNextAvailableTime', () => {
     expect(nextAvailableTime.getMinutes()).toEqual(0);
   });
 });
-*/
+
 describe('makeSelectNextAvailableTime', () => {
   const selector = makeSelectNextAvailableTime();
   it('returns on false at 09:15 with full reservations', () => {
