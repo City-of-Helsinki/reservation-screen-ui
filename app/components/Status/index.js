@@ -21,7 +21,7 @@ class Content extends React.Component {
       !this.props.isResourceAvailable && this.props.nextAvailableTime;
 
     return (
-      <Wrapper className="c-content">
+      <Wrapper>
         <H1>{this.props.resourceName}</H1>
 
         {this.props.isResourceAvailable && (
