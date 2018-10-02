@@ -12,6 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import {
   makeSelectDate,
   makeSelectNextAvailableTime,
+  makeSelectAvailableUntil,
 } from 'containers/HomePage/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -27,6 +28,7 @@ class AreaStatus extends React.Component {
         <Status
           resourceName={this.props.resourceName}
           nextAvailableTime={this.props.nextAvailableTime}
+          availableUntil={this.props.availableUntil}
           isResourceAvailable={this.props.isResourceAvailable}
         />
         <Upcoming upcomingReservations={this.props.upcomingReservations} />
@@ -38,6 +40,7 @@ class AreaStatus extends React.Component {
 const mapStateToProps = createStructuredSelector({
   date: makeSelectDate(),
   nextAvailableTime: makeSelectNextAvailableTime(),
+  availableUntil: makeSelectAvailableUntil(),
 });
 
 const withConnect = connect(mapStateToProps);

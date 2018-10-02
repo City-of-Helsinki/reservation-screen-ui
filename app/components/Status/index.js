@@ -19,6 +19,8 @@ class Status extends React.Component {
   render() {
     const showNextAvailableTime =
       !this.props.isResourceAvailable && this.props.nextAvailableTime;
+    const showAvailableUntil =
+      this.props.isResourceAvailable && this.props.availableUntil;
 
     return (
       <Wrapper>
@@ -28,6 +30,13 @@ class Status extends React.Component {
           <P>
             <FormattedMessage {...messages.resourceIsAvailable} />
           </P>
+        )}
+        {showAvailableUntil && (
+          <H2>
+            <FormattedMessage {...messages.availableUntilClock} />
+            <FormattedTime date={this.props.availableUntil} />
+            <FormattedMessage {...messages.availableUntilUntil} />
+          </H2>
         )}
 
         {!this.props.isResourceAvailable && (
@@ -39,9 +48,9 @@ class Status extends React.Component {
         )}
         {showNextAvailableTime && (
           <H2>
-            <FormattedMessage {...messages.clock} />
+            <FormattedMessage {...messages.nextAvailableTimeClock} />
             <FormattedTime date={this.props.nextAvailableTime} />
-            <FormattedMessage {...messages.until} />
+            <FormattedMessage {...messages.nextAvailableTimeUntil} />
           </H2>
         )}
       </Wrapper>
