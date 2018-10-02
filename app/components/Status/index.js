@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-class Content extends React.Component {
+class Status extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -49,4 +49,4 @@ class Content extends React.Component {
   }
 }
 
-export default Content;
+export default Status;
