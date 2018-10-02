@@ -1,17 +1,23 @@
 {
-	"boilerplate.containers.LocaleToggle.de": "de",
-	"boilerplate.containers.LocaleToggle.en": "en",
+	"boilerplate.containers.LocaleToggle.de": "deutch",
+	"boilerplate.containers.LocaleToggle.en": "english",
 	"boilerplate.containers.NotFoundPage.header": "Page not found.",
 	"boilerplate.components.AreaStatus.area.header": "Rum namn",
 	"boilerplate.components.AreaStatus.area.status": "är ledig",
-	"boilerplate.components.AreaStatus.area.until": "til klockan {time}",
-	"boilerplate.components.AreaBooking.button.submit": "Boka",
-	"boilerplate.components.AreaBooking.booking.title": "Boka detta rum",
-	"boilerplate.components.AreaBooking.confirm.title": "Säkra bokning",
-	"boilerplate.components.Upcoming.title": "Kommande bokning",
-	"boilerplate.components.Confirm.starts":
-		"Boking börjas {br} klockan {time}",
-	"boilerplate.components.Confirm.ends": "Boking ändas {br} klockan {time}",
-	"boilerplate.components.Confirm.cancel": "Upphäva bokning",
-	"boilerplate.components.Confirm.cancelledTitle": "Bokning upphävad!"
+	"available.until": "til klockan {time}",
+	"boilerplate.components.AreaBooking.confirm.title": "Bekräfta din bokning",
+	"boilerplate.components.Upcoming.title": "Upcoming bookings",
+	"time.starts": "Boking börjas {br} klockan {time}",
+	"time.ends": "Boking ändas {br} klockan {time}",
+	"link.cancel": "Cancel booking",
+	"title.cancel": "The booking's cancelled!",
+	"link.cancel.booking": "Cancel bokning",
+	"link.book": "Boka",
+	"title.book": "Boka detta rum",
+	"link.confirm.booking": "Bekräfta bokning",
+	"title.confirm.booking": "Bekräfta bokning!",
+	"AreaStatus.area.until": "Til klockan {time}",
+	"AreaStatus.area.resourceIsAvailable": "Detta rum är ledig",
+	"AreaStatus.area.resourceIsNotAvailable": "Detta rum är upptagen"
 }
+

@@ -1,7 +1,10 @@
 import { injectGlobal } from 'styled-components';
+import HelsinkiGroteskRegularWoff from './fonts/HelsinkiGrotesk-Regular.woff';
+import HelsinkiGroteskRegularTtf from './fonts/Mali-Bold.ttf'; // testing files
 
 /* eslint no-unused-expressions: 0 */
 injectGlobal`
+
   html,
   body {
     height: 100%;
@@ -9,11 +12,11 @@ injectGlobal`
   }
 
   body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Times;
   }
 
   body.fontLoaded {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: HelsinkiGroteskRegularWoff, 'Open Sans', Impact;
   }
 
   .bg-green {

@@ -7,15 +7,15 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
 	cancel: {
-		id: 'boilerplate.components.SceneStart.link.cancel',
+		id: 'link.cancel',
 		defaultMessage: 'Peruuta tilaus',
 	},
 	book: {
-		id: 'boilerplate.components.SceneStart.link.book',
+		id: 'link.book',
 		defaultMessage: 'Varaa',
 	},
 	title: {
-		id: 'boilerplate.components.SceneStart.link.title',
+		id: 'title.book',
 		defaultMessage: 'Varaa tila',
 	},
 });

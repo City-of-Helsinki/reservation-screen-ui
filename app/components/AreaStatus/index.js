@@ -2,7 +2,7 @@ import React from 'react';
 import Wrapper from './Wrapper';
 import Upcoming from 'components/Upcoming';
 import Clock from 'components/Clock';
-import Content from './Content';
+import Status from 'components/Status';
 import messages from './messages';
 
 import { connect } from 'react-redux';
@@ -24,7 +24,7 @@ class AreaStatus extends React.Component {
     return (
       <Wrapper>
         <Clock date={this.props.date} />
-        <Content
+        <Status
           resourceName={this.props.resourceName}
           nextAvailableTime={this.props.nextAvailableTime}
           isResourceAvailable={this.props.isResourceAvailable}
