@@ -58,20 +58,6 @@
       }
     },
     {
-      "url": "https://api.hel.fi/respa/v1/reservation/222536/",
-      "id": 222536,
-      "resource": "avtzqtz3bsca",
-      "begin": "2018-09-17T09:00:00+03:00",
-      "end": "2018-09-17T11:00:00+03:00",
-      "is_own": false,
-      "state": "confirmed",
-      "need_manual_confirmation": false,
-      "user_permissions": {
-        "can_delete": false,
-        "can_modify": false
-      }
-    },
-    {
       "url": "https://api.hel.fi/respa/v1/reservation/222535/",
       "id": 222535,
       "resource": "avtzqtz3bsca",

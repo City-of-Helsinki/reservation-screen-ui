@@ -14,8 +14,12 @@ export default defineMessages({
     id: 'boilerplate.components.AreaStatus.area.resourceIsNotFree',
     defaultMessage: 'Tila on varattu',
   },
-  areaOccupiedUntil: {
+  clock: {
+    id: 'boilerplate.components.AreaStatus.area.clock',
+    defaultMessage: 'klo ',
+  },
+  until: {
     id: 'boilerplate.components.AreaStatus.area.until',
-    defaultMessage: 'Klo {time} saakka',
+    defaultMessage: ' saakka',
   },
 });

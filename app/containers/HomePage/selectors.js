@@ -18,10 +18,11 @@ const makeFreeSlots = () =>
 /**
  * Select all upcoming reservations.
  */
-const makeUpcomingReservations = (date, amount) =>
+const makeUpcomingReservations = amount =>
   createSelector(selectHome, state => {
     // Start by getting resource from store.
     const resource = state.get('resource');
+    const date = state.get('date');
 
     // Continue only if resource exists and has reservations.
     if (resource && resource.has('reservations')) {
@@ -30,13 +31,99 @@ const makeUpcomingReservations = (date, amount) =>
         .get('reservations')
         .filter(
           reservation =>
-            new Date(reservation.get('begin')).getTime() > date.getTime(),
+            new Date(reservation.get('end')).getTime() > date.getTime(),
         );
 
       // Slice the amount we wanted.
       return futureReservations.slice(0, amount);
     }
     return fromJS([]);
+  });
+
+/**
+ * Find next available slot.
+ */
+const makeSelectNextAvailableTime = () =>
+  createSelector(selectHome, state => {
+    // Get resource.
+    const resource = state.get('resource');
+
+    if (!resource) {
+      return false;
+    }
+
+    // Get opening times.
+    const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
+    const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
+
+    // Get current time.
+    const currentTime = state.get('date');
+
+    // List of free slots for the day.
+    const freeSlots = [];
+
+    // Continue if we have reservations.
+    if (resource.has('reservations') && resource.get('reservations').size > 0) {
+      // Just a shortcut here...
+      const reservations = resource.get('reservations');
+
+      // First test if resource is free on opening time. If free, add to list.
+      if (opens != reservations.getIn([0, 'begin'])) {
+        freeSlots.push(new Date(opens));
+      }
+
+      // If space is free, add current time to list
+      const currentReservation = reservations.find(
+        reservation =>
+          new Date(reservation.get('begin')).getTime() <
+            currentTime.getTime() &&
+          new Date(reservation.get('end')).getTime() > currentTime.getTime(),
+      );
+      if (!currentReservation) {
+        freeSlots.push(currentTime);
+      }
+
+      // Loop through all reservations. Compare reservation's end time
+      // to next reservation's start time. If times differs there's
+      // a free slot!
+      for (let i = 0; i < reservations.size; i++) {
+        // Shortcuts.
+        const reservation = reservations.get(i);
+        const nextReservation =
+          i + 1 < reservations.size ? reservations.get(i + 1) : false;
+
+        // There is free time after current reservation, if:
+        //
+        // 1. There is no next reservation
+        // 2. The next reservation doesn't start immediately.
+        if (
+          !nextReservation ||
+          reservation.get('end') != nextReservation.get('begin')
+        ) {
+          freeSlots.push(new Date(reservation.get('end')));
+        }
+      }
+    }
+    // No reservations so next available time is when the resource is open.
+    else {
+      // If resource is still closed, next available time is when resource opens.
+      if (currentTime < opens.getTime()) {
+        freeSlots.push(new Date(opens));
+      }
+      // Otherwise next available time is immediately.
+      else {
+        freeSlots.push(currentTime);
+      }
+    }
+
+    // Find next free slot. Should be in the future before closing time.
+    const nextAvailableTime = freeSlots.find(
+      freeSlot =>
+        freeSlot.getTime() >= currentTime &&
+        freeSlot.getTime() < closes.getTime(),
+    );
+
+    return nextAvailableTime ? nextAvailableTime : false;
   });
 
 /**
@@ -86,4 +173,5 @@ export {
   makeSelectIsResourceFree,
   makeSelectDate,
   makeSelectScene,
+  makeSelectNextAvailableTime,
 };

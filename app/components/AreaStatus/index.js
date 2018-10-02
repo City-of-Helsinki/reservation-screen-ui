@@ -9,7 +9,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import { makeSelectDate } from 'containers/HomePage/selectors';
+import {
+  makeSelectDate,
+  makeSelectNextAvailableTime,
+} from 'containers/HomePage/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {
@@ -24,6 +27,7 @@ class AreaStatus extends React.Component {
         <Content
           resourceName={this.props.resourceName}
           isResourceFree={this.props.isResourceFree}
+          nextAvailableTime={this.props.nextAvailableTime}
         />
         <Upcoming upcomingReservations={this.props.upcomingReservations} />
       </Wrapper>
@@ -33,6 +37,7 @@ class AreaStatus extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   date: makeSelectDate(),
+  nextAvailableTime: makeSelectNextAvailableTime(),
 });
 
 const withConnect = connect(mapStateToProps);
