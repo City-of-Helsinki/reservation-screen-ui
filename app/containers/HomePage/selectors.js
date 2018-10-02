@@ -41,7 +41,7 @@ const makeUpcomingReservations = amount =>
   });
 
 /**
- * Find next available slot.
+ * Find time when the resource is available next.
  */
 const makeSelectNextAvailableTime = () =>
   createSelector(selectHome, state => {
@@ -135,7 +135,7 @@ const makeSelectResourceName = () =>
 /**
  * Return true is the space is open right now.
  */
-const makeSelectIsResourceFree = () =>
+const makeSelectIsResourceAvailable = () =>
   createSelector(selectHome, state => {
     // Start by getting resource from store.
     const resource = state.get('resource');
@@ -170,7 +170,7 @@ export {
   makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
-  makeSelectIsResourceFree,
+  makeSelectIsResourceAvailable,
   makeSelectDate,
   makeSelectScene,
   makeSelectNextAvailableTime,

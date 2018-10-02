@@ -18,24 +18,26 @@ class Content extends React.Component {
 
   render() {
     const showNextAvailableTime =
-      !this.props.isResourceFree && this.props.nextAvailableTime;
+      !this.props.isResourceAvailable && this.props.nextAvailableTime;
 
     return (
       <Wrapper className="c-content">
         <H1>{this.props.resourceName}</H1>
-        {this.props.isResourceFree && (
+
+        {this.props.isResourceAvailable && (
           <P>
-            <FormattedMessage {...messages.resourceIsFree} />
+            <FormattedMessage {...messages.resourceIsAvailable} />
           </P>
         )}
-        {!this.props.isResourceFree && (
+
+        {!this.props.isResourceAvailable && (
           <div>
             <P>
-              <FormattedMessage {...messages.resourceIsNotFree} />
+              <FormattedMessage {...messages.resourceIsNotAvailable} />
             </P>
           </div>
         )}
-        {!this.props.showNextAvailableTime && (
+        {showNextAvailableTime && (
           <H2>
             <FormattedMessage {...messages.clock} />
             <FormattedTime date={this.props.nextAvailableTime} />

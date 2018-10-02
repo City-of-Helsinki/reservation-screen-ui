@@ -26,8 +26,8 @@ class AreaStatus extends React.Component {
         <Clock date={this.props.date} />
         <Content
           resourceName={this.props.resourceName}
-          isResourceFree={this.props.isResourceFree}
           nextAvailableTime={this.props.nextAvailableTime}
+          isResourceAvailable={this.props.isResourceAvailable}
         />
         <Upcoming upcomingReservations={this.props.upcomingReservations} />
       </Wrapper>

@@ -5,29 +5,7 @@ import Submit from 'components/Submit';
 import { FormattedMessage, defineMessages } from 'react-intl';
 import P from 'components/P';
 import Timer from 'components/Timer';
-
-const messages = defineMessages({
-	cancel: {
-		id: 'boilerplate.components.SceneAction.link.cancel',
-		defaultMessage: 'Peruuta varaus',
-	},
-	book: {
-		id: 'boilerplate.components.SceneAction.link.book',
-		defaultMessage: 'Varaa',
-	},
-	title: {
-		id: 'boilerplate.components.SceneAction.link.title',
-		defaultMessage: 'Vahvista varaus',
-	},
-	startsAt: {
-		id: 'boilerplate.components.SceneAction.link.title',
-		defaultMessage: 'Varauksesi alkaa {br} kello startTime',
-	},
-	endsAt: {
-		id: 'boilerplate.components.SceneAction.link.title',
-		defaultMessage: 'Varauksesi loppuu {br} kello endTime',
-	},
-});
+import messages from './messages';
 
 const Wrapper = styled.div`
 	display: block;
@@ -35,6 +13,9 @@ const Wrapper = styled.div`
 
 const LinkWrapper = styled.div`
 	color: #f00;
+	i {
+		display: none;
+	}
 `;
 
 const H2 = styled.h2`
@@ -50,18 +31,10 @@ class SceneAction extends React.Component {
 		};
 	}
 
-	confirmClick = () => {
-		console.log('confirm clicked!');
-	};
-
-	cancelClick = () => {
-		console.log('cancel clicked!');
-	};
-
 	render() {
 		return (
 			<Wrapper>
-				<Timer />
+				<Timer onTimesUp={this.props.onTimesUp} />
 				<H2>
 					<FormattedMessage {...messages.title} />
 				</H2>
@@ -79,11 +52,12 @@ class SceneAction extends React.Component {
 					/>
 				</P>
 
-				<Submit onClick={this.confirmClick}>
+				<Submit onClick={this.props.onButtonClick}>
 					<FormattedMessage {...messages.book} />
 				</Submit>
+
 				<LinkWrapper>
-					<HelperLink onHelperLinkClick={this.cancelClick}>
+					<HelperLink onHelperLinkClick={this.props.onCancelClick}>
 						<FormattedMessage {...messages.cancel} />
 					</HelperLink>
 				</LinkWrapper>

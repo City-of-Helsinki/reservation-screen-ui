@@ -4,21 +4,7 @@ import HelperLink from 'components/HelperLink';
 import ButtonList from 'components/ButtonList';
 import Submit from 'components/Submit';
 import { FormattedMessage, defineMessages } from 'react-intl';
-
-const messages = defineMessages({
-	cancel: {
-		id: 'boilerplate.components.SceneStart.link.cancel',
-		defaultMessage: 'Peruuta tilaus',
-	},
-	book: {
-		id: 'boilerplate.components.SceneStart.link.book',
-		defaultMessage: 'Varaa',
-	},
-	title: {
-		id: 'boilerplate.components.SceneStart.link.title',
-		defaultMessage: 'Varaa tila',
-	},
-});
+import messages from './messages';
 
 const Wrapper = styled.div`
 	display: block;

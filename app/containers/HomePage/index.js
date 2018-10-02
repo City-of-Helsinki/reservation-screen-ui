@@ -35,8 +35,8 @@ import {
   makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
-  makeSelectIsResourceFree,
   makeSelectNextAvailableTime,
+  makeSelectIsResourceAvailable,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -115,7 +115,7 @@ export class HomePage extends React.PureComponent {
 
     // Choose theme based on availability.
     let theme = themeAvailableNow;
-    if (!this.props.isResourceFree) {
+    if (!this.props.isResourceAvailable) {
       theme = themeTaken;
     }
 
@@ -129,7 +129,7 @@ export class HomePage extends React.PureComponent {
           <Booking
             upcomingReservations={this.props.upcomingReservations}
             resourceName={this.props.resourceName}
-            isResourceFree={this.props.isResourceFree}
+            isResourceAvailable={this.props.isResourceAvailable}
           />
         </Article>
       </ThemeProvider>
@@ -162,7 +162,7 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
   upcomingReservations: makeUpcomingReservations(3),
-  isResourceFree: makeSelectIsResourceFree(),
+  isResourceAvailable: makeSelectIsResourceAvailable(),
   resourceName: makeSelectResourceName(),
   //nextAvailableTime: makeSelectNextAvailableTime(),
 });

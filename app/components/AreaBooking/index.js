@@ -13,6 +13,7 @@ import injectReducer from 'utils/injectReducer';
 import SceneStart from 'components/SceneStart';
 import SceneCancel from 'components/SceneCancel';
 import SceneAction from 'components/SceneAction';
+import SceneVerify from 'components/SceneVerify';
 
 import reducer from 'containers/HomePage/reducer';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
@@ -40,8 +41,23 @@ class AreaBooking extends React.Component {
 							onButtonClick={this.props.onChangeSceneToAction}
 						/>
 					)}
-					{this.props.scene == 'Action' && <SceneAction />}
-					{this.props.scene == 'Cancel' && <SceneCancel />}
+					{this.props.scene == 'Action' && (
+						<SceneAction
+							onTimesUp={this.props.onChangeSceneToStart}
+							onButtonClick={this.props.onChangeSceneToVerify}
+							onCancelClick={this.props.onChangeSceneToCancel}
+						/>
+					)}
+					{this.props.scene == 'Cancel' && (
+						<SceneCancel
+							onButtonClick={this.props.onChangeSceneToStart}
+						/>
+					)}
+					{this.props.scene == 'Verify' && (
+						<SceneVerify
+							onButtonClick={this.props.onChangeSceneToStart}
+						/>
+					)}
 				</div>
 			</Wrapper>
 		);
@@ -50,7 +66,10 @@ class AreaBooking extends React.Component {
 
 export function mapDispatchToProps(dispatch) {
 	return {
+		onChangeSceneToStart: scene => dispatch(changeScene('Start')),
 		onChangeSceneToAction: scene => dispatch(changeScene('Action')),
+		onChangeSceneToCancel: scene => dispatch(changeScene('Cancel')),
+		onChangeSceneToVerify: scene => dispatch(changeScene('Verify')),
 	};
 }
 
