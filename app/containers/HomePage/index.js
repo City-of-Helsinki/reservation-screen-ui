@@ -73,6 +73,7 @@ const themeTaken = {
 export class HomePage extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.interval = false;
     this.state = {
       theme: themeAvailableSoon,
       // theme: themeAvailableNow,
@@ -94,10 +95,14 @@ export class HomePage extends React.PureComponent {
     // Init clock and update every minute.
     else {
       this.props.onUpdateClock(new Date());
-      setInterval(() => {
+      this.interval = setInterval(() => {
         this.props.onUpdateClock(new Date());
       }, 1000);
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
