@@ -12,7 +12,7 @@ injectGlobal`
   }
 
   body {
-    font-family: Times;
+    font-family: HelsinkiGroteskRegularWoff, Times;
   }
 
   body.fontLoaded {
@@ -31,6 +31,10 @@ injectGlobal`
     background-color: #fafafa;
     min-height: 100%;
     min-width: 100%;
+  }
+
+  h2 {
+    letter-spacing: -2px;
   }
 
   p,
