@@ -16,6 +16,7 @@ import {
   LOAD_RESERVATIONS_SUCCESS,
   UPDATE_CLOCK,
   CHANGE_SCENE,
+  CHANGE_SLOT,
 } from './constants';
 
 // The initial state of the App
@@ -24,6 +25,7 @@ export const initialState = fromJS({
   date: new Date(),
   resource: null,
   scene: 'Start',
+  selectedSlot: false,
 });
 
 function homeReducer(state = initialState, action) {
@@ -34,6 +36,8 @@ function homeReducer(state = initialState, action) {
       return state.set('resource', fromJS(action.resource));
     case CHANGE_SCENE:
       return state.set('scene', action.scene);
+    case CHANGE_SLOT:
+      return state.set('selectedSlot', action.selectedSlot);
     default:
       return state;
   }

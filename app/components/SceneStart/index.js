@@ -22,38 +22,18 @@ const H2 = styled.h2`
 class SceneStart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      disabled: true,
-      selectedSlot: false,
-      /*items: [
-        { id: 'button-1', text: '11:00', active: false },
-        { id: 'button-2', text: '13:00', active: false },
-        { id: 'button-3', text: '16:00', active: false },
-      ],*/
-    };
   }
 
-  switchButtonState = begin => {
-    /*
-    let btns = this.state.items;
-    let clickedBtn = btns[btnIndex];
-    let sameBtn = !btns[btnIndex].active ? true : false;
-    let filteredButtons = btns.filter(function(btn, i) {
-      if (i !== btnIndex) {
-        return btn;
-      }
-    });
+  selectSlot(slot) {
+    this.props.onSelectSlot(slot);
+  }
 
-    filteredButtons.map(item => (item.active = false));
-    btns[btnIndex].active = sameBtn;
-    */
-    this.setState({
-      selectedSlot: begin,
-      disabled: false,
-    });
-  };
+  onSubmit() {
+    this.props.onSubmit();
+  }
 
   render() {
+    const disabled = this.props.selectedSlot ? false : true;
     return (
       <Wrapper>
         <H2>
@@ -61,13 +41,10 @@ class SceneStart extends React.Component {
         </H2>
         <ButtonList
           freeSlots={this.props.freeSlots}
-          selectedSlot={this.state.selectedSlot}
-          onButtonClick={this.switchButtonState}
+          selectedSlot={this.props.selectedSlot}
+          onButtonClick={slot => this.selectSlot(slot)}
         />
-        <Submit
-          disabled={this.state.disabled}
-          onClick={this.props.onButtonClick}
-        >
+        <Submit disabled={disabled} onClick={() => this.onSubmit()}>
           <FormattedMessage {...messages.book} />
         </Submit>
       </Wrapper>

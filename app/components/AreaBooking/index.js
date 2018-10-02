@@ -22,8 +22,9 @@ import messages from './messages';
 import {
   makeSelectScene,
   makeSelectFreeSlots,
+  makeSelectSelectedSlot,
 } from 'containers/HomePage/selectors';
-import { changeScene } from 'containers/HomePage/actions';
+import { changeScene, changeSlot } from 'containers/HomePage/actions';
 /* eslint-disable react/prefer-stateless-function */
 
 class AreaBooking extends React.Component {
@@ -41,13 +42,16 @@ class AreaBooking extends React.Component {
           <LocaleToggle />
           {this.props.scene == 'Start' && (
             <SceneStart
-              onButtonClick={this.props.onChangeSceneToAction}
+              onSubmit={this.props.onChangeSceneToAction}
+              onSelectSlot={this.props.onSelectSlot}
               freeSlots={this.props.freeSlots}
+              selectedSlot={this.props.selectedSlot}
             />
           )}
           {this.props.scene == 'Action' && (
             <SceneAction
               onTimesUp={this.props.onChangeSceneToStart}
+              selectedSlot={this.props.selectedSlot}
               onButtonClick={this.props.onChangeSceneToVerify}
               onCancelClick={this.props.onChangeSceneToCancel}
             />
@@ -66,16 +70,18 @@ class AreaBooking extends React.Component {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onChangeSceneToStart: scene => dispatch(changeScene('Start')),
-    onChangeSceneToAction: scene => dispatch(changeScene('Action')),
-    onChangeSceneToCancel: scene => dispatch(changeScene('Cancel')),
-    onChangeSceneToVerify: scene => dispatch(changeScene('Verify')),
+    onSelectSlot: slot => dispatch(changeSlot(slot)),
+    onChangeSceneToStart: () => dispatch(changeScene('Start')),
+    onChangeSceneToAction: () => dispatch(changeScene('Action')),
+    onChangeSceneToCancel: () => dispatch(changeScene('Cancel')),
+    onChangeSceneToVerify: () => dispatch(changeScene('Verify')),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   scene: makeSelectScene(),
   freeSlots: makeSelectFreeSlots(),
+  selectedSlot: makeSelectSelectedSlot(),
 });
 
 const withConnect = connect(

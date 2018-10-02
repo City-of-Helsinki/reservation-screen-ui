@@ -5,6 +5,7 @@ import {
   LOAD_RESERVATIONS_SUCCESS,
   LOAD_RESERVATIONS_ERROR,
   CHANGE_SCENE,
+  CHANGE_SLOT,
 } from './constants';
 
 export function updateClock(date) {
@@ -18,6 +19,13 @@ export function changeUsername(name) {
   return {
     type: CHANGE_USERNAME,
     name,
+  };
+}
+
+export function changeSlot(selectedSlot) {
+  return {
+    type: CHANGE_SLOT,
+    selectedSlot,
   };
 }
 

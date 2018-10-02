@@ -12,8 +12,8 @@ const selectHome = state => state.get('home', initialState);
 /**
  * Select list of free slots.
  */
-const makeFreeSlots = () =>
-  createSelector(selectHome, state => state.get('reservations'));
+//const makeFreeSlots = () =>
+//  createSelector(selectHome, state => state.get('reservations'));
 
 /**
  * Select all upcoming reservations.
@@ -223,13 +223,14 @@ const makeSelectFreeSlots = () =>
     // Get variables from state.
     const resource = state.get('resource');
     const minPeriod = state.get('min_period');
-    const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
-    const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
     const currentTime = state.get('date');
     let freeSlots = [];
     const minPeriodMilliseconds = new Date('1970-01-01T' + minPeriod + 'Z');
 
     if (resource) {
+      const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
+      const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
+
       // Calculate open time in minutes.
       const openTime = (closes.getTime() - opens.getTime()) / 60000;
 
@@ -278,12 +279,15 @@ const makeSelectFreeSlots = () =>
       );
 
       //console.log(freeSlots);
-      return freeSlots;
     }
+    return freeSlots;
   });
 
 const makeSelectScene = () =>
   createSelector(selectHome, homeState => homeState.get('scene'));
+
+const makeSelectSelectedSlot = () =>
+  createSelector(selectHome, homeState => homeState.get('selectedSlot'));
 
 const makeSelectDate = () =>
   createSelector(selectHome, homeState => {
@@ -292,7 +296,7 @@ const makeSelectDate = () =>
 
 export {
   selectHome,
-  makeFreeSlots,
+  //  makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
   makeSelectIsResourceAvailable,
@@ -301,4 +305,5 @@ export {
   makeSelectNextAvailableTime,
   makeSelectAvailableUntil,
   makeSelectFreeSlots,
+  makeSelectSelectedSlot,
 };

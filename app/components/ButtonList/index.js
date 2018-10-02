@@ -10,6 +10,10 @@ class ButtonList extends React.Component {
     super(props);
   }
 
+  onSlotClick(slot) {
+    this.props.onButtonClick(slot);
+  }
+
   render() {
     return (
       <Wrapper className="c-buttonlist">
@@ -18,11 +22,11 @@ class ButtonList extends React.Component {
             id={slot.begin.getTime()}
             className={
               this.props.selectedSlot &&
-              slot.begin.getTime() == this.props.selectedSlot.getTime()
+              slot.begin.getTime() == this.props.selectedSlot.begin.getTime()
                 ? 'active'
                 : ''
             }
-            onClick={e => this.props.onButtonClick(slot.begin)}
+            onClick={e => this.onSlotClick(slot)}
             key={slot.begin.getTime()}
           >
             <FormattedTime date={slot.begin} /> -{' '}
