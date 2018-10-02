@@ -26,14 +26,14 @@ class Content extends React.Component {
       <Wrapper className="c-content">
         <H1>{this.props.resourceName}</H1>
 
-        {this.props.isResourceFree && (
+        {this.props.isResourceAvailable && (
           <P>
-            <FormattedMessage {...messages.resourceIsFree} />
+            <FormattedMessage {...messages.resourceIsAvailable} />
           </P>
         )}
-        {!this.props.isResourceFree && (
+        {!this.props.isResourceAvailable && (
           <P>
-            <FormattedMessage {...messages.resourceIsNotFree} />
+            <FormattedMessage {...messages.resourceIsNotAvailable} />
           </P>
         )}
 

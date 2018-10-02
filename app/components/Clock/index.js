@@ -9,7 +9,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Wrapper from './Wrapper';
 import clockStyles from './clockStyles';
-import P from './P';
+import styled from 'styled-components';
+
+const Span = styled.span`
+  ${clockStyles};
+`;
 
 class Clock extends React.Component {
   constructor(props) {
@@ -26,12 +30,12 @@ class Clock extends React.Component {
 
     return (
       <Wrapper className="c-clock">
-        <span>
+        <Span>
           {hours < 10 ? '0' : ''}
           {hours}:
           {mins < 10 ? '0' : ''}
           {mins}
-        </span>
+        </Span>
       </Wrapper>
     );
   }

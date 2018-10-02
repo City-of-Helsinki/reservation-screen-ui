@@ -19,5 +19,7 @@
 	"link.confirm.booking": "Confirm booking",
 	"title.confirm.booking": "Confirm booking!",
 	"text.starts.at": "Your booking starts {br} at {time}",
-	"text.ends.at": "Your booking ends {br} at {time}"
+	"text.ends.at": "Your booking ends {br} at {time}",
+	"AreaStatus.area.resourceIsAvailable": "This space is available",
+	"AreaStatus.area.resourceIsNotAvailable": "This space is occupied"
 }

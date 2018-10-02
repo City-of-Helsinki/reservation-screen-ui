@@ -48,7 +48,7 @@ const makeSelectResourceName = () =>
 /**
  * Return true is the space is open right now.
  */
-const makeSelectIsResourceFree = () =>
+const makeSelectIsResourceAvailable = () =>
   createSelector(selectHome, state => {
     // Start by getting resource from store.
     const resource = state.get('resource');
@@ -83,7 +83,7 @@ export {
   makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
-  makeSelectIsResourceFree,
+  makeSelectIsResourceAvailable,
   makeSelectDate,
   makeSelectScene,
 };
