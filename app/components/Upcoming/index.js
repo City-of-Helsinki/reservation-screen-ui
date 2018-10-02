@@ -22,16 +22,18 @@ class Upcoming extends React.Component {
   render() {
     return (
       <div className="c-upcoming">
-        {this.props.upcomingReservations.length > 0 && (
-          <H4>
-            <FormattedMessage {...messages.title} />
-          </H4>
+        {this.props.upcomingReservations.size > 0 && (
+          <div>
+            <H4>
+              <FormattedMessage {...messages.title} />
+            </H4>
+            <List
+              limit={maxNum}
+              items={this.props.upcomingReservations}
+              component={ListItem}
+            />
+          </div>
         )}
-        <List
-          limit={maxNum}
-          items={this.props.upcomingReservations}
-          component={ListItem}
-        />
       </div>
     );
   }
