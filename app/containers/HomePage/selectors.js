@@ -215,6 +215,73 @@ const makeSelectIsResourceAvailable = () =>
     return false;
   });
 
+/**
+ * Get list of free slots.
+ */
+const makeSelectFreeSlots = () =>
+  createSelector(selectHome, state => {
+    // Get variables from state.
+    const resource = state.get('resource');
+    const minPeriod = state.get('min_period');
+    const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
+    const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
+    const currentTime = state.get('date');
+    let freeSlots = [];
+    const minPeriodMilliseconds = new Date('1970-01-01T' + minPeriod + 'Z');
+
+    if (resource) {
+      // Calculate open time in minutes.
+      const openTime = (closes.getTime() - opens.getTime()) / 60000;
+
+      // Shortcut.
+      const reservations = resource.get('reservations');
+
+      // Calculated begin and end values.
+      let begin = 0;
+
+      // Iterate over each opening minute.
+      for (let i = 0; i <= openTime; i++) {
+        // Current time.
+        const time = opens.getTime() + i * 60000;
+        const timeObj = new Date(time);
+        //console.log(timeObj);
+        //console.log(timeObj.getMinutes());
+
+        // Find overlapping reservations.
+        let overlappingReservations = [];
+        if (reservations)
+          overlappingReservations = reservations.filter(
+            reservation =>
+              new Date(reservation.get('begin')).getTime() < time &&
+              new Date(reservation.get('end')).getTime() >= time,
+          );
+
+        //console.log(overlappingReservations);
+
+        // Found free minute!
+        if (overlappingReservations.size == 0) {
+          // New start time.
+          if (begin == 0) {
+            begin = time;
+          }
+          // Even minutes. Potential end time?
+          else if (timeObj.getMinutes() == 0) {
+            freeSlots.push({ begin: new Date(begin), end: new Date(time) });
+            begin = time;
+          }
+        }
+      }
+
+      // Filter out past.
+      freeSlots = freeSlots.filter(
+        slot => slot.begin.getTime() >= currentTime.getTime(),
+      );
+
+      //console.log(freeSlots);
+      return freeSlots;
+    }
+  });
+
 const makeSelectScene = () =>
   createSelector(selectHome, homeState => homeState.get('scene'));
 
@@ -233,4 +300,5 @@ export {
   makeSelectScene,
   makeSelectNextAvailableTime,
   makeSelectAvailableUntil,
+  makeSelectFreeSlots,
 };
