@@ -3,6 +3,7 @@ import BasicButton from 'components/BasicButton';
 import styled from 'styled-components';
 import Wrapper from './Wrapper';
 import BookingButton from './BookingButton';
+import FormattedTime from 'components/FormattedTime';
 
 class ButtonList extends React.Component {
   constructor(props) {
@@ -12,14 +13,20 @@ class ButtonList extends React.Component {
   render() {
     return (
       <Wrapper className="c-buttonlist">
-        {this.props.items.map((item, index) => (
+        {this.props.freeSlots.map((slot, index) => (
           <BookingButton
-            id={item.id}
-            className={item.active ? 'active' : ''}
-            onClick={e => this.props.onButtonClick(e, index)}
-            key={item.id}
+            id={slot.begin.getTime()}
+            className={
+              this.props.selectedSlot &&
+              slot.begin.getTime() == this.props.selectedSlot.getTime()
+                ? 'active'
+                : ''
+            }
+            onClick={e => this.props.onButtonClick(slot.begin)}
+            key={slot.begin.getTime()}
           >
-            {item.text} - {item.text}
+            <FormattedTime date={slot.begin} /> -{' '}
+            <FormattedTime date={slot.end} />
           </BookingButton>
         ))}
       </Wrapper>
