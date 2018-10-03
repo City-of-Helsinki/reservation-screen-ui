@@ -218,7 +218,7 @@ const makeSelectIsResourceAvailable = () =>
 /**
  * Get list of free slots.
  */
-const makeSelectFreeSlots = () =>
+const makeSelectFreeSlots = amount =>
   createSelector(selectHome, state => {
     // Get variables from state.
     const resource = state.get('resource');
@@ -257,8 +257,6 @@ const makeSelectFreeSlots = () =>
               new Date(reservation.get('end')).getTime() >= time,
           );
 
-        //console.log(overlappingReservations);
-
         // Found free minute!
         if (overlappingReservations.size == 0) {
           // New start time.
@@ -277,10 +275,8 @@ const makeSelectFreeSlots = () =>
       freeSlots = freeSlots.filter(
         slot => slot.begin.getTime() >= currentTime.getTime(),
       );
-
-      //console.log(freeSlots);
     }
-    return freeSlots;
+    return freeSlots.slice(0, amount);
   });
 
 const makeSelectScene = () =>
@@ -296,7 +292,6 @@ const makeSelectDate = () =>
 
 export {
   selectHome,
-  //  makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
   makeSelectIsResourceAvailable,

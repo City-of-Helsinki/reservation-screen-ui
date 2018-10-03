@@ -73,7 +73,8 @@ const themeTaken = {
 export class HomePage extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.interval = false;
+    this.clockInterval = false;
+    this.resourceInterval = false;
     this.state = {
       theme: themeAvailableSoon,
       // theme: themeAvailableNow,
@@ -85,24 +86,31 @@ export class HomePage extends React.PureComponent {
     const self = this;
 
     this.props.onLoadReservations();
+    this.resourceInterval = setInterval(() => {
+      this.props.onLoadReservations();
+    }, 10000);
 
     // Get clock parameter from address line. For debugging.
     // Do not update clock.
     if (window.location.toString().match(/date=/)) {
-      const forceDate = window.location.toString().replace(/.*date=/, '');
+      const forceDate = window.location
+        .toString()
+        .replace(/.*date=/, '')
+        .replace(/&.*/, '');
       this.props.onUpdateClock(new Date(forceDate));
     }
     // Init clock and update every minute.
     else {
       this.props.onUpdateClock(new Date());
-      this.interval = setInterval(() => {
+      this.clockInterval = setInterval(() => {
         this.props.onUpdateClock(new Date());
       }, 1000);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.clockInterval);
+    clearInterval(this.resourceInterval);
   }
 
   render() {

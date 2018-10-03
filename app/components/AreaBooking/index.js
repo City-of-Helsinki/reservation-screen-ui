@@ -80,7 +80,7 @@ export function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = createStructuredSelector({
   scene: makeSelectScene(),
-  freeSlots: makeSelectFreeSlots(),
+  freeSlots: makeSelectFreeSlots(4),
   selectedSlot: makeSelectSelectedSlot(),
 });
 

@@ -29,6 +29,12 @@ If you don't want to install node you can run it inside Docker:
 You can override current time with url parameter:
 http://127.0.0.1/?date=2018-09-17T11:15:00+03:00
 
+You can also load local json-files:
+http://127.0.0.1/?resourceId=resources.json
+
+Or both:
+http://127.0.0.1/?date=2018-09-17T11:15:00+03:00&resourceId=resources.json
+
 ## Technology stack
 
 This app is built on top of React Boilerplate 3.6.0. Key tools & libraries:
