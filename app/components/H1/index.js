@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
+const demoFontSize = '60px';
+
 const H1 = styled.h1`
-	font-size: 60px;
-	letter-spacing: -0.02em;
+	font-size: 100px;
+	font-size: ${demoFontSize};
 	line-height: 1;
 	margin-top: 0;
 	margin-bottom: 0;

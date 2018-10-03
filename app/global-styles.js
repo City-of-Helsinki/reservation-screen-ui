@@ -1,15 +1,20 @@
 import { injectGlobal } from 'styled-components';
-import { HelsinkiGroteskRegularWoff } from './fonts/HelsinkiGrotesk-Regular.woff';
-import { HelsinkiGroteskRegularTtf } from './fonts/Mali-Bold.ttf'; // testing files
-
+import Woff from './fonts/HelsinkiGrotesk-Regular.woff';
+import WoffBold from './fonts/HelsinkiGrotesk-Bold.woff';
 /* eslint no-unused-expressions: 0 */
 injectGlobal`
 
   @font-face {
     font-family: "HelsinkiGroteskRegular";
-    url("./fonts/IndieFlower.ttf") format("truetype"),
-    url(${HelsinkiGroteskRegularWoff}) format("woff");
+    src: url(${Woff}) format("woff");
     font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "HelsinkiGroteskRegular";
+    src: url(${WoffBold}) format("woff");
+    font-weight: 700;
     font-style: normal;
   }
 
@@ -24,7 +29,7 @@ injectGlobal`
   }
 
   body.fontLoaded {
-    font-family: HelsinkiGroteskRegular, 'Open Sans', sans-serif;
+    font-family: HelsinkiGroteskRegular, Times, 'Open Sans', sans-serif;
   }
 
   .bg-green {
@@ -42,7 +47,7 @@ injectGlobal`
   }
 
   .fontLoaded h2 {
-    letter-spacing: -2px;
+    
   }
 
   p,
