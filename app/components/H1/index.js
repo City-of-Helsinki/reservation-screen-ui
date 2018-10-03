@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const demoFontSize = '60px';
+const demoFontSize = '80px';
 
 const H1 = styled.h1`
 	font-size: 100px;
