@@ -1,14 +1,16 @@
 import {
   CHANGE_USERNAME,
-  INIT_CLOCK,
+  UPDATE_CLOCK,
   LOAD_RESERVATIONS,
   LOAD_RESERVATIONS_SUCCESS,
   LOAD_RESERVATIONS_ERROR,
+  CHANGE_SCENE,
+  CHANGE_SLOT,
 } from './constants';
 
-export function initClock(date) {
+export function updateClock(date) {
   return {
-    type: INIT_CLOCK,
+    type: UPDATE_CLOCK,
     date,
   };
 }
@@ -20,9 +22,23 @@ export function changeUsername(name) {
   };
 }
 
+export function changeSlot(selectedSlot) {
+  return {
+    type: CHANGE_SLOT,
+    selectedSlot,
+  };
+}
+
 export function loadReservations() {
   return {
     type: LOAD_RESERVATIONS,
+  };
+}
+
+export function changeScene(scene) {
+  return {
+    type: CHANGE_SCENE,
+    scene,
   };
 }
 

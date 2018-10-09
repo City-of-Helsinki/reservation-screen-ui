@@ -6,16 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  resourceIsFree: {
-    id: 'boilerplate.components.AreaStatus.area.resourceIsFree',
+  resourceIsAvailable: {
+    id: 'AreaStatus.area.resourceIsAvailable',
     defaultMessage: 'Tila on vapaa',
   },
-  resourceIsNotFree: {
-    id: 'boilerplate.components.AreaStatus.area.resourceIsNotFree',
+  resourceIsNotAvailable: {
+    id: 'AreaStatus.area.resourceIsNotAvailable',
     defaultMessage: 'Tila on varattu',
-  },
-  areaOccupiedUntil: {
-    id: 'boilerplate.components.AreaStatus.area.until',
-    defaultMessage: 'Klo {time} saakka',
   },
 });

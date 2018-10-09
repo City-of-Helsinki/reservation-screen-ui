@@ -30,18 +30,19 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 import { loadRepos } from '../App/actions';
-import { loadReservations, initClock } from './actions';
+import { loadReservations, updateClock } from './actions';
 import {
   makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
-  makeSelectIsResourceFree,
+  makeSelectNextAvailableTime,
+  makeSelectIsResourceAvailable,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
 import styled, { ThemeProvider } from 'styled-components';
-import Booking from 'layouts/Booking';
+import Booking from 'components/Booking';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -55,7 +56,6 @@ const themeAvailableNow = {
   secondaryColor: '#effbf2',
   bgImage: BackgroundImage,
 };
-
 const themeAvailableSoon = {
   // vapautuu kohta
   primaryColor: '#f7d366',
@@ -73,6 +73,8 @@ const themeTaken = {
 export class HomePage extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.clockInterval = false;
+    this.resourceInterval = false;
     this.state = {
       theme: themeAvailableSoon,
       // theme: themeAvailableNow,
@@ -84,7 +86,31 @@ export class HomePage extends React.PureComponent {
     const self = this;
 
     this.props.onLoadReservations();
-    //    this.props.onInitClock(new Date());
+    this.resourceInterval = setInterval(() => {
+      this.props.onLoadReservations();
+    }, 10000);
+
+    // Get clock parameter from address line. For debugging.
+    // Do not update clock.
+    if (window.location.toString().match(/date=/)) {
+      const forceDate = window.location
+        .toString()
+        .replace(/.*date=/, '')
+        .replace(/&.*/, '');
+      this.props.onUpdateClock(new Date(forceDate));
+    }
+    // Init clock and update every minute.
+    else {
+      this.props.onUpdateClock(new Date());
+      this.clockInterval = setInterval(() => {
+        this.props.onUpdateClock(new Date());
+      }, 1000);
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.clockInterval);
+    clearInterval(this.resourceInterval);
   }
 
   render() {
@@ -100,8 +126,14 @@ export class HomePage extends React.PureComponent {
       repos,
     };
 
+    // Choose theme based on availability.
+    let theme = themeAvailableNow;
+    if (!this.props.isResourceAvailable) {
+      theme = themeTaken;
+    }
+
     return (
-      <ThemeProvider theme={this.state.theme}>
+      <ThemeProvider theme={theme}>
         <Article>
           <Helmet>
             <title>Home</title>
@@ -110,7 +142,7 @@ export class HomePage extends React.PureComponent {
           <Booking
             upcomingReservations={this.props.upcomingReservations}
             resourceName={this.props.resourceName}
-            isResourceFree={this.props.isResourceFree}
+            isResourceAvailable={this.props.isResourceAvailable}
           />
         </Article>
       </ThemeProvider>
@@ -133,8 +165,8 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
-    onInitClock: evt => dispatch(initClock),
-    onLoadReservations: evt => dispatch(loadReservations),
+    onUpdateClock: date => dispatch(updateClock(date)),
+    onLoadReservations: evt => dispatch(loadReservations()),
   };
 }
 
@@ -142,15 +174,10 @@ const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  upcomingReservations: makeUpcomingReservations(
-    new Date('2018-09-17T08:00:00+03:00'),
-    3,
-  ),
-  isResourceFree: makeSelectIsResourceFree(
-    new Date('2018-09-17T08:00:00+03:00'),
-  ),
+  upcomingReservations: makeUpcomingReservations(3),
+  isResourceAvailable: makeSelectIsResourceAvailable(),
   resourceName: makeSelectResourceName(),
-  //  freeSlots: makeFreeSlots(),
+  //nextAvailableTime: makeSelectNextAvailableTime(),
 });
 
 const withConnect = connect(

@@ -2,8 +2,18 @@ import React from 'react';
 import Wrapper from './Wrapper';
 import Upcoming from 'components/Upcoming';
 import Clock from 'components/Clock';
-import Content from './Content';
+import Status from 'components/Status';
 import messages from './messages';
+
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+
+import {
+  makeSelectDate,
+  makeSelectNextAvailableTime,
+  makeSelectAvailableUntil,
+} from 'containers/HomePage/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {
@@ -14,10 +24,12 @@ class AreaStatus extends React.Component {
   render() {
     return (
       <Wrapper>
-        <Clock />
-        <Content
+        <Clock date={this.props.date} />
+        <Status
           resourceName={this.props.resourceName}
-          isResourceFree={this.props.isResourceFree}
+          nextAvailableTime={this.props.nextAvailableTime}
+          availableUntil={this.props.availableUntil}
+          isResourceAvailable={this.props.isResourceAvailable}
         />
         <Upcoming upcomingReservations={this.props.upcomingReservations} />
       </Wrapper>
@@ -25,4 +37,12 @@ class AreaStatus extends React.Component {
   }
 }
 
-export default AreaStatus;
+const mapStateToProps = createStructuredSelector({
+  date: makeSelectDate(),
+  nextAvailableTime: makeSelectNextAvailableTime(),
+  availableUntil: makeSelectAvailableUntil(),
+});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect)(AreaStatus);

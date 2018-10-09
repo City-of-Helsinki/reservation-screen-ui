@@ -14,22 +14,30 @@ import { fromJS } from 'immutable';
 import {
   CHANGE_USERNAME,
   LOAD_RESERVATIONS_SUCCESS,
-  INIT_CLOCK,
+  UPDATE_CLOCK,
+  CHANGE_SCENE,
+  CHANGE_SLOT,
 } from './constants';
 
 // The initial state of the App
 export const initialState = fromJS({
   username: '',
-  currentTime: false,
+  date: new Date(),
   resource: null,
+  scene: 'Start',
+  selectedSlot: false,
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
-    case INIT_CLOCK:
+    case UPDATE_CLOCK:
       return state.set('date', action.date);
     case LOAD_RESERVATIONS_SUCCESS:
       return state.set('resource', fromJS(action.resource));
+    case CHANGE_SCENE:
+      return state.set('scene', action.scene);
+    case CHANGE_SLOT:
+      return state.set('selectedSlot', action.selectedSlot);
     default:
       return state;
   }

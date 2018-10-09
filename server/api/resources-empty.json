@@ -42,64 +42,7 @@
       "closes": "2018-09-17T20:00:00+03:00"
     }
   ],
-  "reservations": [
-    {
-      "url": "https://api.hel.fi/respa/v1/reservation/213498/",
-      "id": 213498,
-      "resource": "avtzqtz3bsca",
-      "begin": "2018-09-17T08:00:00+03:00",
-      "end": "2018-09-17T09:00:00+03:00",
-      "is_own": false,
-      "state": "confirmed",
-      "need_manual_confirmation": false,
-      "user_permissions": {
-        "can_delete": false,
-        "can_modify": false
-      }
-    },
-    {
-      "url": "https://api.hel.fi/respa/v1/reservation/222535/",
-      "id": 222535,
-      "resource": "avtzqtz3bsca",
-      "begin": "2018-09-17T11:00:00+03:00",
-      "end": "2018-09-17T15:00:00+03:00",
-      "is_own": false,
-      "state": "confirmed",
-      "need_manual_confirmation": false,
-      "user_permissions": {
-        "can_delete": false,
-        "can_modify": false
-      }
-    },
-    {
-      "url": "https://api.hel.fi/respa/v1/reservation/211689/",
-      "id": 211689,
-      "resource": "avtzqtz3bsca",
-      "begin": "2018-09-17T15:00:00+03:00",
-      "end": "2018-09-17T18:00:00+03:00",
-      "is_own": false,
-      "state": "confirmed",
-      "need_manual_confirmation": false,
-      "user_permissions": {
-        "can_delete": false,
-        "can_modify": false
-      }
-    },
-    {
-      "url": "https://api.hel.fi/respa/v1/reservation/223372/",
-      "id": 223372,
-      "resource": "avtzqtz3bsca",
-      "begin": "2018-09-17T18:00:00+03:00",
-      "end": "2018-09-17T20:00:00+03:00",
-      "is_own": false,
-      "state": "confirmed",
-      "need_manual_confirmation": false,
-      "user_permissions": {
-        "can_delete": false,
-        "can_modify": false
-      }
-    }
-  ],
+  "reservations": [],
   "user_permissions": {
     "is_admin": false,
     "can_make_reservations": true,

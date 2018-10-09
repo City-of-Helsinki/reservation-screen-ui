@@ -7,12 +7,12 @@ import Icon from 'components/Icon';
 
 const messages = defineMessages({
 	cancel: {
-		id: 'boilerplate.components.SceneCancel.link.cancel',
-		defaultMessage: 'Takaisin alkuun',
+		id: 'boilerplate.components.SceneVerify.link.cancel',
+		defaultMessage: 'Valmis',
 	},
 	title: {
-		id: 'boilerplate.components.SceneCancel.title',
-		defaultMessage: 'Varaus peruttu',
+		id: 'boilerplate.components.SceneVerify.title',
+		defaultMessage: 'Varaus onnistui!',
 	},
 });
 
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 	display: block;
 `;
 
-class SceneCancel extends React.Component {
+class SceneVerify extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -28,7 +28,7 @@ class SceneCancel extends React.Component {
 	render() {
 		return (
 			<Wrapper>
-				<Icon />
+				<Icon verified />
 				<H3>
 					<FormattedMessage {...messages.title} />
 				</H3>
@@ -40,4 +40,4 @@ class SceneCancel extends React.Component {
 	}
 }
 
-export default SceneCancel;
+export default SceneVerify;

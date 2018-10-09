@@ -7,7 +7,24 @@ import { resourceLoaded, resourceLoadingError } from './actions';
  * Load resource from API.
  */
 export function* getReservations() {
-  const requestURL = `/api/resources.json`;
+  // By default use local file.
+  let requestURL = `/api/resources.json`;
+
+  if (window.location.toString().match(/resourceId=/)) {
+    const resourceId = window.location
+      .toString()
+      .replace(/.*resourceId=/, '')
+      .replace(/&.*/, '');
+
+    console.log(resourceId);
+
+    // If id has "json" in it's name, use local file.
+    if (resourceId.match(/\.json/)) {
+      requestURL = `/api/${resourceId}`;
+    } else {
+      // USE API
+    }
+  }
 
   try {
     const resource = yield call(request, requestURL);
