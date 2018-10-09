@@ -18,7 +18,6 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 
-
 const AppWrapper = styled.div`
   margin: 0 auto;
   display: flex;
@@ -31,10 +30,7 @@ const AppWrapper = styled.div`
 export default function App() {
   return (
     <AppWrapper>
-      <Helmet
-        titleTemplate="%s - Oodi"
-        defaultTitle="React.js Boilerplate"
-      >
+      <Helmet titleTemplate="%s - Oodi" defaultTitle="React.js Boilerplate">
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
       <Switch>

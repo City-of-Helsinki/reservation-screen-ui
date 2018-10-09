@@ -84,7 +84,7 @@ export class HomePage extends React.PureComponent {
     const self = this;
 
     this.props.onLoadReservations();
-    this.props.onInitClock(new Date());
+    //    this.props.onInitClock(new Date());
   }
 
   render() {
