@@ -5,20 +5,16 @@ import LocaleToggle from 'containers/LocaleToggle';
 import Confirm from 'components/Confirm';
 import Timer from 'components/Timer';
 import { createStructuredSelector } from 'reselect';
-
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-
 import injectReducer from 'utils/injectReducer';
 import SceneStart from 'components/SceneStart';
 import SceneCancel from 'components/SceneCancel';
 import SceneAction from 'components/SceneAction';
 import SceneVerify from 'components/SceneVerify';
-
 import reducer from 'containers/HomePage/reducer';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import messages from './messages';
-
 import {
   makeSelectScene,
   makeSelectFreeSlots,
