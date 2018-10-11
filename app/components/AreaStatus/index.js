@@ -4,14 +4,11 @@ import Upcoming from 'components/Upcoming';
 import Clock from 'components/Clock';
 import Status from 'components/Status';
 import SlideUpContent from 'components/SlideUpContent';
-
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-
 import {
   makeSelectDate,
   makeSelectNextAvailableTime,
@@ -22,20 +19,37 @@ import {
 class AreaStatus extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      toggleClass: 'slide-down',
+      isHidden: false,
+    };
   }
+
+  toggleContent = () => {
+    let toggleBool = !this.state.isHidden ? true : false;
+    this.setState({ isHidden: toggleBool });
+  };
 
   render() {
     return (
-      <Wrapper>
-        <Clock date={this.props.date} />
+      <Wrapper className={this.state.toggleClass}>
+        {!this.state.isHidden && (
+          <Clock className={this.state.hideOnToggle} date={this.props.date} />
+        )}
         <Status
           resourceName={this.props.resourceName}
           nextAvailableTime={this.props.nextAvailableTime}
           availableUntil={this.props.availableUntil}
           isResourceAvailable={this.props.isResourceAvailable}
         />
-        <Upcoming upcomingReservations={this.props.upcomingReservations} />
-        <SlideUpContent content={this.props.resourceDescription} />
+        {!this.state.isHidden && (
+          <Upcoming upcomingReservations={this.props.upcomingReservations} />
+        )}
+        <SlideUpContent
+          visible={this.state.isHidden}
+          content={this.props.resourceDescription}
+          onButtonClick={() => this.toggleContent()}
+        />
       </Wrapper>
     );
   }
