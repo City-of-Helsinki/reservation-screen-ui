@@ -12,7 +12,7 @@ import clockStyles from './clockStyles';
 import styled from 'styled-components';
 
 const Span = styled.span`
-  ${clockStyles};
+  font-size: 4vw;
 `;
 
 class Clock extends React.Component {

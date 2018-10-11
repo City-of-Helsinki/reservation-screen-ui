@@ -8,24 +8,53 @@ import styled from 'styled-components';
 
 const ShowMoreButton = styled(ButtonBase)`
 	background: transparent;
-	position: absolute;
-	bottom: 5%;
-	left: 50%;
-	transform: translateX(-50%);
 	white-space: nowrap;
 	font-size: 18px;
+	margin: 20px auto;
 `;
 
-const SlideUpContent = props => {
-	return (
-		<div>
-			<ShowMoreButton>
-				<FormattedMessage {...messages.showMore} />
-			</ShowMoreButton>
+const Wrapper = styled.div`
+	text-align: center;
+	div {
+		text-align: left;
+		overflow-y: scroll;
+		max-height: 0;
+		transition: max-height 0.3s ease-in-out;
 
-			<p>{props.content}</p>
-		</div>
-	);
-};
+		&.slide-up {
+			max-height: 80vh;
+		}
+		&.slide-down {
+			max-height: 0;
+		}
+	}
+`;
+
+class SlideUpContent extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			cssclass: 'slide-down',
+		};
+	}
+
+	toggleContent = () => {
+		console.log(this.state.cssclass);
+		let toggleClass =
+			this.state.cssclass === 'slide-down' ? 'slide-up' : 'slide-down';
+		this.setState({ cssclass: toggleClass });
+	};
+	render() {
+		return (
+			<Wrapper>
+				<ShowMoreButton onClick={() => this.toggleContent()}>
+					<FormattedMessage {...messages.showMore} />
+				</ShowMoreButton>
+
+				<div className={this.state.cssclass}>{this.props.content}</div>
+			</Wrapper>
+		);
+	}
+}
 
 export default SlideUpContent;
