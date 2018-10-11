@@ -191,6 +191,14 @@ const makeSelectResourceName = () =>
   createSelector(selectHome, state => state.getIn(['resource', 'name', 'fi']));
 
 /**
+ *Select resource description
+ */
+const makeSelectResourceDescription = () =>
+  createSelector(selectHome, state =>
+    state.getIn(['resource', 'description', 'fi']),
+  );
+
+/**
  * Return true is the space is open right now.
  */
 const makeSelectIsResourceAvailable = () =>
@@ -294,6 +302,7 @@ export {
   selectHome,
   makeUpcomingReservations,
   makeSelectResourceName,
+  makeSelectResourceDescription,
   makeSelectIsResourceAvailable,
   makeSelectDate,
   makeSelectScene,
