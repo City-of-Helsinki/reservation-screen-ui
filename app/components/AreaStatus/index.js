@@ -14,7 +14,6 @@ import {
   makeSelectNextAvailableTime,
   makeSelectAvailableUntil,
 } from 'containers/HomePage/selectors';
-import toggleElement from 'utils/toggleElement';
 
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {
@@ -34,21 +33,20 @@ class AreaStatus extends React.Component {
   render() {
     return (
       <Wrapper className={this.state.toggleClass}>
-        {!this.state.isHidden && (
-          <Clock className={this.state.hideOnToggle} date={this.props.date} />
-        )}
+        <Clock className={this.state.isHidden} date={this.props.date} />
+
         <Status
           resourceName={this.props.resourceName}
           nextAvailableTime={this.props.nextAvailableTime}
           availableUntil={this.props.availableUntil}
           isResourceAvailable={this.props.isResourceAvailable}
         />
-        {!this.state.isHidden && (
-          <Upcoming
-            className={() => this.toggleElement()}
-            upcomingReservations={this.props.upcomingReservations}
-          />
-        )}
+
+        <Upcoming
+          className={this.state.isHidden}
+          upcomingReservations={this.props.upcomingReservations}
+        />
+
         <SlideUpContent
           visible={this.state.isHidden}
           content={this.props.resourceDescription}

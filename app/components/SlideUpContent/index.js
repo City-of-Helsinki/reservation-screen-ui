@@ -49,7 +49,10 @@ class SlideUpContent extends React.Component {
 					)}
 				</ShowMoreButton>
 
-				<Div className={this.state.cssClass}>{this.props.content}</Div>
+				<Div className={this.state.cssClass}>
+					{this.props.content}
+					{this.props.content}
+				</Div>
 			</Wrapper>
 		);
 	}

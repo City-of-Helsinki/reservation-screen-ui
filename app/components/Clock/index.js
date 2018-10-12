@@ -8,8 +8,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Wrapper from './Wrapper';
-import clockStyles from './clockStyles';
 import styled from 'styled-components';
+import { toggleDisplayClass } from 'utils/toggleDisplayClass';
 
 const Span = styled.span`
   font-size: 4vw;
@@ -20,16 +20,12 @@ class Clock extends React.Component {
     super(props);
   }
 
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
   render() {
     let hours = this.props.date.getHours();
     let mins = this.props.date.getMinutes();
 
     return (
-      <Wrapper className="c-clock">
+      <Wrapper className={toggleDisplayClass(this.props.className)}>
         <Span>
           {hours < 10 ? '0' : ''}
           {hours}:

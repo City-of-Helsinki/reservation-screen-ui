@@ -5,11 +5,16 @@ import List from 'components/List';
 import ListItem from 'components/ListItem';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import { toggleDisplayClass } from 'utils/toggleDisplayClass';
 
 const H4 = styled.h4`
   font-size: 18px;
   font-weight: normal;
   margin: 0 0 10px;
+`;
+
+const Div = styled.div`
+  display: block;
 `;
 
 const maxNum = 3;
@@ -21,9 +26,9 @@ class Upcoming extends React.Component {
 
   render() {
     return (
-      <div className="c-upcoming">
+      <Div>
         {this.props.upcomingReservations.size > 0 && (
-          <div>
+          <Div className={toggleDisplayClass(this.props.className)}>
             <H4>
               <FormattedMessage {...messages.title} />
             </H4>
@@ -32,9 +37,9 @@ class Upcoming extends React.Component {
               items={this.props.upcomingReservations}
               component={ListItem}
             />
-          </div>
+          </Div>
         )}
-      </div>
+      </Div>
     );
   }
 }
