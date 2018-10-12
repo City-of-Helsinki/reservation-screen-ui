@@ -8,6 +8,10 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
 	showMore: {
 		id: 'AreaStatus.ShowMoreButton.text',
-		defaultMessage: 'Tilan tarkemmat tiedot',
+		defaultMessage: 'Tilan tiedot',
+	},
+	hideMore: {
+		id: 'AreaStatus.ShowMoreButton.text',
+		defaultMessage: 'Piilota tiedot',
 	},
 });

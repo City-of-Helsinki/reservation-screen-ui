@@ -1,8 +1,7 @@
 import React from 'react';
-
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-
+import Wrapper from './Wrapper';
 import ButtonBase from 'components/BasicButton';
 import styled from 'styled-components';
 
@@ -13,20 +12,9 @@ const ShowMoreButton = styled(ButtonBase)`
 	margin: 20px auto;
 `;
 
-const Wrapper = styled.div`
-	text-align: center;
-	div {
-		text-align: left;
-		overflow-y: scroll;
-		max-height: 0;
-		transition: max-height 0.5s ease-in-out;
-		&.slide-up {
-			max-height: 50vh;
-		}
-		&.slide-down {
-			max-height: 0;
-		}
-	}
+const Div = styled.div`
+	font-size: 18px;
+	line-height: 24px;
 `;
 
 class SlideUpContent extends React.Component {
@@ -41,27 +29,27 @@ class SlideUpContent extends React.Component {
 		if (this.props.visible !== prevProps.visible) {
 			this.checkSlideState(this.props.visible);
 		}
-		// this.checkSlideState(this.props.visible);
 	}
 
 	checkSlideState = bool => {
-		let c = '';
-		bool ? (c = 'slide-up') : (c = 'slide-down');
+		let slideClass = '';
+		bool ? (slideClass = 'slide-up') : (slideClass = 'slide-down');
 
-		this.setState({ cssClass: c });
+		this.setState({ cssClass: slideClass });
 	};
 
 	render() {
 		return (
-			<Wrapper>
+			<Wrapper className={this.state.cssClass}>
 				<ShowMoreButton onClick={this.props.onButtonClick}>
-					<FormattedMessage {...messages.showMore} />
+					{!this.props.visible ? (
+						<FormattedMessage {...messages.showMore} />
+					) : (
+						<FormattedMessage {...messages.hideMore} />
+					)}
 				</ShowMoreButton>
 
-				<div className={this.state.cssClass}>
-					{this.props.content}
-					{this.props.content}
-				</div>
+				<Div className={this.state.cssClass}>{this.props.content}</Div>
 			</Wrapper>
 		);
 	}
