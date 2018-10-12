@@ -47,11 +47,13 @@ class AreaStatus extends React.Component {
           upcomingReservations={this.props.upcomingReservations}
         />
 
-        <SlideUpContent
-          visible={this.state.isHidden}
-          content={this.props.resourceDescription}
-          onButtonClick={() => this.toggleContent()}
-        />
+        {this.props.resourceDescription && (
+          <SlideUpContent
+            visible={this.state.isHidden}
+            content={this.props.resourceDescription}
+            onButtonClick={() => this.toggleContent()}
+          />
+        )}
       </Wrapper>
     );
   }
