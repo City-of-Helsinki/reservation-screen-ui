@@ -31,6 +31,16 @@ class SlideUpContent extends React.Component {
 		}
 	}
 
+	stylizedContent = () => {
+		let textBlock = this.props.content;
+		let stylizedTextBlock = textBlock.replace(/(?:\r\n|\r|\n)/g, '<br>');
+		let htmlText = textBlock.split(/(?:\r\n|\r|\n)/g);
+		let paragraphs = htmlText.length;
+		console.log(paragraphs);
+		return { __html: stylizedTextBlock };
+		// return { __html: stylizedTextBlock };
+	};
+
 	checkSlideState = bool => {
 		let slideClass = '';
 		bool ? (slideClass = 'slide-up') : (slideClass = 'slide-down');
@@ -39,6 +49,8 @@ class SlideUpContent extends React.Component {
 	};
 
 	render() {
+		let text = this.stylizedContent();
+
 		return (
 			<Wrapper className={this.state.cssClass}>
 				<ShowMoreButton onClick={this.props.onButtonClick}>
@@ -49,10 +61,10 @@ class SlideUpContent extends React.Component {
 					)}
 				</ShowMoreButton>
 
-				<Div className={this.state.cssClass}>
-					{this.props.content}
-					{this.props.content}
-				</Div>
+				<Div
+					className={this.state.cssClass}
+					dangerouslySetInnerHTML={text}
+				/>
 			</Wrapper>
 		);
 	}
