@@ -25,33 +25,28 @@ class Status extends React.Component {
     return (
       <Wrapper>
         <H1>{this.props.resourceName}</H1>
-
-        {this.props.isResourceAvailable && (
-          <P>
-            <FormattedMessage {...messages.resourceIsAvailable} />
-          </P>
-        )}
         {showAvailableUntil && (
-          <H2>
+          <P className="sau">
             <FormattedMessage {...messages.availableUntilClock} />
             <FormattedTime date={this.props.availableUntil} />
             <FormattedMessage {...messages.availableUntilUntil} />
-          </H2>
+          </P>
         )}
 
         {!this.props.isResourceAvailable && (
           <div>
-            <P>
+            <P className="ira">
               <FormattedMessage {...messages.resourceIsNotAvailable} />
             </P>
           </div>
         )}
+
         {showNextAvailableTime && (
-          <H2>
+          <P className="snat">
             <FormattedMessage {...messages.nextAvailableTimeClock} />
             <FormattedTime date={this.props.nextAvailableTime} />
             <FormattedMessage {...messages.nextAvailableTimeUntil} />
-          </H2>
+          </P>
         )}
       </Wrapper>
     );

@@ -7,9 +7,9 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 const H4 = styled.h4`
-  font-size: 28px;
+  font-size: 18px;
   font-weight: normal;
-  margin: 0;
+  margin: 0 0 10px;
 `;
 
 const maxNum = 3;

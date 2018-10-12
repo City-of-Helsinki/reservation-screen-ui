@@ -6,7 +6,7 @@
   "boilerplate.components.AreaStatus.area.resourceIsFree": "Tila on vapaa",
   "boilerplate.components.AreaStatus.area.resourceIsNotFree": "Tila on varattu",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
-  "boilerplate.components.AreaStatus.area.clock": "klo ",
+  "boilerplate.components.AreaStatus.area.clock": "Vapaa klo ",
   "boilerplate.components.AreaStatus.area.until": " saakka",
   "boilerplate.components.AreaBooking.booking.title": "Varaa tila",
   "boilerplate.components.AreaBooking.confirm.title": "Vahvista varaus",
