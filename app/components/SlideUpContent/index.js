@@ -5,6 +5,7 @@ import Wrapper from './Wrapper';
 import ButtonBase from 'components/BasicButton';
 import styled from 'styled-components';
 import P from 'components/P';
+import Chevron from 'components/Chevron';
 
 const ShowMoreButton = styled(ButtonBase)`
 	background: transparent;
@@ -42,10 +43,7 @@ class SlideUpContent extends React.Component {
 		let stylizedTextBlock = textBlock.replace(/(?:\r\n|\r|\n)/g, '<br>');
 		let htmlText = textBlock.split(/(?:\r\n|\r|\n)/g);
 		let paragraphs = htmlText.length;
-
 		this.setState({ items: htmlText });
-
-		// return { __html: stylizedTextBlock };
 	}
 
 	checkSlideState = bool => {
@@ -57,15 +55,20 @@ class SlideUpContent extends React.Component {
 
 	render() {
 		let textItems = this.state.items;
-		console.log(textItems);
 
 		return (
 			<Wrapper className={this.state.cssClass}>
 				<ShowMoreButton onClick={this.props.onButtonClick}>
 					{!this.props.visible ? (
-						<FormattedMessage {...messages.showMore} />
+						<span>
+							<FormattedMessage {...messages.showMore} />
+							<Chevron className="up" />
+						</span>
 					) : (
-						<FormattedMessage {...messages.hideMore} />
+						<span>
+							<FormattedMessage {...messages.hideMore} />
+							<Chevron className="down" />
+						</span>
 					)}
 				</ShowMoreButton>
 
