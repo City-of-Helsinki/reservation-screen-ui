@@ -4,6 +4,7 @@ import messages from './messages';
 import Wrapper from './Wrapper';
 import ButtonBase from 'components/BasicButton';
 import styled from 'styled-components';
+import P from 'components/P';
 
 const ShowMoreButton = styled(ButtonBase)`
 	background: transparent;
@@ -15,6 +16,10 @@ const ShowMoreButton = styled(ButtonBase)`
 const Div = styled.div`
 	font-size: 18px;
 	line-height: 24px;
+
+	p:empty {
+		display: none;
+	}
 `;
 
 class SlideUpContent extends React.Component {
@@ -22,6 +27,7 @@ class SlideUpContent extends React.Component {
 		super(props);
 		this.state = {
 			cssClass: 'slide-down',
+			items: [],
 		};
 	}
 
@@ -31,15 +37,16 @@ class SlideUpContent extends React.Component {
 		}
 	}
 
-	stylizedContent = () => {
+	componentWillMount() {
 		let textBlock = this.props.content;
 		let stylizedTextBlock = textBlock.replace(/(?:\r\n|\r|\n)/g, '<br>');
 		let htmlText = textBlock.split(/(?:\r\n|\r|\n)/g);
 		let paragraphs = htmlText.length;
-		console.log(paragraphs);
-		return { __html: stylizedTextBlock };
+
+		this.setState({ items: htmlText });
+
 		// return { __html: stylizedTextBlock };
-	};
+	}
 
 	checkSlideState = bool => {
 		let slideClass = '';
@@ -49,7 +56,8 @@ class SlideUpContent extends React.Component {
 	};
 
 	render() {
-		let text = this.stylizedContent();
+		let textItems = this.state.items;
+		console.log(textItems);
 
 		return (
 			<Wrapper className={this.state.cssClass}>
@@ -61,10 +69,9 @@ class SlideUpContent extends React.Component {
 					)}
 				</ShowMoreButton>
 
-				<Div
-					className={this.state.cssClass}
-					dangerouslySetInnerHTML={text}
-				/>
+				<Div className={this.state.cssClass}>
+					{textItems.map(item => <P>{item}</P>)}
+				</Div>
 			</Wrapper>
 		);
 	}
