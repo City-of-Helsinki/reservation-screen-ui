@@ -12,7 +12,7 @@ const selectHome = state => state.get('home', initialState);
 /**
  * Select list of free slots.
  */
-//const makeFreeSlots = () =>
+// const makeFreeSlots = () =>
 //  createSelector(selectHome, state => state.get('reservations'));
 
 /**
@@ -193,7 +193,7 @@ const makeSelectNextAvailableTime = () =>
         freeSlot.getTime() < closes.getTime(),
     );
 
-    return nextAvailableTime ? nextAvailableTime : false;
+    return nextAvailableTime || false;
   });
 
 /**
@@ -252,7 +252,7 @@ const makeSelectFreeSlots = amount =>
     const minPeriod = state.get('min_period');
     const currentTime = state.get('date');
     let freeSlots = [];
-    const minPeriodMilliseconds = new Date('1970-01-01T' + minPeriod + 'Z');
+    const minPeriodMilliseconds = new Date(`1970-01-01T${minPeriod}Z`);
 
     if (resource) {
       const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
@@ -272,11 +272,9 @@ const makeSelectFreeSlots = amount =>
         // Current time.
         const time = opens.getTime() + i * 60000;
         const timeObj = new Date(time);
-        //console.log(timeObj);
-        //console.log(timeObj.getMinutes());
 
         // Find overlapping reservations.
-        let overlappingReservations = [];
+        let overlappingReservations = fromJS([]);
         if (reservations)
           overlappingReservations = reservations.filter(
             reservation =>
@@ -313,9 +311,7 @@ const makeSelectSelectedSlot = () =>
   createSelector(selectHome, homeState => homeState.get('selectedSlot'));
 
 const makeSelectDate = () =>
-  createSelector(selectHome, homeState => {
-    return homeState.get('date');
-  });
+  createSelector(selectHome, homeState => homeState.get('date'));
 
 export {
   selectHome,

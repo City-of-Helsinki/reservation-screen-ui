@@ -50,24 +50,22 @@ export function* makeReservation() {
 
   // Expect date objects.
   if (
-    typeof currentSlot.begin != 'object' ||
-    typeof currentSlot.end != 'object'
+    typeof currentSlot.begin !== 'object' ||
+    typeof currentSlot.end !== 'object'
   ) {
     return false;
   }
 
   // Data to send.
   const data = {
-    begin:
-      dateFormat(currentSlot.begin, 'yyyy-mm-dd') +
-      'T' +
-      dateFormat(currentSlot.begin, 'HH:MM:ss.000') +
-      'Z',
-    end:
-      dateFormat(currentSlot.end, 'yyyy-mm-dd') +
-      'T' +
-      dateFormat(currentSlot.end, 'HH:MM:ss.000') +
-      'Z',
+    begin: `${dateFormat(currentSlot.begin, 'yyyy-mm-dd')}T${dateFormat(
+      currentSlot.begin,
+      'HH:MM:ss.000',
+    )}Z`,
+    end: `${dateFormat(currentSlot.end, 'yyyy-mm-dd')}T${dateFormat(
+      currentSlot.end,
+      'HH:MM:ss.000',
+    )}Z`,
     resource: resourceId,
   };
 
