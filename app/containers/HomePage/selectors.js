@@ -25,7 +25,11 @@ const makeUpcomingReservations = amount =>
     const date = state.get('date');
 
     // Continue only if resource exists and has reservations.
-    if (resource && resource.has('reservations')) {
+    if (
+      resource &&
+      resource.has('reservations') &&
+      resource.get('reservations')
+    ) {
       // Get list of upcoming reservations.
       const futureReservations = resource
         .get('reservations')
@@ -60,7 +64,11 @@ const makeSelectAvailableUntil = () =>
     const currentTime = state.get('date');
 
     // Continue if we have reservations.
-    if (resource.has('reservations') && resource.get('reservations').size > 0) {
+    if (
+      resource.has('reservations') &&
+      resource.get('reservations') &&
+      resource.get('reservations').size > 0
+    ) {
       // Just a shortcut here...
       const reservations = resource.get('reservations');
 
@@ -121,7 +129,11 @@ const makeSelectNextAvailableTime = () =>
     const freeSlots = [];
 
     // Continue if we have reservations.
-    if (resource.has('reservations') && resource.get('reservations').size > 0) {
+    if (
+      resource.has('reservations') &&
+      resource.get('reservations') &&
+      resource.get('reservations').size > 0
+    ) {
       // Just a shortcut here...
       const reservations = resource.get('reservations');
 
@@ -190,6 +202,9 @@ const makeSelectNextAvailableTime = () =>
 const makeSelectResourceName = () =>
   createSelector(selectHome, state => state.getIn(['resource', 'name', 'fi']));
 
+const makeSelectResourceId = () =>
+  createSelector(selectHome, state => state.getIn(['resource', 'id']));
+
 /**
  *Select resource description
  */
@@ -208,7 +223,11 @@ const makeSelectIsResourceAvailable = () =>
     const date = state.get('date');
 
     // Continue only if resource exists and has reservations.
-    if (resource && resource.has('reservations')) {
+    if (
+      resource &&
+      resource.has('reservations') &&
+      resource.get('reservations')
+    ) {
       // Get list of current.
       const currentReservations = resource
         .get('reservations')
@@ -220,7 +239,7 @@ const makeSelectIsResourceAvailable = () =>
 
       return !(currentReservations.size > 0);
     }
-    return false;
+    return true;
   });
 
 /**
@@ -301,6 +320,7 @@ const makeSelectDate = () =>
 export {
   selectHome,
   makeUpcomingReservations,
+  makeSelectResourceId,
   makeSelectResourceName,
   makeSelectResourceDescription,
   makeSelectIsResourceAvailable,

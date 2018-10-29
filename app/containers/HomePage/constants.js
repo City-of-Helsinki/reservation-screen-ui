@@ -16,3 +16,7 @@ export const LOAD_RESERVATIONS_ERROR = 'oodi/Home/LOAD_RESERVATIONS_ERROR';
 export const UPDATE_CLOCK = 'oodi/Home/UPDATE_CLOCK';
 export const CHANGE_SCENE = 'oodi/Home/CHANGE_SCENE';
 export const CHANGE_SLOT = 'oodi/Home/CHANGE_SLOT';
+export const MAKE_RESERVATION = 'oodi/Home/MAKE_RESERVATION';
+export const MAKE_RESERVATION_COMPLETED =
+  'oodi/Home/MAKE_RESERVATION_COMPLETED';
+export const MAKE_RESERVATION_ERROR = 'oodi/Home/MAKE_RESERVATION_ERROR';

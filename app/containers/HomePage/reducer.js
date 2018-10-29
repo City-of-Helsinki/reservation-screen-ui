@@ -17,6 +17,8 @@ import {
   UPDATE_CLOCK,
   CHANGE_SCENE,
   CHANGE_SLOT,
+  MAKE_RESERVATION_COMPLETED,
+  MAKE_RESERVATION_ERROR,
 } from './constants';
 
 // The initial state of the App
@@ -38,6 +40,9 @@ function homeReducer(state = initialState, action) {
       return state.set('scene', action.scene);
     case CHANGE_SLOT:
       return state.set('selectedSlot', action.selectedSlot);
+    case MAKE_RESERVATION_ERROR:
+    case MAKE_RESERVATION_COMPLETED:
+      return state.set('scene', 'Start');
     default:
       return state;
   }

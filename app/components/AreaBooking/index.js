@@ -20,7 +20,11 @@ import {
   makeSelectFreeSlots,
   makeSelectSelectedSlot,
 } from 'containers/HomePage/selectors';
-import { changeScene, changeSlot } from 'containers/HomePage/actions';
+import {
+  changeScene,
+  changeSlot,
+  makeReservation,
+} from 'containers/HomePage/actions';
 /* eslint-disable react/prefer-stateless-function */
 
 class AreaBooking extends React.Component {
@@ -48,7 +52,7 @@ class AreaBooking extends React.Component {
             <SceneAction
               onTimesUp={this.props.onChangeSceneToStart}
               selectedSlot={this.props.selectedSlot}
-              onButtonClick={this.props.onChangeSceneToVerify}
+              onButtonClick={this.props.onMakeReservation}
               onCancelClick={this.props.onChangeSceneToCancel}
             />
           )}
@@ -67,6 +71,7 @@ class AreaBooking extends React.Component {
 export function mapDispatchToProps(dispatch) {
   return {
     onSelectSlot: slot => dispatch(changeSlot(slot)),
+    onMakeReservation: () => dispatch(makeReservation()),
     onChangeSceneToStart: () => dispatch(changeScene('Start')),
     onChangeSceneToAction: () => dispatch(changeScene('Action')),
     onChangeSceneToCancel: () => dispatch(changeScene('Cancel')),

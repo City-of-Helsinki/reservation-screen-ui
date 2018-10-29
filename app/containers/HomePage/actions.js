@@ -6,6 +6,9 @@ import {
   LOAD_RESERVATIONS_ERROR,
   CHANGE_SCENE,
   CHANGE_SLOT,
+  MAKE_RESERVATION,
+  MAKE_RESERVATION_COMPLETED,
+  MAKE_RESERVATION_ERROR,
 } from './constants';
 
 export function updateClock(date) {
@@ -52,6 +55,28 @@ export function resourceLoaded(resource) {
 export function resourceLoadingError(error) {
   return {
     type: LOAD_RESERVATIONS_ERROR,
+    error,
+  };
+}
+
+export function makeReservation() {
+  return {
+    type: MAKE_RESERVATION,
+  };
+}
+
+export function makeReservationCompleted(reservation) {
+  console.log('lol');
+  return {
+    type: MAKE_RESERVATION_COMPLETED,
+    reservation,
+  };
+}
+
+export function makeReservationError(error) {
+  console.log('vituiiiks');
+  return {
+    type: MAKE_RESERVATION_ERROR,
     error,
   };
 }
