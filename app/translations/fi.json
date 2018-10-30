@@ -16,5 +16,12 @@
   "boilerplate.components.Confirm.cancel": "Peruuta varaus",
   "boilerplate.components.Confirm.resetLink": "Palaa alkuun",
   "boilerplate.components.Confirm.cancelledTitle": "Varaus peruttu",
-  "boilerplate.components.SceneStart.button.submit": "Varaa"
+  "boilerplate.components.SceneStart.button.submit": "Varaa",
+  "title.book": "Varaa tila",
+  "link.book": "Varaa tila",
+  "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
+  "title.confirm.booking": "Vahvista varaus!",
+  "text.starts.at": "Varauksesi alkaa {br} kello ",
+  "text.ends.at": "Varauksesi loppuu {br} kello ",
+  "link.cancel.booking": "Peruuta varaus"
 }
