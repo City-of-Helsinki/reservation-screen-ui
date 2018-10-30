@@ -6,6 +6,7 @@ import {
   LOAD_RESERVATIONS_ERROR,
   CHANGE_SCENE,
   CHANGE_SLOT,
+  TOGGLE_DESCRIPTION_OPEN,
   MAKE_RESERVATION,
   MAKE_RESERVATION_COMPLETED,
   MAKE_RESERVATION_ERROR,
@@ -15,6 +16,12 @@ export function updateClock(date) {
   return {
     type: UPDATE_CLOCK,
     date,
+  };
+}
+
+export function toggleIsDescriptionOpen() {
+  return {
+    type: TOGGLE_DESCRIPTION_OPEN,
   };
 }
 
@@ -66,7 +73,6 @@ export function makeReservation() {
 }
 
 export function makeReservationCompleted(reservation) {
-  console.log('lol');
   return {
     type: MAKE_RESERVATION_COMPLETED,
     reservation,
@@ -74,7 +80,7 @@ export function makeReservationCompleted(reservation) {
 }
 
 export function makeReservationError(error) {
-  console.log('vituiiiks');
+  console.log(error);
   return {
     type: MAKE_RESERVATION_ERROR,
     error,

@@ -313,6 +313,9 @@ const makeSelectSelectedSlot = () =>
 const makeSelectDate = () =>
   createSelector(selectHome, homeState => homeState.get('date'));
 
+const makeSelectIsDescriptionOpen = () =>
+  createSelector(selectHome, homeState => homeState.get('isDescriptionOpen'));
+
 export {
   selectHome,
   makeUpcomingReservations,
@@ -326,4 +329,5 @@ export {
   makeSelectAvailableUntil,
   makeSelectFreeSlots,
   makeSelectSelectedSlot,
+  makeSelectIsDescriptionOpen,
 };

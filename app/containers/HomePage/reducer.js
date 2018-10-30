@@ -19,6 +19,7 @@ import {
   CHANGE_SLOT,
   MAKE_RESERVATION_COMPLETED,
   MAKE_RESERVATION_ERROR,
+  TOGGLE_DESCRIPTION_OPEN,
 } from './constants';
 
 // The initial state of the App
@@ -28,10 +29,13 @@ export const initialState = fromJS({
   resource: null,
   scene: 'Start',
   selectedSlot: false,
+  idDescriptionOpen: false,
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
+    case TOGGLE_DESCRIPTION_OPEN:
+      return state.set('isDescriptionOpen', !state.get('isDescriptionOpen'));
     case UPDATE_CLOCK:
       return state.set('date', action.date);
     case LOAD_RESERVATIONS_SUCCESS:

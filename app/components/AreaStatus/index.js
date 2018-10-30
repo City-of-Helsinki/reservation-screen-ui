@@ -13,7 +13,9 @@ import {
   makeSelectDate,
   makeSelectNextAvailableTime,
   makeSelectAvailableUntil,
+  makeSelectIsDescriptionOpen,
 } from 'containers/HomePage/selectors';
+import { toggleIsDescriptionOpen } from 'containers/HomePage/actions';
 
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {
@@ -21,19 +23,16 @@ class AreaStatus extends React.Component {
     super(props);
     this.state = {
       toggleClass: 'slide-down',
-      isHidden: false,
     };
   }
-
-  toggleContent = () => {
-    let toggleBool = !this.state.isHidden ? true : false;
-    this.setState({ isHidden: toggleBool });
-  };
 
   render() {
     return (
       <Wrapper className={this.state.toggleClass}>
-        <Clock className={this.state.isHidden} date={this.props.date} />
+        <Clock
+          className={this.props.isDescriptionOpen}
+          date={this.props.date}
+        />
 
         <Status
           resourceName={this.props.resourceName}
@@ -49,9 +48,9 @@ class AreaStatus extends React.Component {
 
         {this.props.resourceDescription && (
           <SlideUpContent
-            visible={this.state.isHidden}
+            visible={this.props.isDescriptionOpen}
             content={this.props.resourceDescription}
-            onButtonClick={() => this.toggleContent()}
+            onButtonClick={() => this.props.onToggleDescriptionOpen()}
           />
         )}
       </Wrapper>
@@ -59,12 +58,22 @@ class AreaStatus extends React.Component {
   }
 }
 
+export function mapDispatchToProps(dispatch) {
+  return {
+    onToggleDescriptionOpen: () => dispatch(toggleIsDescriptionOpen()),
+  };
+}
+
 const mapStateToProps = createStructuredSelector({
   date: makeSelectDate(),
   nextAvailableTime: makeSelectNextAvailableTime(),
   availableUntil: makeSelectAvailableUntil(),
+  isDescriptionOpen: makeSelectIsDescriptionOpen(),
 });
 
-const withConnect = connect(mapStateToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(withConnect)(AreaStatus);

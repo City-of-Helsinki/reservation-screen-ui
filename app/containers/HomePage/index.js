@@ -89,7 +89,7 @@ export class HomePage extends React.PureComponent {
     this.props.onLoadReservations();
     this.resourceInterval = setInterval(() => {
       this.props.onLoadReservations();
-    }, 10000);
+    }, 60 * 1000);
 
     // Get clock parameter from address line. For debugging.
     // Do not update clock.
@@ -105,7 +105,7 @@ export class HomePage extends React.PureComponent {
       this.props.onUpdateClock(new Date());
       this.clockInterval = setInterval(() => {
         this.props.onUpdateClock(new Date());
-      }, 1000);
+      }, 60 * 1000);
     }
   }
 
