@@ -15,8 +15,8 @@ export default defineMessages({
     defaultMessage: 'Tila on varattu',
   },
   nextAvailableTimeClock: {
-    id: 'boilerplate.components.AreaStatus.area.clock',
-    defaultMessage: 'klo ',
+    id: 'boilerplate.components.AreaStatus.area.reserved',
+    defaultMessage: 'Varattu klo ',
   },
   nextAvailableTimeUntil: {
     id: 'boilerplate.components.AreaStatus.area.until',

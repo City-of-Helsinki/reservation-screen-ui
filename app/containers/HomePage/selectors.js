@@ -316,6 +316,9 @@ const makeSelectDate = () =>
 const makeSelectIsDescriptionOpen = () =>
   createSelector(selectHome, homeState => homeState.get('isDescriptionOpen'));
 
+const makeSelectErrorMessage = () =>
+  createSelector(selectHome, homeState => homeState.get('errorMessage'));
+
 export {
   selectHome,
   makeUpcomingReservations,
@@ -330,4 +333,5 @@ export {
   makeSelectFreeSlots,
   makeSelectSelectedSlot,
   makeSelectIsDescriptionOpen,
+  makeSelectErrorMessage,
 };

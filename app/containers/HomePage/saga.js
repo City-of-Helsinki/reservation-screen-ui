@@ -92,6 +92,8 @@ export function* makeReservation() {
     yield put(makeReservationCompleted(reservation));
     yield put(loadReservations());
   } catch (err) {
+    console.log(err);
+    console.log(err.message);
     yield put(makeReservationError(err));
   }
 }

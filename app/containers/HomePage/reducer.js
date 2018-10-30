@@ -45,8 +45,9 @@ function homeReducer(state = initialState, action) {
     case CHANGE_SLOT:
       return state.set('selectedSlot', action.selectedSlot);
     case MAKE_RESERVATION_ERROR:
+      return state.set('scene', 'Error').set('errorMessage', action.error);
     case MAKE_RESERVATION_COMPLETED:
-      return state.set('scene', 'Start');
+      return state.set('scene', 'Verify');
     default:
       return state;
   }

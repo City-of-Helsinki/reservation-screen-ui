@@ -12,6 +12,7 @@ import SceneStart from 'components/SceneStart';
 import SceneCancel from 'components/SceneCancel';
 import SceneAction from 'components/SceneAction';
 import SceneVerify from 'components/SceneVerify';
+import SceneError from 'components/SceneError';
 import reducer from 'containers/HomePage/reducer';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import messages from './messages';
@@ -19,6 +20,7 @@ import {
   makeSelectScene,
   makeSelectFreeSlots,
   makeSelectSelectedSlot,
+  makeSelectErrorMessage,
 } from 'containers/HomePage/selectors';
 import {
   changeScene,
@@ -62,6 +64,12 @@ class AreaBooking extends React.Component {
           {this.props.scene == 'Verify' && (
             <SceneVerify onButtonClick={this.props.onChangeSceneToStart} />
           )}
+          {this.props.scene == 'Error' && (
+            <SceneError
+              errorMessage={this.props.errorMessage}
+              onButtonClick={this.props.onChangeSceneToStart}
+            />
+          )}
         </div>
       </Wrapper>
     );
@@ -83,6 +91,7 @@ const mapStateToProps = createStructuredSelector({
   scene: makeSelectScene(),
   freeSlots: makeSelectFreeSlots(4),
   selectedSlot: makeSelectSelectedSlot(),
+  errorMessage: makeSelectErrorMessage(),
 });
 
 const withConnect = connect(
