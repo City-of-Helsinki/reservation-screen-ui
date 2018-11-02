@@ -85,7 +85,7 @@ export function* makeReservation() {
       headers: {
         'content-type': 'application/json',
         authorization:
-          'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InUtbHNiaHNpZ2ZrYWk2cmh5aXlrczVwYTN1YXkiLCJlbWFpbCI6ImphYWtrb0BhbGFqb2tpLmZpIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiIsImRlcGFydG1lbnRfbmFtZSI6bnVsbCwiaXNzIjoiaHR0cHM6Ly9hcGkuaGVsLmZpL3NzbyIsInN1YiI6IjVjODUxNTJjLWM1NTAtMTFlOC05ZjA4LWMyYTVkNzgzNzQwNiIsImF1ZCI6ImJ4N0ZxRzk1ZnZ4dEtnSkRCd3RsZGlTTGU4QTJoU0J6RTlJT2l5dFciLCJleHAiOjE1NDA5MTg2ODh9.Eb-PFYe4lS6cXgPgtFQIjqbGBPUfvkZEoPXv-2__fLE',
+          'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InUtbHNiaHNpZ2ZrYWk2cmh5aXlrczVwYTN1YXkiLCJlbWFpbCI6ImphYWtrb0BhbGFqb2tpLmZpIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiIsImRlcGFydG1lbnRfbmFtZSI6bnVsbCwiaXNzIjoiaHR0cHM6Ly9hcGkuaGVsLmZpL3NzbyIsInN1YiI6IjVjODUxNTJjLWM1NTAtMTFlOC05ZjA4LWMyYTVkNzgzNzQwNiIsImF1ZCI6ImJ4N0ZxRzk1ZnZ4dEtnSkRCd3RsZGlTTGU4QTJoU0J6RTlJT2l5dFciLCJleHAiOjE1NDExNzY0MzZ9.pKCLB3Ra6OKhRcbiqrZl3mVAj9Ac2_L0qRH_nPznYqo',
       },
       body: JSON.stringify(data),
     });
