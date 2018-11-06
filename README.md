@@ -5,6 +5,9 @@ On-screen reservation client built for Helsingin Kaupunki. This app is used on s
 App uses Respa API:  
 https://dev.hel.fi/apis/respa/
 
+To open the app you need to provide the resource id as GET parameter:  
+`http://localhost/?resourceId=avtzqtz3bsca`
+
 ## Installation
 
 Run `npm install`
@@ -13,7 +16,16 @@ Run `npm install`
 
 Run `npm start`
 
-Tests: `npm test`
+## Testing
+
+Unit tests are written for core selectors. They have some business logic. If you ever need to change these selectors please make sure tests pass.
+
+Tests can be found on:  
+`app/containers/HomePage/tests`
+
+Tests uses mock API content.
+
+To run tests: `npm run test:watch`
 
 ## Requirements
 
@@ -27,13 +39,15 @@ If you don't want to install node you can run it inside Docker:
 ## Debugging
 
 You can override current time with url parameter:
-http://127.0.0.1/?date=2018-09-17T11:15:00+03:00
+`http://127.0.0.1/?date=2018-09-17T11:15:00+03:00`
 
 You can also load local json-files:
-http://127.0.0.1/?resourceId=resources.json
+`http://127.0.0.1/?resourceId=resources.json`
+
+These file are located in `server/api`.
 
 Or both:
-http://127.0.0.1/?date=2018-09-17T11:15:00+03:00&resourceId=resources.json
+`http://127.0.0.1/?date=2018-09-17T11:15:00+03:00&resourceId=resources.json`
 
 ## Technology stack
 
