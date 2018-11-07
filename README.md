@@ -25,7 +25,9 @@ Tests can be found on:
 
 Tests uses mock API content.
 
-To run tests: `npm run test:watch`
+To run tests: `env TZ='Europe/Helsinki' npm run test:watch`
+
+You will need to define timezone to make tests pass.
 
 ## Requirements
 
