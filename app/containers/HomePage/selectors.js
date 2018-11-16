@@ -243,7 +243,7 @@ const makeSelectIsResourceAvailable = () =>
   });
 
 /**
- * Get list of free slots.
+ * Get list of free slots. I'm not proud of this implementation. If someone has better ideas feel free to fix :)
  */
 const makeSelectFreeSlots = amount =>
   createSelector(selectHome, state => {
@@ -264,7 +264,7 @@ const makeSelectFreeSlots = amount =>
       // Shortcut.
       const reservations = resource.get('reservations');
 
-      // Calculated begin and end values.
+      // Current begin value.
       let begin = 0;
 
       // Iterate over each opening minute.
@@ -272,16 +272,71 @@ const makeSelectFreeSlots = amount =>
         // Current time.
         const time = opens.getTime() + i * 60000;
         const timeObj = new Date(time);
+        const timeNextMinute = time + 60000;
 
-        // Find overlapping reservations.
+        // Find overlapping reservations for current minute and next minute.
         let overlappingReservations = fromJS([]);
-        if (reservations)
+        let overlappingReservationsOnNextMinute = fromJS([]);
+        if (reservations) {
           overlappingReservations = reservations.filter(
             reservation =>
-              new Date(reservation.get('begin')).getTime() < time &&
+              new Date(reservation.get('begin')).getTime() <= time &&
               new Date(reservation.get('end')).getTime() >= time,
           );
+          overlappingReservationsOnNextMinute = reservations.filter(
+            reservation =>
+              new Date(reservation.get('begin')).getTime() <= timeNextMinute &&
+              new Date(reservation.get('end')).getTime() >= timeNextMinute,
+          );
+        }
 
+        // If we are at opening time and the slot is free.
+        if (i == 0 && overlappingReservations.size == 0) {
+          begin = time;
+        }
+
+        // If we at closing time and the slot is free, add to list.
+        else if (
+          time == closes.getTime() &&
+          overlappingReservations.size == 0
+        ) {
+          freeSlots.push({ begin: new Date(begin), end: new Date(time) });
+        }
+
+        // If current minute is free and the next minute is reserved, we found end time.
+        else if (
+          overlappingReservations.size == 0 &&
+          overlappingReservationsOnNextMinute.size > 0
+        ) {
+          freeSlots.push({
+            begin: new Date(begin),
+            end: new Date(timeNextMinute),
+          });
+          begin = time;
+        }
+
+        // If current minute is reserved but next minute is free, we found start time.
+        else if (
+          overlappingReservations.size > 0 &&
+          overlappingReservationsOnNextMinute.size == 0
+        ) {
+          begin = time;
+        }
+
+        // It's even hour so let's add stop here.
+        else if (
+          overlappingReservations.size == 0 &&
+          overlappingReservationsOnNextMinute.size == 0 &&
+          timeObj.getMinutes() == 0
+        ) {
+          freeSlots.push({
+            begin: new Date(begin),
+            end: new Date(time),
+          });
+          begin = time;
+        }
+
+        /*
         // Found free minute!
         if (overlappingReservations.size == 0) {
           // New start time.
@@ -293,7 +348,7 @@ const makeSelectFreeSlots = amount =>
             freeSlots.push({ begin: new Date(begin), end: new Date(time) });
             begin = time;
           }
-        }
+        }*/
       }
 
       // Filter out past.

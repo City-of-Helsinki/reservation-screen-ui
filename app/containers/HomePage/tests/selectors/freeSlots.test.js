@@ -43,16 +43,42 @@ describe('makeSelectFreeSlots', () => {
     expect(selector(mockedState).length).toEqual(0);
   });
 });
-
 describe('makeSelectFreeSlots', () => {
   const selector = makeSelectFreeSlots();
-  it('returns 3 items', () => {
+  it('returns 5 items', () => {
     const mockedState = fromJS({
       home: {
         date: new Date('2018-09-17T07:00:00+03:00'),
         resource: mockResourceSomeReservations,
       },
     });
-    expect(selector(mockedState).length).toEqual(5);
+
+    // Debugging. Enjoy ;)
+    /*
+    const slots = selector(mockedState);
+    let output = '';
+    slots.map(slot => {
+      output += slot.begin.getHours() + ' - ' + slot.end.getHours() + '\n';
+    });
+    console.log(output);
+    */
+
+    const freeSlots = selector(mockedState);
+    expect(freeSlots.length).toEqual(5);
+
+    expect(freeSlots[0].begin.getHours()).toEqual(8);
+    expect(freeSlots[0].end.getHours()).toEqual(9);
+
+    expect(freeSlots[1].begin.getHours()).toEqual(11);
+    expect(freeSlots[1].end.getHours()).toEqual(12);
+
+    expect(freeSlots[2].begin.getHours()).toEqual(12);
+    expect(freeSlots[2].end.getHours()).toEqual(13);
+
+    expect(freeSlots[3].begin.getHours()).toEqual(13);
+    expect(freeSlots[3].end.getHours()).toEqual(14);
+
+    expect(freeSlots[4].begin.getHours()).toEqual(14);
+    expect(freeSlots[4].end.getHours()).toEqual(15);
   });
 });
