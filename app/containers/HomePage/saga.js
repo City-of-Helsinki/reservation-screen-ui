@@ -38,7 +38,8 @@ export function* getReservations() {
     if (resourceId.match(/\.json/)) {
       requestURL = `/api/${resourceId}`;
     } else {
-      requestURL = `https://respa-admin.kontena.hel.ninja/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
+      //requestURL = `https://respa-admin.kontena.hel.ninja/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
+      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
     }
   }
 
@@ -55,7 +56,8 @@ export function* makeReservation() {
 
   const resourceId = yield select(makeSelectResourceId());
   const currentSlot = yield select(makeSelectSelectedSlot());
-  const requestURL = 'https://respa-admin.kontena.hel.ninja/v1/reservation/';
+  //const requestURL = 'https://respa-admin.kontena.hel.ninja/v1/reservation/';
+  const requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
 
   // Expect date objects.
   if (
@@ -76,6 +78,14 @@ export function* makeReservation() {
       'HH:MM:ss.000o',
     )}`,
     resource: resourceId,
+    event_description: 'Anonymous reservation',
+    reserver_address_city: 'Helsinki',
+    reserver_address_zip: '00100',
+    reserver_address_street: 'Helsinki',
+    reserver_email_address: 'info@oodihelsinki.fi',
+    reserver_phone_number: '123456789',
+    reserver_name: 'Anonymous reserver',
+    reserver_id: 'anonymous',
   };
 
   // Do request.
