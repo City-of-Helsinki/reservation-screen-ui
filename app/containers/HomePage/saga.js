@@ -24,6 +24,7 @@ export function* getReservations() {
   let requestURL = '';
   let resourceId = false;
   let token = false;
+  let staging = false;
 
   if (window.location.toString().match(/resourceId=/)) {
     resourceId = window.location
@@ -36,6 +37,13 @@ export function* getReservations() {
     token = window.location
       .toString()
       .replace(/.*token=/, '')
+      .replace(/&.*/, '');
+  }
+
+  if (window.location.toString().match(/staging=/)) {
+    staging = window.location
+      .toString()
+      .replace(/.*staging=/, '')
       .replace(/&.*/, '');
   }
 
@@ -58,8 +66,11 @@ export function* getReservations() {
   if (resourceId.match(/\.json/)) {
     requestURL = `/api/${resourceId}`;
   } else {
-    //requestURL = `https://respa-admin.kontena.hel.ninja/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
+    if (staging) {
+      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
+    } else {
+      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
+    }
   }
 
   try {
@@ -80,15 +91,29 @@ export function* makeReservation() {
   // Get resource id and selected slot.
   const resourceId = yield select(makeSelectResourceId());
   const currentSlot = yield select(makeSelectSelectedSlot());
-  //const requestURL = 'https://respa-admin.kontena.hel.ninja/v1/reservation/';
-  const requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
 
+  let requestURL = '';
+  let staging = false;
   let token = false;
+
   if (window.location.toString().match(/token=/)) {
     token = window.location
       .toString()
       .replace(/.*token=/, '')
       .replace(/&.*/, '');
+  }
+
+  if (window.location.toString().match(/staging=/)) {
+    staging = window.location
+      .toString()
+      .replace(/.*staging=/, '')
+      .replace(/&.*/, '');
+  }
+
+  if (staging) {
+    requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
+  } else {
+    requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
   }
 
   // Expect date objects.

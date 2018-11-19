@@ -5,8 +5,11 @@ On-screen reservation client built for Helsingin Kaupunki. This app is used on s
 App uses Respa API:  
 https://dev.hel.fi/apis/respa/
 
-To open the app you need to provide the resource id as GET parameter:  
-`http://localhost/?resourceId=avtzqtz3bsca`
+To open the app you need to provide the resource id and token as GET parameter:  
+`http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop`
+
+To test against staging environment use staging=true parameter:
+`http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop&staging=true`
 
 ## Installation
 
