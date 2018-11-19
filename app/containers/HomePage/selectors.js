@@ -209,9 +209,15 @@ const makeSelectResourceId = () =>
  *Select resource description
  */
 const makeSelectResourceDescription = () =>
-  createSelector(selectHome, state =>
-    state.getIn(['resource', 'description', 'fi']),
-  );
+  createSelector(selectHome, state => {
+    let description = state.getIn(['resource', 'description', 'fi']);
+    if (description) {
+      description = description.replace(/\n/, '<br /><br />');
+      return description;
+    } else {
+      return '';
+    }
+  });
 
 /**
  * Return true is the space is open right now.
