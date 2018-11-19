@@ -12,6 +12,7 @@
 import { fromJS } from 'immutable';
 
 import {
+  SETUP_REQUIRED,
   CHANGE_USERNAME,
   LOAD_RESERVATIONS_SUCCESS,
   UPDATE_CLOCK,
@@ -34,6 +35,8 @@ export const initialState = fromJS({
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
+    case SETUP_REQUIRED:
+      return state.set('scene', 'Setup');
     case TOGGLE_DESCRIPTION_OPEN:
       return state.set('isDescriptionOpen', !state.get('isDescriptionOpen'));
     case UPDATE_CLOCK:

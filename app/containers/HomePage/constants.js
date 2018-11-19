@@ -10,6 +10,7 @@
  */
 
 export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
+export const SETUP_REQUIRED = 'oodi/Home/SETUP_REQUIRED';
 export const LOAD_RESERVATIONS = 'oodi/Home/LOAD_USERNAME';
 export const LOAD_RESERVATIONS_SUCCESS = 'oodi/Home/LOAD_RESERVATIONS_SUCCESS';
 export const LOAD_RESERVATIONS_ERROR = 'oodi/Home/LOAD_RESERVATIONS_ERROR';

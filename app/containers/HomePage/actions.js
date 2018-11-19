@@ -1,5 +1,5 @@
 import {
-  CHANGE_USERNAME,
+  SETUP_REQUIRED,
   UPDATE_CLOCK,
   LOAD_RESERVATIONS,
   LOAD_RESERVATIONS_SUCCESS,
@@ -12,6 +12,12 @@ import {
   MAKE_RESERVATION_ERROR,
 } from './constants';
 
+export function setupRequired() {
+  return {
+    type: SETUP_REQUIRED,
+  };
+}
+
 export function updateClock(date) {
   return {
     type: UPDATE_CLOCK,
@@ -22,13 +28,6 @@ export function updateClock(date) {
 export function toggleIsDescriptionOpen() {
   return {
     type: TOGGLE_DESCRIPTION_OPEN,
-  };
-}
-
-export function changeUsername(name) {
-  return {
-    type: CHANGE_USERNAME,
-    name,
   };
 }
 

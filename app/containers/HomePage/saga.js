@@ -4,6 +4,7 @@ import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import { LOAD_RESERVATIONS, MAKE_RESERVATION } from './constants';
 import { makeSelectResourceId, makeSelectSelectedSlot } from './selectors';
 import {
+  setupRequired,
   loadReservations,
   resourceLoaded,
   resourceLoadingError,
@@ -11,40 +12,64 @@ import {
   makeReservationError,
 } from './actions';
 
+// TODO: Currently url request parameters are read in this saga. This is not a good practice.
+// Get parameter handling should be done before entering the app.
+// For example app/index.js before bootstrapping the app.
+
 /**
  * Load resource from API.
  */
 export function* getReservations() {
   // By default use local file.
   let requestURL = '';
+  let resourceId = false;
+  let token = false;
 
   if (window.location.toString().match(/resourceId=/)) {
-    const resourceId = window.location
+    resourceId = window.location
       .toString()
       .replace(/.*resourceId=/, '')
       .replace(/&.*/, '');
+  }
 
-    // Start
-    // ?start=2018-09-17T08%3A00%3A00%2B03%3A00&end=2018-09-17T20%3A00%3A00%2B03%3A00
-    let start = new Date();
-    let startTimeStr = encodeURIComponent(
-      `${dateFormat(start, 'yyyy-mm-dd')}T00:00:00Z`,
-    );
-    let endTimeStr = encodeURIComponent(
-      `${dateFormat(start, 'yyyy-mm-dd')}T23:59:59Z`,
-    );
+  if (window.location.toString().match(/token=/)) {
+    token = window.location
+      .toString()
+      .replace(/.*token=/, '')
+      .replace(/&.*/, '');
+  }
 
-    // If id has "json" in it's name, use local file.
-    if (resourceId.match(/\.json/)) {
-      requestURL = `/api/${resourceId}`;
-    } else {
-      //requestURL = `https://respa-admin.kontena.hel.ninja/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    }
+  // Start
+  // ?start=2018-09-17T08%3A00%3A00%2B03%3A00&end=2018-09-17T20%3A00%3A00%2B03%3A00
+  let start = new Date();
+  let startTimeStr = encodeURIComponent(
+    `${dateFormat(start, 'yyyy-mm-dd')}T00:00:00Z`,
+  );
+  let endTimeStr = encodeURIComponent(
+    `${dateFormat(start, 'yyyy-mm-dd')}T23:59:59Z`,
+  );
+
+  if (!resourceId || !token) {
+    yield put(setupRequired());
+    return;
+  }
+
+  // If id has "json" in it's name, use local file.
+  if (resourceId.match(/\.json/)) {
+    requestURL = `/api/${resourceId}`;
+  } else {
+    //requestURL = `https://respa-admin.kontena.hel.ninja/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
+    requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
   }
 
   try {
-    const resource = yield call(request, requestURL);
+    const resource = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Token ${token}`,
+      },
+    });
     yield put(resourceLoaded(resource));
   } catch (err) {
     yield put(resourceLoadingError(err));
@@ -53,11 +78,18 @@ export function* getReservations() {
 
 export function* makeReservation() {
   // Get resource id and selected slot.
-
   const resourceId = yield select(makeSelectResourceId());
   const currentSlot = yield select(makeSelectSelectedSlot());
   //const requestURL = 'https://respa-admin.kontena.hel.ninja/v1/reservation/';
   const requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
+
+  let token = false;
+  if (window.location.toString().match(/token=/)) {
+    token = window.location
+      .toString()
+      .replace(/.*token=/, '')
+      .replace(/&.*/, '');
+  }
 
   // Expect date objects.
   if (
@@ -94,7 +126,7 @@ export function* makeReservation() {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        authorization: 'Token 67210ede8a635c8cf88aef3885527b677206d243',
+        authorization: `Token ${token}`,
       },
       body: JSON.stringify(data),
     });
