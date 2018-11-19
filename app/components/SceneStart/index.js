@@ -34,19 +34,29 @@ class SceneStart extends React.Component {
 
   render() {
     const disabled = this.props.selectedSlot ? false : true;
+    const available = this.props.freeSlots.length > 0;
     return (
       <Wrapper>
-        <H2>
-          <FormattedMessage {...messages.title} />
-        </H2>
-        <ButtonList
-          freeSlots={this.props.freeSlots}
-          selectedSlot={this.props.selectedSlot}
-          onButtonClick={slot => this.selectSlot(slot)}
-        />
-        <Submit disabled={disabled} onClick={() => this.onSubmit()}>
-          <FormattedMessage {...messages.book} />
-        </Submit>
+        {available && (
+          <div>
+            <H2>
+              <FormattedMessage {...messages.title} />
+            </H2>
+            <ButtonList
+              freeSlots={this.props.freeSlots}
+              selectedSlot={this.props.selectedSlot}
+              onButtonClick={slot => this.selectSlot(slot)}
+            />
+            <Submit disabled={disabled} onClick={() => this.onSubmit()}>
+              <FormattedMessage {...messages.book} />
+            </Submit>
+          </div>
+        )}
+        {!available && (
+          <p>
+            <FormattedMessage {...messages.notAvailable} />
+          </p>
+        )}
       </Wrapper>
     );
   }

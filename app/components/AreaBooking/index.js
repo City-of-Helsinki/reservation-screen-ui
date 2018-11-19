@@ -45,8 +45,8 @@ class AreaBooking extends React.Component {
         <div>
           <LocaleToggle />
 
-          {this.props.scene == 'Setup' && <SceneSetup />}
           {this.props.scene == 'Loading' && <SceneLoading />}
+          {this.props.scene == 'Setup' && <SceneSetup />}
           {this.props.scene == 'Start' && (
             <SceneStart
               onSubmit={this.props.onChangeSceneToAction}
