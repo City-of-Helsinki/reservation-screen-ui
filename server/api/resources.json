@@ -52,6 +52,7 @@
       "is_own": false,
       "state": "confirmed",
       "need_manual_confirmation": false,
+      "event_subject": "Martat",
       "user_permissions": {
         "can_delete": false,
         "can_modify": false
@@ -66,6 +67,8 @@
       "is_own": false,
       "state": "confirmed",
       "need_manual_confirmation": false,
+      "event_subject":
+        "Käpylän käsipalloilijoiden hallituksen kokous (omat pullat mukaan)",
       "user_permissions": {
         "can_delete": false,
         "can_modify": false
