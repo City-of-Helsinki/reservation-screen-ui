@@ -14,6 +14,7 @@ import SceneAction from 'components/SceneAction';
 import SceneVerify from 'components/SceneVerify';
 import SceneError from 'components/SceneError';
 import SceneSetup from 'components/SceneSetup';
+import SceneLoading from 'components/SceneLoading';
 import reducer from 'containers/HomePage/reducer';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import messages from './messages';
@@ -43,8 +44,9 @@ class AreaBooking extends React.Component {
       <Wrapper>
         <div>
           <LocaleToggle />
-          {this.props.scene == 'Setup' && <SceneSetup />}
 
+          {this.props.scene == 'Setup' && <SceneSetup />}
+          {this.props.scene == 'Loading' && <SceneLoading />}
           {this.props.scene == 'Start' && (
             <SceneStart
               onSubmit={this.props.onChangeSceneToAction}

@@ -4,6 +4,7 @@ import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import { LOAD_RESERVATIONS, MAKE_RESERVATION } from './constants';
 import { makeSelectResourceId, makeSelectSelectedSlot } from './selectors';
 import {
+  changeScene,
   setupRequired,
   loadReservations,
   resourceLoaded,
@@ -124,6 +125,9 @@ export function* makeReservation() {
     return false;
   }
 
+  // Show loading screen.
+  yield put(changeScene('Loading'));
+
   // Data to send.
   const data = {
     begin: `${dateFormat(currentSlot.begin, 'yyyy-mm-dd')}T${dateFormat(
@@ -135,6 +139,7 @@ export function* makeReservation() {
       'HH:MM:ss.000o',
     )}`,
     resource: resourceId,
+    event_subject: 'Varattu',
     event_description: 'Anonymous reservation',
     reserver_address_city: 'Helsinki',
     reserver_address_zip: '00100',

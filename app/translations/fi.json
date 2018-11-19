@@ -24,5 +24,6 @@
   "title.confirm.booking": "Vahvista varaus!",
   "text.starts.at": "Varauksesi alkaa {br} kello ",
   "text.ends.at": "Varauksesi loppuu {br} kello ",
-  "link.cancel.booking": "Peruuta varaus"
+  "link.cancel.booking": "Peruuta varaus",
+  "oodi.components.ListItem.defaultTitle": "Varattu"
 }
