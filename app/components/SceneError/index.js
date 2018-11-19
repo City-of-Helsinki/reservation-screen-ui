@@ -34,7 +34,6 @@ class SceneCancel extends React.Component {
         <H3>
           <FormattedMessage {...messages.title} />
         </H3>
-        <p>{message}</p>
         <HelperLink onHelperLinkClick={this.props.onButtonClick}>
           <FormattedMessage {...messages.cancel} />
         </HelperLink>

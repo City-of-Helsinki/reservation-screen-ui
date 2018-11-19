@@ -156,7 +156,7 @@ export function* makeReservation() {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        authorization: `Token ${token}`,
+        //        authorization: `Token ${token}`,
       },
       body: JSON.stringify(data),
     });
