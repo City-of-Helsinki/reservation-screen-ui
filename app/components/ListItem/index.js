@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import moment from 'moment';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 
 import Wrapper from './Wrapper';
 
@@ -33,7 +35,11 @@ function ListItem(props) {
           {moment(props.item.get('begin')).format('HH.mm')} -{' '}
           {moment(props.item.get('end')).format('HH.mm')}
         </ItemTime>
-        <ItemTitle>{props.item.get('event_subject') || ''}</ItemTitle>
+        <ItemTitle>
+          {props.item.get('event_subject') || (
+            <FormattedMessage {...messages.defaultTitle} />
+          )}
+        </ItemTitle>
       </Item>
     </Wrapper>
   );
