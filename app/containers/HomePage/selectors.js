@@ -255,113 +255,63 @@ const makeSelectFreeSlots = amount =>
   createSelector(selectHome, state => {
     // Get variables from state.
     const resource = state.get('resource');
-    const minPeriod = state.get('min_period');
-    const currentTime = state.get('date');
+    const minPeriod = state.getIn(['resource', 'min_period']);
+    let begin = state.get('date');
     let freeSlots = [];
-    const minPeriodMilliseconds = new Date(`1970-01-01T${minPeriod}Z`);
+    const minPeriodTimestamp = `1970-01-01T${minPeriod}Z`;
+    const minPeriodMilliseconds = new Date(minPeriodTimestamp); //.getTime();
 
     if (resource) {
       const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
       const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
 
-      // Calculate open time in minutes.
-      const openTime = (closes.getTime() - opens.getTime()) / 60000;
+      // Begin from opening time.
+      if (begin.getTime() < opens.getTime()) {
+        begin = opens;
+      }
 
       // Shortcut.
       const reservations = resource.get('reservations');
 
-      // Current begin value.
-      let begin = 0;
+      // Check if current time is free.
+      const currentReservations = reservations.filter(
+        reservation =>
+          new Date(reservation.get('begin')).getTime() < begin.getTime() &&
+          new Date(reservation.get('end')).getTime() > begin.getTime(),
+      );
 
-      // Iterate over each opening minute.
-      for (let i = 0; i <= openTime; i++) {
-        // Current time.
-        const time = opens.getTime() + i * 60000;
-        const timeObj = new Date(time);
-        const timeNextMinute = time + 60000;
-
-        // Find overlapping reservations for current minute and next minute.
-        let overlappingReservations = fromJS([]);
-        let overlappingReservationsOnNextMinute = fromJS([]);
-        if (reservations) {
-          overlappingReservations = reservations.filter(
-            reservation =>
-              new Date(reservation.get('begin')).getTime() <= time &&
-              new Date(reservation.get('end')).getTime() >= time,
-          );
-          overlappingReservationsOnNextMinute = reservations.filter(
-            reservation =>
-              new Date(reservation.get('begin')).getTime() <= timeNextMinute &&
-              new Date(reservation.get('end')).getTime() >= timeNextMinute,
-          );
-        }
-
-        // If we are at opening time and the slot is free.
-        if (i == 0 && overlappingReservations.size == 0) {
-          begin = time;
-        }
-
-        // If we at closing time and the slot is free, add to list.
-        else if (
-          time == closes.getTime() &&
-          overlappingReservations.size == 0
-        ) {
-          freeSlots.push({ begin: new Date(begin), end: new Date(time) });
-        }
-
-        // If current minute is free and the next minute is reserved, we found end time.
-        else if (
-          overlappingReservations.size == 0 &&
-          overlappingReservationsOnNextMinute.size > 0
-        ) {
-          freeSlots.push({
-            begin: new Date(begin),
-            end: new Date(timeNextMinute),
-          });
-          begin = time;
-        }
-
-        // If current minute is reserved but next minute is free, we found start time.
-        else if (
-          overlappingReservations.size > 0 &&
-          overlappingReservationsOnNextMinute.size == 0
-        ) {
-          begin = time;
-        }
-
-        // It's even hour so let's add stop here.
-        else if (
-          overlappingReservations.size == 0 &&
-          overlappingReservationsOnNextMinute.size == 0 &&
-          timeObj.getMinutes() == 0
-        ) {
-          freeSlots.push({
-            begin: new Date(begin),
-            end: new Date(time),
-          });
-          begin = time;
-        }
-
-        /*
-        // Found free minute!
-        if (overlappingReservations.size == 0) {
-          // New start time.
-          if (begin == 0) {
-            begin = time;
-          }
-          // Even minutes. Potential end time?
-          else if (timeObj.getMinutes() == 0) {
-            freeSlots.push({ begin: new Date(begin), end: new Date(time) });
-            begin = time;
-          }
-        }*/
+      // Current time is not free. Cannot make new reservations.
+      if (currentReservations.size > 0) {
+        return [];
       }
 
-      // Filter out past.
-      freeSlots = freeSlots.filter(
-        slot => slot.begin.getTime() >= currentTime.getTime(),
-      );
+      // Iterate upcoming four hours and add slots to list if duration exceeds min time limit.
+      for (let minute = 1; minute < 4 * 60; minute++) {
+        // Create end time.
+        const end = new Date(begin.getTime() + minute * 60 * 1000);
+
+        // Check if the time is free.
+        const currentReservations = reservations.filter(
+          reservation =>
+            new Date(reservation.get('begin')).getTime() < end.getTime() &&
+            new Date(reservation.get('end')).getTime() > end.getTime(),
+        );
+
+        // Given end time is not available anymore. Quit.
+        if (currentReservations.size > 0) {
+          break;
+        }
+
+        // If current time is even minute and slot duration is long enough, add to list.
+        if (
+          (end.getMinutes() == 0 || end.getMinutes() == 30) &&
+          end.getTime() - begin.getTime() >= minPeriodMilliseconds
+        ) {
+          freeSlots.push({ begin: begin, end: end });
+        }
+      }
     }
+    console.log(freeSlots);
     return freeSlots.slice(0, amount);
   });
 
