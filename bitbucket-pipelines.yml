@@ -22,7 +22,7 @@ stepdefinitions:
       trigger: manual
       script:
         - aws s3 sync ./build/ s3://$AWS_PRODUCTION_BUCKET/ --acl public-read
-        - aws s3 website s3://slush-web-app-production/ --index-document index.html --error-document error.html
+        - aws s3 website s3://$AWS_PRODUCTION_BUCKET/ --index-document index.html --error-document error.html
 
 
 pipelines:
