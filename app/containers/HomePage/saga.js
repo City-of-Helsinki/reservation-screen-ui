@@ -140,7 +140,7 @@ export function* makeReservation() {
     )}`,
     resource: resourceId,
     event_subject: 'Varattu',
-    event_description: 'Anonymous reservation',
+    event_description: 'Varattu',
     reserver_address_city: 'Helsinki',
     reserver_address_zip: '00100',
     reserver_address_street: 'Helsinki',
@@ -156,7 +156,7 @@ export function* makeReservation() {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        //        authorization: `Token ${token}`,
+        authorization: `Token ${token}`,
       },
       body: JSON.stringify(data),
     });
