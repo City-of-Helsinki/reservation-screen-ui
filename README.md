@@ -11,6 +11,10 @@ To open the app you need to provide the resource id and token as GET parameter:
 To test against staging environment use staging=true parameter:
 `http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop&staging=true`
 
+## Deployment
+
+When pushed to master branch on BitBucket the project is automatically build by Pipelines. Manual trigger is required to deploy the project to S3.
+
 ## Installation
 
 Run `npm install`
