@@ -93,24 +93,24 @@ describe('makeSelectFreeSlots', () => {
     expect(freeSlots.length).toEqual(4);
 
     expect(freeSlots[0].begin.getHours()).toEqual(11);
-    expect(freeSlots[0].begin.getMinutes()).toEqual(12);
-    expect(freeSlots[0].end.getHours()).toEqual(12);
-    expect(freeSlots[0].end.getMinutes()).toEqual(0);
+    expect(freeSlots[0].begin.getMinutes()).toEqual(0);
+    expect(freeSlots[0].end.getHours()).toEqual(11);
+    expect(freeSlots[0].end.getMinutes()).toEqual(30);
 
     expect(freeSlots[1].begin.getHours()).toEqual(11);
-    expect(freeSlots[1].begin.getMinutes()).toEqual(12);
+    expect(freeSlots[1].begin.getMinutes()).toEqual(0);
     expect(freeSlots[1].end.getHours()).toEqual(12);
-    expect(freeSlots[1].end.getMinutes()).toEqual(30);
+    expect(freeSlots[1].end.getMinutes()).toEqual(0);
 
     expect(freeSlots[2].begin.getHours()).toEqual(11);
-    expect(freeSlots[2].begin.getMinutes()).toEqual(12);
-    expect(freeSlots[2].end.getHours()).toEqual(13);
-    expect(freeSlots[2].end.getMinutes()).toEqual(0);
+    expect(freeSlots[2].begin.getMinutes()).toEqual(0);
+    expect(freeSlots[2].end.getHours()).toEqual(12);
+    expect(freeSlots[2].end.getMinutes()).toEqual(30);
 
     expect(freeSlots[3].begin.getHours()).toEqual(11);
-    expect(freeSlots[3].begin.getMinutes()).toEqual(12);
+    expect(freeSlots[3].begin.getMinutes()).toEqual(0);
     expect(freeSlots[3].end.getHours()).toEqual(13);
-    expect(freeSlots[3].end.getMinutes()).toEqual(30);
+    expect(freeSlots[3].end.getMinutes()).toEqual(0);
   });
 });
 
@@ -125,11 +125,11 @@ describe('makeSelectFreeSlots', () => {
     });
 
     const freeSlots = selector(mockedState);
-    expect(freeSlots.length).toEqual(1);
+    expect(freeSlots.length).toEqual(2);
 
     expect(freeSlots[0].begin.getHours()).toEqual(14);
-    expect(freeSlots[0].begin.getMinutes()).toEqual(15);
-    expect(freeSlots[0].end.getHours()).toEqual(15);
-    expect(freeSlots[0].end.getMinutes()).toEqual(0);
+    expect(freeSlots[0].begin.getMinutes()).toEqual(0);
+    expect(freeSlots[0].end.getHours()).toEqual(14);
+    expect(freeSlots[0].end.getMinutes()).toEqual(30);
   });
 });

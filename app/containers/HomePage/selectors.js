@@ -261,6 +261,22 @@ const makeSelectFreeSlots = amount =>
     const minPeriodTimestamp = `1970-01-01T${minPeriod}Z`;
     const minPeriodMilliseconds = new Date(minPeriodTimestamp); //.getTime();
 
+    // Begin always on even minute.
+    begin.setSeconds(0);
+    begin.setMilliseconds(0);
+
+    // Calculate new begin time. Slot begins always at previous even hours or
+    // half hours. So if the time is 15:15 fixed begin time is 15:00.
+    // If time is 15:35 fixed time is 15:30.
+    let fixedBeginTime = new Date(begin);
+    fixedBeginTime.setSeconds(0);
+    fixedBeginTime.setMilliseconds(0);
+    if (fixedBeginTime.getMinutes() >= 30) {
+      fixedBeginTime.setMinutes(30);
+    } else {
+      fixedBeginTime.setMinutes(0);
+    }
+
     if (resource) {
       const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
       const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
@@ -268,6 +284,7 @@ const makeSelectFreeSlots = amount =>
       // Begin from opening time.
       if (begin.getTime() < opens.getTime()) {
         begin = opens;
+        fixedBeginTime = opens;
       }
 
       // Shortcut.
@@ -305,9 +322,9 @@ const makeSelectFreeSlots = amount =>
         // If current time is even minute and slot duration is long enough, add to list.
         if (
           (end.getMinutes() == 0 || end.getMinutes() == 30) &&
-          end.getTime() - begin.getTime() >= minPeriodMilliseconds
+          end.getTime() - fixedBeginTime.getTime() >= minPeriodMilliseconds
         ) {
-          freeSlots.push({ begin: begin, end: end });
+          freeSlots.push({ begin: fixedBeginTime, end: end });
         }
       }
     }
