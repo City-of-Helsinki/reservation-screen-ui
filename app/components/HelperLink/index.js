@@ -4,25 +4,34 @@ import styled from 'styled-components';
 import Chevron from 'components/Chevron';
 
 const Wrapper = styled.div`
-	display: block;
+  display: block;
+
+  &.helperlink--btn {
+    display: inline-block;
+    border: 1px solid #191919;
+    line-height: 4rem;
+    border-radius: 2rem;
+    padding: 0 2rem;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
 `;
 const Link = styled.div`
-	display: block;
+  display: block;
 `;
 
 function HelperLink(props) {
-	let link = (
-		<Link onClick={props.onHelperLinkClick}>
-			<Chevron />
-			{Children.toArray(props.children)}
-		</Link>
-	);
+  let link = (
+    <Link onClick={props.onHelperLinkClick}>
+      <Chevron />
+      {Children.toArray(props.children)}
+    </Link>
+  );
 
-	return <Wrapper>{link}</Wrapper>;
+  return <Wrapper className={props.className}>{link}</Wrapper>;
 }
 
 HelperLink.propTypes = {
-	children: PropTypes.any,
+  children: PropTypes.any,
 };
 
 export default HelperLink;

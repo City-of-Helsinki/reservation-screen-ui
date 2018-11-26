@@ -18,7 +18,7 @@ class ButtonList extends React.Component {
 
   render() {
     return (
-      <Wrapper className="c-buttonlist">
+      <Wrapper>
         {this.props.freeSlots.map((slot, index) => (
           <BookingButton
             id={slot.end.getTime()}

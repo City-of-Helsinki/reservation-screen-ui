@@ -17,6 +17,14 @@ const LinkWrapper = styled.div`
 const H2 = styled.h2`
   font-size: 48px;
   text-align: center;
+  line-height: 1.2;
+`;
+
+const H3 = styled.h3`
+  font-weight: 400;
+  font-size: 48px;
+  text-align: center;
+  line-height: 1.1;
 `;
 
 class SceneStart extends React.Component {
@@ -53,9 +61,12 @@ class SceneStart extends React.Component {
           </div>
         )}
         {!available && (
-          <p>
-            <FormattedMessage {...messages.notAvailable} />
-          </p>
+          <H3>
+            <FormattedMessage
+              {...messages.notAvailable}
+              values={{ br: <br /> }}
+            />
+          </H3>
         )}
       </Wrapper>
     );

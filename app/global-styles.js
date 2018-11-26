@@ -22,6 +22,7 @@ injectGlobal`
   body {
     height: 100%;
     width: 100%;
+    color: #191919;
   }
 
   body {

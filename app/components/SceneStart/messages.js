@@ -20,6 +20,6 @@ export default defineMessages({
   },
   notAvailable: {
     id: 'booking.notAvailable',
-    defaultMessage: 'Tilaa ei voi varata juuri nyt.',
+    defaultMessage: 'Tilaa ei voi {br} varata juuri nyt.',
   },
 });

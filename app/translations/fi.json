@@ -25,7 +25,7 @@
   "text.starts.at": "Varauksesi alkaa {br} kello ",
   "text.ends.at": "Varauksesi loppuu {br} kello ",
   "link.cancel.booking": "Peruuta varaus",
-  "booking.notAvailable": "Tilaa ei voi varata juuri nyt.",
+  "booking.notAvailable": "Tilaa ei voi {br} varata juuri nyt.",
   "oodi.components.ListItem.defaultTitle": "Varattu",
   "oodi.components.ButtonList.until": "asti"
 }

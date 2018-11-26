@@ -16,14 +16,13 @@ const BasicButton = styled.button`
   font-weight: normal;
   font-size: 30px;
   border: 2px solid black;
-  border-radius: 25%;
   color: black;
-
   line-height: 4rem;
   border-radius: 2rem;
-  
+
   background: white;
-  &:active, &.active {
+  &:active,
+  &.active {
     background: black;
     color: white;
   }

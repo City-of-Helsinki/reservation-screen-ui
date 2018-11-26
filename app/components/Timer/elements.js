@@ -23,51 +23,53 @@ const ShowHide = keyframes`
 `;
 
 export const Wrapper = styled.div`
-	display: block;
-	width: 100px;
-	height: 100px;
-	margin: 0 auto;
-	position: relative;
-	overflow: hidden;
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  &.timer--opaque {
+    opacity: 0.5;
+  }
+  &.timer--hidden {
+    display: none;
+  }
 `;
 
 const Aligner = css`
-	top: 0;
-	position: absolute;
-	width: 50%;
-	height: 100%;
+  top: 0;
+  position: absolute;
+  width: 50%;
+  height: 100%;
 `;
 
 export const LeftHalf = styled.div`
-	${Aligner};
-	left: 0;
-	background: ${props => props.theme.secondaryColor};
-	z-index: 3;
-	opacity: 1;
-	animation: ${ShowHide} ${AnimationTime} infinite steps(1, end);
-	border-radius: 100% 0 0 100%/ 50% 0 0 50%;
+  ${Aligner};
+  left: 0;
+  background: ${props => props.theme.secondaryColor};
+  z-index: 3;
+  opacity: 1;
+  animation: ${ShowHide} ${AnimationTime} infinite steps(1, end);
+  border-radius: 100% 0 0 100%/ 50% 0 0 50%;
 `;
 
 export const RightHalf = styled.div`
-	${Aligner};
-	right: 0;
-	background: ${props => props.theme.primaryColor};
-	z-index: 1;
-	opacity: 0;
-	animation: ${ShowHide} ${AnimationTime} infinite steps(1, end) reverse;
-	border-radius: 0 100% 100% 0/ 0 50% 50% 0;
+  ${Aligner};
+  right: 0;
+  background: ${props => props.theme.primaryColor};
+  z-index: 1;
+  opacity: 0;
+  animation: ${ShowHide} ${AnimationTime} infinite steps(1, end) reverse;
+  border-radius: 0 100% 100% 0/ 0 50% 50% 0;
 `;
 
 export const Spinner = styled.div`
-	${Aligner};
-	left: 0;
-	background: ${props => props.theme.primaryColor};
-	animation: ${Spin} ${AnimationTime} linear infinite;
-	transform-origin: center right;
-	z-index: 2;
-	border-radius: 100% 0 0 100%/ 50% 0 0 50%;
+  ${Aligner};
+  left: 0;
+  background: ${props => props.theme.primaryColor};
+  animation: ${Spin} ${AnimationTime} linear infinite;
+  transform-origin: center right;
+  z-index: 2;
+  border-radius: 100% 0 0 100%/ 50% 0 0 50%;
 `;
-
-
-
-

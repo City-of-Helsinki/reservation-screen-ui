@@ -13,7 +13,6 @@ import { fromJS } from 'immutable';
 
 import {
   SETUP_REQUIRED,
-  CHANGE_USERNAME,
   LOAD_RESERVATIONS_SUCCESS,
   UPDATE_CLOCK,
   CHANGE_SCENE,

@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
-import Wrapper from './Wrapper';
+import { Wrapper, Div } from './Wrapper';
 import { ThemeProvider } from 'styled-components';
 import LocaleToggle from 'containers/LocaleToggle';
-import Confirm from 'components/Confirm';
-import Timer from 'components/Timer';
+
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -16,8 +15,7 @@ import SceneError from 'components/SceneError';
 import SceneSetup from 'components/SceneSetup';
 import SceneLoading from 'components/SceneLoading';
 import reducer from 'containers/HomePage/reducer';
-import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
-import messages from './messages';
+
 import {
   makeSelectScene,
   makeSelectFreeSlots,
@@ -42,7 +40,7 @@ class AreaBooking extends React.Component {
   render() {
     return (
       <Wrapper>
-        <div>
+        <Div>
           <LocaleToggle />
 
           {this.props.scene == 'Loading' && <SceneLoading />}
@@ -64,10 +62,16 @@ class AreaBooking extends React.Component {
             />
           )}
           {this.props.scene == 'Cancel' && (
-            <SceneCancel onButtonClick={this.props.onChangeSceneToStart} />
+            <SceneCancel
+              onTimesUp={this.props.onChangeSceneToStart}
+              onButtonClick={this.props.onChangeSceneToStart}
+            />
           )}
           {this.props.scene == 'Verify' && (
-            <SceneVerify onButtonClick={this.props.onChangeSceneToStart} />
+            <SceneVerify
+              onTimesUp={this.props.onChangeSceneToStart}
+              onButtonClick={this.props.onChangeSceneToStart}
+            />
           )}
           {this.props.scene == 'Error' && (
             <SceneError
@@ -75,7 +79,7 @@ class AreaBooking extends React.Component {
               onButtonClick={this.props.onChangeSceneToStart}
             />
           )}
-        </div>
+        </Div>
       </Wrapper>
     );
   }
