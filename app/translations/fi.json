@@ -27,5 +27,8 @@
   "link.cancel.booking": "Peruuta varaus",
   "booking.notAvailable": "Tilaa ei voi {br} varata juuri nyt.",
   "oodi.components.ListItem.defaultTitle": "Varattu",
-  "oodi.components.ButtonList.until": "asti"
+  "oodi.components.ButtonList.until": "asti",
+  "strongauth.title": "Varaa tila",
+  "strongauth.info": "Voit tehdä varauksia tilaan osoitteessa ",
+  "strongauth.qrinfo": "strongauth.qrinfo"
 }
