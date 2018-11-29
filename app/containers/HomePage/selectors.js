@@ -328,7 +328,6 @@ const makeSelectFreeSlots = amount =>
         }
       }
     }
-    console.log(freeSlots);
     return freeSlots.slice(0, amount);
   });
 
