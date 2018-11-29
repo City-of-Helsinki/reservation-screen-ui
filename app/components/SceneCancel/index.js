@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 function SceneCancel(props) {
   return (
     <Wrapper>
+      <Timer className={'timer--hidden'} onTimesUp={props.onTimesUp} />
       <Icon />
       <H3>
         <FormattedMessage {...messages.title} />
