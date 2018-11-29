@@ -35,6 +35,7 @@ import {
   makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
+  makeSelectResourceId,
   makeSelectResourceDescription,
   makeSelectNextAvailableTime,
   makeSelectIsResourceAvailable,
@@ -143,6 +144,7 @@ export class HomePage extends React.PureComponent {
           <Booking
             upcomingReservations={this.props.upcomingReservations}
             resourceName={this.props.resourceName}
+            resourceId={this.props.resourceId}
             isResourceAvailable={this.props.isResourceAvailable}
             resourceDescription={this.props.resourceDescription}
           />
@@ -179,8 +181,8 @@ const mapStateToProps = createStructuredSelector({
   upcomingReservations: makeUpcomingReservations(3),
   isResourceAvailable: makeSelectIsResourceAvailable(),
   resourceName: makeSelectResourceName(),
+  resourceId: makeSelectResourceId(),
   resourceDescription: makeSelectResourceDescription(),
-  //nextAvailableTime: makeSelectNextAvailableTime(),
 });
 
 const withConnect = connect(

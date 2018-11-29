@@ -14,6 +14,7 @@ import SceneVerify from 'components/SceneVerify';
 import SceneError from 'components/SceneError';
 import SceneSetup from 'components/SceneSetup';
 import SceneLoading from 'components/SceneLoading';
+import SceneStrongAuth from 'components/SceneStrongAuth';
 import reducer from 'containers/HomePage/reducer';
 
 import {
@@ -21,6 +22,7 @@ import {
   makeSelectFreeSlots,
   makeSelectSelectedSlot,
   makeSelectErrorMessage,
+  makeSelectResourceId,
 } from 'containers/HomePage/selectors';
 import {
   changeScene,
@@ -79,6 +81,13 @@ class AreaBooking extends React.Component {
               onButtonClick={this.props.onChangeSceneToStart}
             />
           )}
+          {this.props.scene == 'StrongAuth' && (
+            <SceneStrongAuth
+              resource={this.props.resource}
+              resourceId={this.props.resourceId}
+              errorMessage={this.props.errorMessage}
+            />
+          )}
         </Div>
       </Wrapper>
     );
@@ -101,6 +110,7 @@ const mapStateToProps = createStructuredSelector({
   freeSlots: makeSelectFreeSlots(4),
   selectedSlot: makeSelectSelectedSlot(),
   errorMessage: makeSelectErrorMessage(),
+  resourceId: makeSelectResourceId(),
 });
 
 const withConnect = connect(
