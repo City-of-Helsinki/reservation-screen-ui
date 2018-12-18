@@ -42,10 +42,7 @@ export function* getReservations() {
   }
 
   if (window.location.toString().match(/staging=/)) {
-    staging = window.location
-      .toString()
-      .replace(/.*staging=/, '')
-      .replace(/&.*/, '');
+    staging = true;
   }
 
   // Start
@@ -70,7 +67,7 @@ export function* getReservations() {
     if (staging) {
       requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
     } else {
-      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
+      requestURL = `https://api.hel.fi/respa/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
     }
   }
 
