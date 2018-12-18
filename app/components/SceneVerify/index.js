@@ -17,28 +17,22 @@ const messages = defineMessages({
   },
 });
 
-class SceneVerify extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Wrapper>
-        <Timer className={'timer--hidden'} onTimesUp={this.props.onTimesUp} />
-        <Icon verified />
-        <H3>
-          <FormattedMessage {...messages.title} />
-        </H3>
-        <HelperLink
-          className={'helperlink--btn'}
-          onHelperLinkClick={this.props.onButtonClick}
-        >
-          <FormattedMessage {...messages.ready} />
-        </HelperLink>
-      </Wrapper>
-    );
-  }
+function SceneVerify(props) {
+  return (
+    <Wrapper>
+      <Timer className={'timer--hidden'} onTimesUp={props.onTimesUp} />
+      <Icon verified />
+      <H3>
+        <FormattedMessage {...messages.title} />
+      </H3>
+      <HelperLink
+        className={'helperlink--btn'}
+        onHelperLinkClick={props.onButtonClick}
+      >
+        <FormattedMessage {...messages.ready} />
+      </HelperLink>
+    </Wrapper>
+  );
 }
 
 export default SceneVerify;

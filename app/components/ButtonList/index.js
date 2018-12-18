@@ -10,10 +10,18 @@ import messages from './messages';
 class ButtonList extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      active: false,
+    };
   }
 
   onSlotClick(slot) {
     this.props.onButtonClick(slot);
+
+    this.setState({
+      // active: !this.state.active,
+    });
   }
 
   render() {
@@ -23,6 +31,7 @@ class ButtonList extends React.Component {
           <BookingButton
             id={slot.end.getTime()}
             className={
+              this.state.active &&
               this.props.selectedSlot &&
               slot.end.getTime() == this.props.selectedSlot.end.getTime()
                 ? 'active'
