@@ -1,8 +1,7 @@
 {
   "boilerplate.containers.LocaleToggle.de": "de",
   "boilerplate.containers.LocaleToggle.en": "en",
-  "boilerplate.containers.NotFoundPage.header":
-    "Virhe tapahtui, nobody's perfect :(",
+  "boilerplate.containers.NotFoundPage.header": "Sivua ei löydy.",
   "boilerplate.components.AreaStatus.area.resourceIsFree": "Tila on vapaa",
   "boilerplate.components.AreaStatus.area.resourceIsNotFree": "Tila on varattu",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
@@ -30,5 +29,7 @@
   "oodi.components.ButtonList.until": "asti",
   "strongauth.title": "Varaa tila",
   "strongauth.info": "Voit tehdä varauksia tilaan osoitteessa ",
-  "strongauth.qrinfo": "strongauth.qrinfo"
+  "strongauth.qrinfo": "strongauth.qrinfo",
+  "SceneError.link.cancel": "Peruuta",
+  "SceneError.title": "Varaus ei onnistunut"
 }

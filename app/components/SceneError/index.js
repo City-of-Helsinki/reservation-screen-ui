@@ -7,11 +7,11 @@ import Icon from 'components/Icon';
 
 const messages = defineMessages({
   cancel: {
-    id: 'boilerplate.components.SceneError.link.cancel',
+    id: 'SceneError.link.cancel',
     defaultMessage: 'Takaisin alkuun',
   },
   title: {
-    id: 'boilerplate.components.SceneError.title',
+    id: 'SceneError.title',
     defaultMessage: 'Varaus ei onnistunut',
   },
 });
