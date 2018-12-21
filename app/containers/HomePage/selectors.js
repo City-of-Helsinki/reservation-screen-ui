@@ -56,10 +56,6 @@ const makeSelectAvailableUntil = () =>
       return false;
     }
 
-    // Get opening times.
-    const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
-    const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
-
     // Get current time.
     const currentTime = state.get('date');
 
@@ -99,8 +95,21 @@ const makeSelectAvailableUntil = () =>
     }
     // No resevations at all. Next resource is available until closing time.
     else {
-      // If resource is still closed, next available time is when resource opens.
-      return new Date(closes);
+      // Get opening times.
+      const closes = resource.getIn(['opening_hours', 0, 'closes']);
+
+      // Space is available until closing time.
+      if (closes) {
+        return new Date(closes);
+      }
+      // Closing time not available. Default to 22.00.
+      else {
+        const newCloses = new Date();
+        newCloses.setHours(22);
+        newCloses.setMinutes(0);
+        newCloses.setSeconds(0);
+        return newCloses;
+      }
     }
 
     return false;
