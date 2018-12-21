@@ -248,7 +248,7 @@ const makeSelectIsResourceAvailable = () =>
         .get('reservations')
         .filter(
           reservation =>
-            new Date(reservation.get('begin')).getTime() < date.getTime() &&
+            new Date(reservation.get('begin')).getTime() <= date.getTime() &&
             new Date(reservation.get('end')).getTime() > date.getTime(),
         );
 
