@@ -33,14 +33,6 @@ class Status extends React.Component {
           </P>
         )}
 
-        {!this.props.isResourceAvailable && (
-          <div>
-            <P className="ira">
-              <FormattedMessage {...messages.resourceIsNotAvailable} />
-            </P>
-          </div>
-        )}
-
         {showNextAvailableTime && (
           <P className="snat">
             <FormattedMessage {...messages.nextAvailableTimeClock} />
