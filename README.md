@@ -3,15 +3,18 @@
 On-screen reservation client built for Helsingin Kaupunki. This app is used on small screens on libraries and other public spaces. It tells current reservation status and allow people to do reservation on the fly.
 
 App uses Respa API:  
-https://dev.hel.fi/apis/respa/
+`https://dev.hel.fi/apis/respa/`
+
+And for staging:  
+`https://api.hel.fi/respa-test/v1/`
 
 To open the app you need to provide the resource id and token as GET parameter:  
 `http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop`
 
-To test against staging environment use staging=true parameter:
+To test against staging environment use staging=true parameter:  
 `http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop&staging=true`
 
-Test against a real space at Oodi:
+Test against a real space at Oodi:  
 `http://localhost/?resourceId=av5k4vxjxyha&token=dkfsjdhgfdsjhg`
 
 ## Version management
