@@ -41,12 +41,12 @@ To test against staging environment use staging=true parameter:
 The easiest and the most convenient way of developing is to use local json-files to mock API responses. Check `server/api` folder for examples. You can easily alter and modify json-files and test different scenarios.
 
 To test with local files use json filename as resourceId. Filename is automatically detected and data is loaded from local endpoint instead of the real API. Example:  
-`http://localhost/?resourceId=resources.json`
+`http://localhost/?token=qwertyuiop&resourceId=resources.json`
 
 ## Debugging: override current date
 
 To make testing easier it's possible to override the current time. That's handy when working with mock API responses. You can override current time with date-parameter:  
-`http://localhost/?date=2018-09-17T11:15:00+03:00`
+`http://localhost/?token=qwertyuiop&date=2018-09-17T11:15:00+03:00`
 
 ## Unit testing
 
