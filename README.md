@@ -11,6 +11,9 @@ To open the app you need to provide the resource id and token as GET parameter:
 To test against staging environment use staging=true parameter:
 `http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop&staging=true`
 
+Test against a real space at Oodi:
+`http://localhost/?resourceId=av5k4vxjxyha&token=dkfsjdhgfdsjhg`
+
 ## Version management
 
 This project has two repos. One Evermade's internal and one public:
