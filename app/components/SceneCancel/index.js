@@ -5,6 +5,7 @@ import { FormattedMessage, defineMessages } from 'react-intl';
 import H3 from 'components/H3';
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
+import Submit from 'components/Submit';
 
 const messages = defineMessages({
   cancel: {
@@ -29,9 +30,9 @@ function SceneCancel(props) {
       <H3>
         <FormattedMessage {...messages.title} />
       </H3>
-      <HelperLink onHelperLinkClick={props.onButtonClick}>
+      <Submit onClick={props.onButtonClick}>
         <FormattedMessage {...messages.cancel} />
-      </HelperLink>
+      </Submit>
     </Wrapper>
   );
 }
