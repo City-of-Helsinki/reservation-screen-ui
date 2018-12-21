@@ -5,12 +5,12 @@
   "boilerplate.components.AreaStatus.area.resourceIsFree": "Available",
   "boilerplate.components.AreaStatus.area.resourceIsNotFree": "Occupied",
   "boilerplate.components.AreaBooking.button.submit": "Book",
-  "boilerplate.components.AreaStatus.area.clock": "Free ",
-  "boilerplate.components.AreaStatus.area.until": " until",
+  "boilerplate.components.AreaStatus.area.clock": "Free until ",
+  "boilerplate.components.AreaStatus.area.until": " ",
   "boilerplate.components.AreaStatus.area.reserved": "Reserved until ",
   "boilerplate.components.AreaBooking.booking.title": "Book",
   "boilerplate.components.AreaBooking.confirm.title": "Confirm booking",
-  "boilerplate.components.Upcoming.title": "Upcoming reservation",
+  "boilerplate.components.Upcoming.title": "Upcoming reservations",
   "boilerplate.components.Confirm.starts":
     "Your reservation begins {br} at {time}",
   "boilerplate.components.Confirm.ends":
@@ -19,7 +19,7 @@
   "boilerplate.components.Confirm.resetLink": "Return to home",
   "boilerplate.components.Confirm.cancelledTitle": "Reservation cancelled",
   "boilerplate.components.SceneStart.button.submit": "Book",
-  "title.book": "Book",
+  "title.book": "Book until",
   "link.book": "Book",
   "AreaStatus.ShowMoreButton.text": "More information",
   "title.confirm.booking": "Confirm reservation",
@@ -28,10 +28,12 @@
   "link.cancel.booking": "Cancel reservation",
   "booking.notAvailable": "Space is not {br} available right now.",
   "oodi.components.ListItem.defaultTitle": "Occupied",
-  "oodi.components.ButtonList.until": "until",
+  "oodi.components.ButtonList.until": " ",
   "strongauth.title": "Book",
   "strongauth.info": "You can make reservation in this address: ",
   "strongauth.qrinfo": "strongauth.qrinfo",
   "SceneError.link.cancel": "Cancel",
-  "SceneError.title": "Reservation failed"
+  "SceneError.title": "Reservation failed",
+  "components.SceneCancel.link.cancel": "Back",
+  "components.SceneCancel.title": "Reservation cancelled"
 }

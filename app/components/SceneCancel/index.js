@@ -9,11 +9,11 @@ import Submit from 'components/Submit';
 
 const messages = defineMessages({
   cancel: {
-    id: 'boilerplate.components.SceneCancel.link.cancel',
+    id: 'components.SceneCancel.link.cancel',
     defaultMessage: 'Takaisin alkuun',
   },
   title: {
-    id: 'boilerplate.components.SceneCancel.title',
+    id: 'components.SceneCancel.title',
     defaultMessage: 'Varaus peruttu',
   },
 });

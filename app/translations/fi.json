@@ -6,7 +6,7 @@
   "boilerplate.components.AreaStatus.area.resourceIsNotFree": "Tila on varattu",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
   "boilerplate.components.AreaStatus.area.clock": "Vapaa klo ",
-  "boilerplate.components.AreaStatus.area.until": " saakka",
+  "boilerplate.components.AreaStatus.area.until": " asti",
   "boilerplate.components.AreaStatus.area.reserved": "Varattu klo ",
   "boilerplate.components.AreaBooking.booking.title": "Varaa tila",
   "boilerplate.components.AreaBooking.confirm.title": "Vahvista varaus",
@@ -31,5 +31,7 @@
   "strongauth.info": "Voit tehdä varauksia tilaan osoitteessa ",
   "strongauth.qrinfo": "strongauth.qrinfo",
   "SceneError.link.cancel": "Peruuta",
-  "SceneError.title": "Varaus ei onnistunut"
+  "SceneError.title": "Varaus ei onnistunut",
+  "components.SceneCancel.link.cancel": "Takaisin alkuun",
+  "components.SceneCancel.title": "Varaus peruttu"
 }
