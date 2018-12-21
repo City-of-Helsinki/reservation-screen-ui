@@ -5,17 +5,11 @@ On-screen reservation client built for Helsingin Kaupunki. This app is used on s
 App uses Respa API:  
 `https://dev.hel.fi/apis/respa/`
 
-And for staging:  
-`https://api.hel.fi/respa-test/v1/`
-
 To open the app you need to provide the resource id and token as GET parameter:  
 `http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop`
 
-To test against staging environment use staging=true parameter:  
-`http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop&staging=true`
-
-Test against a real space at Oodi:  
-`http://localhost/?resourceId=av5k4vxjxyha&token=dkfsjdhgfdsjhg`
+This is the real meeting room at Oodi:  
+`http://localhost/?resourceId=av5k4vxjxyha&token=qwertyuiop`
 
 ## Version management
 
@@ -34,7 +28,27 @@ Run `npm install`
 
 Run `npm start`
 
-## Testing
+## Developing with staging environment
+
+Respa staging API is used for staging requests:  
+`https://api.hel.fi/respa-test/v1/`
+
+To test against staging environment use staging=true parameter:  
+`http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop&staging=true`
+
+## Developing with local files
+
+The easiest and the most convenient way of developing is to use local json-files to mock API responses. Check `server/api` folder for examples. You can easily alter and modify json-files and test different scenarios.
+
+To test with local files use json filename as resourceId. Filename is automatically detected and data is loaded from local endpoint instead of the real API. Example:  
+`http://localhost/?resourceId=resources.json`
+
+## Debugging: override current date
+
+To make testing easier it's possible to override the current time. That's handy when working with mock API responses. You can override current time with date-parameter:  
+`http://localhost/?date=2018-09-17T11:15:00+03:00`
+
+## Unit testing
 
 Unit tests are written for core selectors. They have some business logic. If you ever need to change these selectors please make sure tests pass.
 
@@ -47,27 +61,14 @@ To run tests: `env TZ='Europe/Helsinki' npm run test:watch`
 
 You will need to define timezone to make tests pass.
 
-## Requirements
-
-- Node 8
-
 ## Using docker
 
 If you don't want to install node you can run it inside Docker:
 `docker run -it --network host -w /app -v $(pwd):/app -e HOST=0.0.0.0 -e PORT=80 node:8.11.4-jessie npm start`
 
-## Debugging
+## Requirements
 
-You can override current time with url parameter:
-`http://127.0.0.1/?date=2018-09-17T11:15:00+03:00`
-
-You can also load local json-files:
-`http://127.0.0.1/?resourceId=resources.json`
-
-These file are located in `server/api`.
-
-Or both:
-`http://127.0.0.1/?date=2018-09-17T11:15:00+03:00&resourceId=resources.json`
+- Node 8
 
 ## Technology stack
 
