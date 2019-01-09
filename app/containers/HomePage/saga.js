@@ -111,7 +111,7 @@ export function* makeReservation() {
   if (staging) {
     requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
   } else {
-    requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
+    requestURL = 'https://api.hel.fi/respa/v1/reservation/';
   }
 
   // Expect date objects.
