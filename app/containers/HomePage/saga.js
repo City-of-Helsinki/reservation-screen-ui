@@ -24,20 +24,13 @@ export function* getReservations() {
   // By default use local file.
   let requestURL = '';
   let resourceId = false;
-  let token = false;
   let staging = false;
+  const token = process.env.NODE_ENV;
 
   if (window.location.toString().match(/resourceId=/)) {
     resourceId = window.location
       .toString()
       .replace(/.*resourceId=/, '')
-      .replace(/&.*/, '');
-  }
-
-  if (window.location.toString().match(/token=/)) {
-    token = window.location
-      .toString()
-      .replace(/.*token=/, '')
       .replace(/&.*/, '');
   }
 
@@ -47,11 +40,11 @@ export function* getReservations() {
 
   // Start
   // ?start=2018-09-17T08%3A00%3A00%2B03%3A00&end=2018-09-17T20%3A00%3A00%2B03%3A00
-  let start = new Date();
-  let startTimeStr = encodeURIComponent(
+  const start = new Date();
+  const startTimeStr = encodeURIComponent(
     `${dateFormat(start, 'yyyy-mm-dd')}T00:00:00Z`,
   );
-  let endTimeStr = encodeURIComponent(
+  const endTimeStr = encodeURIComponent(
     `${dateFormat(start, 'yyyy-mm-dd')}T23:59:59Z`,
   );
 
@@ -63,12 +56,10 @@ export function* getReservations() {
   // If id has "json" in it's name, use local file.
   if (resourceId.match(/\.json/)) {
     requestURL = `/api/${resourceId}`;
+  } else if (staging) {
+    requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
   } else {
-    if (staging) {
-      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    } else {
-      requestURL = `https://api.hel.fi/respa/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    }
+    requestURL = `https://api.hel.fi/respa/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
   }
 
   try {
@@ -92,14 +83,7 @@ export function* makeReservation() {
 
   let requestURL = '';
   let staging = false;
-  let token = false;
-
-  if (window.location.toString().match(/token=/)) {
-    token = window.location
-      .toString()
-      .replace(/.*token=/, '')
-      .replace(/&.*/, '');
-  }
+  const token = process.env.NODE_ENV;
 
   if (window.location.toString().match(/staging=/)) {
     staging = window.location
