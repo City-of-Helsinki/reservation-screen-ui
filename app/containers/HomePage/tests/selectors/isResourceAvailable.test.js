@@ -1,10 +1,11 @@
 import { fromJS } from 'immutable';
 
 import {
+  // eslint-disable-next-line no-unused-vars
   makeUpcomingReservations,
   makeSelectIsResourceAvailable,
 } from '../../selectors';
-import mockResource from '../mock/resource.js';
+import mockResource from '../mock/resource';
 
 describe('makeSelectIsResourceAvailable', () => {
   const selector = makeSelectIsResourceAvailable();

@@ -47,11 +47,11 @@ export function* getReservations() {
 
   // Start
   // ?start=2018-09-17T08%3A00%3A00%2B03%3A00&end=2018-09-17T20%3A00%3A00%2B03%3A00
-  let start = new Date();
-  let startTimeStr = encodeURIComponent(
+  const start = new Date();
+  const startTimeStr = encodeURIComponent(
     `${dateFormat(start, 'yyyy-mm-dd')}T00:00:00Z`,
   );
-  let endTimeStr = encodeURIComponent(
+  const endTimeStr = encodeURIComponent(
     `${dateFormat(start, 'yyyy-mm-dd')}T23:59:59Z`,
   );
 
@@ -63,12 +63,10 @@ export function* getReservations() {
   // If id has "json" in it's name, use local file.
   if (resourceId.match(/\.json/)) {
     requestURL = `/api/${resourceId}`;
+  } else if (staging) {
+    requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
   } else {
-    if (staging) {
-      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    } else {
-      requestURL = `https://api.hel.fi/respa/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    }
+    requestURL = `https://api.hel.fi/respa/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
   }
 
   try {
@@ -85,6 +83,7 @@ export function* getReservations() {
   }
 }
 
+// eslint-disable-next-line consistent-return
 export function* makeReservation() {
   // Get resource id and selected slot.
   const resourceId = yield select(makeSelectResourceId());
@@ -160,7 +159,9 @@ export function* makeReservation() {
     yield put(makeReservationCompleted(reservation));
     yield put(loadReservations());
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.log(err);
+    // eslint-disable-next-line no-console
     console.log(err.message);
     yield put(makeReservationError(err));
   }

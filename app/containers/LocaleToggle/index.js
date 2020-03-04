@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /*
  *
  * LanguageToggle
@@ -34,6 +35,7 @@ export class LocaleToggle extends React.PureComponent {
 }
 
 LocaleToggle.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   onLocaleToggle: PropTypes.func,
   locale: PropTypes.string,
 };

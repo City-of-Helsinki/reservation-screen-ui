@@ -1,14 +1,12 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
-import Wrapper from './Wrapper';
 import AreaBooking from 'components/AreaBooking';
 import AreaStatus from 'components/AreaStatus';
+import Wrapper from './Wrapper';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class Booking extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Wrapper>

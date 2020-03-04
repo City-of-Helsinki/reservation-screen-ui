@@ -1,12 +1,13 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
 import HelperLink from 'components/HelperLink';
 import Submit from 'components/Submit';
-import { FormattedMessage, defineMessages } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import P from 'components/P';
 import Timer from 'components/Timer';
-import messages from './messages';
 import FormattedTime from 'components/FormattedTime';
+import messages from './messages';
 
 const Wrapper = styled.div`
   display: block;
@@ -24,14 +25,8 @@ const H2 = styled.h2`
   text-align: center;
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SceneAction extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      disabled: false,
-    };
-  }
-
   render() {
     return (
       <Wrapper>

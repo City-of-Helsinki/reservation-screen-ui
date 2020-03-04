@@ -1,11 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import Wrapper from './Wrapper';
 import ButtonBase from 'components/BasicButton';
 import styled from 'styled-components';
-import P from 'components/P';
 import Chevron from 'components/Chevron';
+import messages from './messages';
+import Wrapper from './Wrapper';
 
 const ShowMoreButton = styled(ButtonBase)`
   background: transparent;
@@ -23,11 +23,8 @@ const Div = styled.div`
   }
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SlideUpContent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const cssClass = this.props.visible ? 'slide-up' : 'slide-down';
 

@@ -1,11 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import Wrapper from './Wrapper';
 import Upcoming from 'components/Upcoming';
 import Clock from 'components/Clock';
 import Status from 'components/Status';
 import SlideUpContent from 'components/SlideUpContent';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -16,6 +14,8 @@ import {
   makeSelectIsDescriptionOpen,
 } from 'containers/HomePage/selectors';
 import { toggleIsDescriptionOpen } from 'containers/HomePage/actions';
+
+import Wrapper from './Wrapper';
 
 /* eslint-disable react/prefer-stateless-function */
 class AreaStatus extends React.Component {

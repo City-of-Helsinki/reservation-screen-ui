@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  *
  * LocaleToggle
@@ -7,8 +8,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Select from './Select';
-import ToggleOption from '../ToggleOption';
 import styled from 'styled-components';
 
 const Ul = styled.ul`
@@ -51,7 +50,6 @@ function Toggle(props) {
 }
 
 Toggle.propTypes = {
-  onToggle: PropTypes.func,
   values: PropTypes.array,
   value: PropTypes.string,
   messages: PropTypes.object,

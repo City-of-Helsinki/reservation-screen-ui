@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Wrapper, Div } from './Wrapper';
-import { ThemeProvider } from 'styled-components';
 import LocaleToggle from 'containers/LocaleToggle';
 
 import { createStructuredSelector } from 'reselect';
@@ -31,12 +29,12 @@ import {
 } from 'containers/HomePage/actions';
 /* eslint-disable react/prefer-stateless-function */
 
+import { Wrapper, Div } from './Wrapper';
+
 class AreaBooking extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      disabled: true,
-    };
+    this.state = {};
   }
 
   render() {
@@ -45,9 +43,9 @@ class AreaBooking extends React.Component {
         <Div>
           <LocaleToggle />
 
-          {this.props.scene == 'Loading' && <SceneLoading />}
-          {this.props.scene == 'Setup' && <SceneSetup />}
-          {this.props.scene == 'Start' && (
+          {this.props.scene === 'Loading' && <SceneLoading />}
+          {this.props.scene === 'Setup' && <SceneSetup />}
+          {this.props.scene === 'Start' && (
             <SceneStart
               onSubmit={this.props.onChangeSceneToAction}
               onSelectSlot={this.props.onSelectSlot}
@@ -55,7 +53,7 @@ class AreaBooking extends React.Component {
               selectedSlot={this.props.selectedSlot}
             />
           )}
-          {this.props.scene == 'Action' && (
+          {this.props.scene === 'Action' && (
             <SceneAction
               onTimesUp={this.props.onChangeSceneToStart}
               selectedSlot={this.props.selectedSlot}
@@ -63,25 +61,25 @@ class AreaBooking extends React.Component {
               onCancelClick={this.props.onChangeSceneToCancel}
             />
           )}
-          {this.props.scene == 'Cancel' && (
+          {this.props.scene === 'Cancel' && (
             <SceneCancel
               onTimesUp={this.props.onChangeSceneToStart}
               onButtonClick={this.props.onChangeSceneToStart}
             />
           )}
-          {this.props.scene == 'Verify' && (
+          {this.props.scene === 'Verify' && (
             <SceneVerify
               onTimesUp={this.props.onChangeSceneToStart}
               onButtonClick={this.props.onChangeSceneToStart}
             />
           )}
-          {this.props.scene == 'Error' && (
+          {this.props.scene === 'Error' && (
             <SceneError
               errorMessage={this.props.errorMessage}
               onButtonClick={this.props.onChangeSceneToStart}
             />
           )}
-          {this.props.scene == 'StrongAuth' && (
+          {this.props.scene === 'StrongAuth' && (
             <SceneStrongAuth
               resource={this.props.resource}
               resourceId={this.props.resourceId}
@@ -93,6 +91,20 @@ class AreaBooking extends React.Component {
     );
   }
 }
+
+AreaBooking.propTypes = {
+  scene: PropTypes.any,
+  onChangeSceneToAction: PropTypes.any,
+  onSelectSlot: PropTypes.any,
+  freeSlots: PropTypes.any,
+  selectedSlot: PropTypes.any,
+  onChangeSceneToStart: PropTypes.any,
+  onMakeReservation: PropTypes.any,
+  onChangeSceneToCancel: PropTypes.any,
+  errorMessage: PropTypes.any,
+  resource: PropTypes.any,
+  resourceId: PropTypes.any,
+};
 
 export function mapDispatchToProps(dispatch) {
   return {

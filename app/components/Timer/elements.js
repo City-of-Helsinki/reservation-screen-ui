@@ -1,5 +1,4 @@
 import styled, { css, keyframes } from 'styled-components';
-import { withTheme } from 'styled-components';
 
 const AnimationTime = '6s';
 

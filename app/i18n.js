@@ -27,7 +27,7 @@ const DEFAULT_LOCALE = 'fi';
 const appLocales = [
   'fi',
   'en',
-  'sv'
+  'sv',
 ];
 
 const formatTranslationMessages = (locale, messages) => {

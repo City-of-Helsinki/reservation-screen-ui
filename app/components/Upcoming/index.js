@@ -1,11 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
-import H3 from 'components/H3';
 import List from 'components/List';
 import ListItem from 'components/ListItem';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import { toggleDisplayClass } from 'utils/toggleDisplayClass';
+import messages from './messages';
 
 const H4 = styled.h4`
   font-size: 18px;
@@ -19,11 +19,8 @@ const Div = styled.div`
 
 const maxNum = 3;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class Upcoming extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Div>

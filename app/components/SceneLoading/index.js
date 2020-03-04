@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { FormattedMessage, defineMessages } from 'react-intl';
 
 const loading = keyframes`
   0%,
@@ -55,14 +54,8 @@ const Loader = styled.div`
   transform: translateZ(0);
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SceneLoading extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      disabled: false,
-    };
-  }
-
   render() {
     return (
       <Wrapper>

@@ -1,21 +1,18 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 import H1 from 'components/H1';
-import H2 from 'components/H2';
 import FormattedTime from 'components/FormattedTime';
 import P from './P';
-import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 const Wrapper = styled.div`
   margin-bottom: 30px;
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class Status extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const showNextAvailableTime =
       !this.props.isResourceAvailable && this.props.nextAvailableTime;

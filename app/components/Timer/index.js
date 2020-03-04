@@ -1,16 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { withTheme } from 'styled-components';
-import Theme from 'components/Theme';
 import { Wrapper, LeftHalf, RightHalf, Spinner } from './elements';
 
 class Timer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const self = this;
-    self.interval = setInterval(function() {
+    self.interval = setInterval(() => {
       clearInterval(self.interval);
       self.onTimesUp();
     }, 6000);

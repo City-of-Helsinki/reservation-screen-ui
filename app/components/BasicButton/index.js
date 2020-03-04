@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { ThemeProvider } from 'styled-components';
 
 const BasicButton = styled.button`
   display: inline-block;
   box-sizing: border-box;
   padding: 0 2em;
   text-decoration: none;
+  /* stylelint-disable-next-line */
   border-radius: 4px;
   -webkit-font-smoothing: antialiased;
   -webkit-touch-callout: none;
@@ -18,6 +18,7 @@ const BasicButton = styled.button`
   border: 2px solid black;
   color: black;
   line-height: 4rem;
+  /* stylelint-disable-next-line */
   border-radius: 2rem;
 
   background: white;

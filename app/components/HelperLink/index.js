@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -20,7 +21,8 @@ const Link = styled.div`
 `;
 
 function HelperLink(props) {
-  let link = (
+  const link = (
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link onClick={props.onHelperLinkClick}>
       <Chevron />
       {Children.toArray(props.children)}

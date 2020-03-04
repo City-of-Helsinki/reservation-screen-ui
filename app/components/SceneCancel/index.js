@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
-import HelperLink from 'components/HelperLink';
 import { FormattedMessage, defineMessages } from 'react-intl';
 import H3 from 'components/H3';
 import Icon from 'components/Icon';
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 function SceneCancel(props) {
   return (
     <Wrapper>
-      <Timer className={'timer--hidden'} onTimesUp={props.onTimesUp} />
+      <Timer className="timer--hidden" onTimesUp={props.onTimesUp} />
       <Icon />
       <H3>
         <FormattedMessage {...messages.title} />

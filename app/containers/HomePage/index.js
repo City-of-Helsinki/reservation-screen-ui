@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /*
  * HomePage
  *
@@ -7,11 +8,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import styled, { ThemeProvider } from 'styled-components';
 
+import Booking from 'components/Booking';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import {
@@ -19,32 +21,17 @@ import {
   makeSelectLoading,
   makeSelectError,
 } from 'containers/App/selectors';
-import H2 from 'components/H2';
-import Clock from 'components/Clock';
-import ReposList from 'components/ReposList';
-import AreaStatus from 'components/AreaStatus';
-import AreaBooking from 'components/AreaBooking';
-import AtPrefix from './AtPrefix';
-import Form from './Form';
-import Input from './Input';
-import Section from './Section';
-import messages from './messages';
 import { loadRepos } from '../App/actions';
 import { loadReservations, updateClock } from './actions';
 import {
-  makeFreeSlots,
   makeUpcomingReservations,
   makeSelectResourceName,
   makeSelectResourceId,
   makeSelectResourceDescription,
-  makeSelectNextAvailableTime,
   makeSelectIsResourceAvailable,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-
-import styled, { ThemeProvider } from 'styled-components';
-import Booking from 'components/Booking';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -78,6 +65,7 @@ export class HomePage extends React.PureComponent {
     this.clockInterval = false;
     this.resourceInterval = false;
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       theme: themeAvailableSoon,
       // theme: themeAvailableNow,
       // theme: themeTaken,
@@ -85,8 +73,6 @@ export class HomePage extends React.PureComponent {
   }
 
   componentDidMount() {
-    const self = this;
-
     this.props.onLoadReservations();
     this.resourceInterval = setInterval(() => {
       this.props.onLoadReservations();
@@ -122,6 +108,7 @@ export class HomePage extends React.PureComponent {
       height: 100%;
     `;
 
+    // eslint-disable-next-line no-unused-vars
     const reposListProps = {
       loading,
       error,
@@ -158,19 +145,22 @@ HomePage.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   repos: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  // eslint-disable-next-line react/no-unused-prop-types
   onSubmitForm: PropTypes.func,
+  // eslint-disable-next-line react/no-unused-prop-types
   onChangeUsername: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
+    // eslint-disable-next-line no-undef
     onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
     onSubmitForm: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
     },
     onUpdateClock: date => dispatch(updateClock(date)),
-    onLoadReservations: evt => dispatch(loadReservations()),
+    onLoadReservations: () => dispatch(loadReservations()),
   };
 }
 
