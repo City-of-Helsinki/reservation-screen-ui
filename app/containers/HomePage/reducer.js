@@ -44,14 +44,14 @@ function homeReducer(state = initialState, action) {
       if (
         action &&
         action.resource &&
-        action.resource.authentication == 'strong'
+        action.resource.authentication === 'strong'
       ) {
         return state
           .set('resource', fromJS(action.resource))
           .set('scene', 'StrongAuth');
-      } else {
-        return state.set('resource', fromJS(action.resource));
       }
+      return state.set('resource', fromJS(action.resource));
+
     case CHANGE_SCENE:
       return state.set('scene', action.scene);
     case CHANGE_SLOT:

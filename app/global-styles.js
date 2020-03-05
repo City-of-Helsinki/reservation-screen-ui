@@ -26,6 +26,7 @@ injectGlobal`
   }
 
   body {
+    /* stylelint-disable-next-line */
     font-family: HelsinkiGroteskRegular, 'Helvetica Neue', Helvetica, Arial;
   }
 
@@ -49,14 +50,14 @@ injectGlobal`
 
   .toggable {
     overflow: hidden;
-    transform: translateY(0):
+    transform: translateY(0);
     opacity: 1;
     transition: all 0.5s ease-in-out;
     max-height: 250px;
     &.slide-out {
       opacity: 0;
       max-height: 0;
-      transform: translateY(-100%):
+      transform: translateY(-100%);
     }
   }
 

@@ -5,7 +5,7 @@
 import styled from 'styled-components';
 
 const P = styled.p`
-	color: #111;
+  color: #111;
 `;
 
 export default P;

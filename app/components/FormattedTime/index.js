@@ -1,21 +1,19 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable prefer-destructuring */
 /**
  * Output formatted time.
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class FormattedTime extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const date = this.props.date;
 
     if (date) {
-      let hours = this.props.date.getHours();
-      let mins = this.props.date.getMinutes();
+      const hours = this.props.date.getHours();
+      const mins = this.props.date.getMinutes();
 
       return (
         <span>
@@ -25,9 +23,8 @@ class FormattedTime extends React.Component {
           {mins}
         </span>
       );
-    } else {
-      return <span />;
     }
+    return <span />;
   }
 }
 

@@ -1,5 +1,4 @@
 import { css } from 'styled-components';
-import { ThemeProvider } from 'styled-components';
 
 const color = 'black';
 
@@ -8,6 +7,7 @@ const buttonStyles = css`
   box-sizing: border-box;
   padding: 0 2em;
   text-decoration: none;
+  /* stylelint-disable-next-line */
   border-radius: 4px;
   -webkit-font-smoothing: antialiased;
   -webkit-touch-callout: none;
@@ -17,10 +17,12 @@ const buttonStyles = css`
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
   border: 2px solid black;
+  /* stylelint-disable-next-line */
   border-radius: 25%;
 
   color: ${color};
   line-height: 3rem;
+  /* stylelint-disable-next-line */
   border-radius: 1.5rem;
   background: white;
 

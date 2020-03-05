@@ -1,12 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
-import HelperLink from 'components/HelperLink';
-import Submit from 'components/Submit';
-import { FormattedMessage, defineMessages } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import QRCode from 'qrcode.react';
 import P from 'components/P';
 import messages from './messages';
-import FormattedTime from 'components/FormattedTime';
-import QRCode from 'qrcode.react';
 
 const Wrapper = styled.div`
   display: block;
@@ -17,14 +15,8 @@ const H2 = styled.h2`
   text-align: center;
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SceneStrongAuth extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      disabled: false,
-    };
-  }
-
   render() {
     return (
       <Wrapper>
@@ -42,7 +34,7 @@ class SceneStrongAuth extends React.Component {
         </P>
         <P>
           <QRCode
-            value={'https://varaamo.hel.fi/resources/' + this.props.resourceId}
+            value={`https://varaamo.hel.fi/resources/${this.props.resourceId}`}
           />
         </P>
       </Wrapper>

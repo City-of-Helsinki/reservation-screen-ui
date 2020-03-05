@@ -1,17 +1,13 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
-import HelperLink from 'components/HelperLink';
 import ButtonList from 'components/ButtonList';
 import Submit from 'components/Submit';
-import { FormattedMessage, defineMessages } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 const Wrapper = styled.div`
   display: block;
-`;
-
-const LinkWrapper = styled.div`
-  color: #f00;
 `;
 
 const H2 = styled.h2`
@@ -28,10 +24,6 @@ const H3 = styled.h3`
 `;
 
 class SceneStart extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   selectSlot(slot) {
     this.props.onSelectSlot(slot);
   }
@@ -41,7 +33,7 @@ class SceneStart extends React.Component {
   }
 
   render() {
-    const disabled = this.props.selectedSlot ? false : true;
+    const disabled = !this.props.selectedSlot;
     const available = this.props.freeSlots.length > 0;
     return (
       <Wrapper>

@@ -1,9 +1,9 @@
 import { fromJS } from 'immutable';
 
 import { makeSelectFreeSlots } from '../../selectors';
-import mockResource from '../mock/resource.js';
-import mockResourceNoReservations from '../mock/resource-no-reservations.js';
-import mockResourceSomeReservations from '../mock/resource-some-reservations.js';
+import mockResource from '../mock/resource';
+import mockResourceNoReservations from '../mock/resource-no-reservations';
+import mockResourceSomeReservations from '../mock/resource-some-reservations';
 
 describe('makeSelectFreeSlots', () => {
   const selector = makeSelectFreeSlots(4);
@@ -83,11 +83,11 @@ describe('makeSelectFreeSlots', () => {
     });
 
     // Debugging. Enjoy ;)
-    //let output = '';
-    //slots.map(slot => {
+    // let output = '';
+    // slots.map(slot => {
     //  output += slot.begin.getHours() + ' - ' + slot.end.getHours() + '\n';
-    //});
-    //console.log(output);
+    // });
+    // console.log(output);
 
     const freeSlots = selector(mockedState);
     expect(freeSlots.length).toEqual(4);

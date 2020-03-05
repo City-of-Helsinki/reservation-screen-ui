@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
 import HelperLink from 'components/HelperLink';
@@ -20,14 +21,9 @@ const Wrapper = styled.div`
   display: block;
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SceneCancel extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const message = JSON.stringify(this.props.errorMessage);
-
     return (
       <Wrapper>
         <Icon />

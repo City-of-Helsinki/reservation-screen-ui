@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  *
  * Clock.js
@@ -6,23 +7,19 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import Wrapper from './Wrapper';
 import styled from 'styled-components';
 import { toggleDisplayClass } from 'utils/toggleDisplayClass';
+import Wrapper from './Wrapper';
 
 const Span = styled.span`
   font-size: 4vw;
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    let hours = this.props.date.getHours();
-    let mins = this.props.date.getMinutes();
+    const hours = this.props.date.getHours();
+    const mins = this.props.date.getMinutes();
 
     return (
       <Wrapper className={toggleDisplayClass(this.props.className)}>
