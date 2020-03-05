@@ -10,3 +10,4 @@ __snapshots__
 ._*
 npm-debug.log
 .idea
+.env

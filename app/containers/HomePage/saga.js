@@ -24,20 +24,13 @@ export function* getReservations() {
   // By default use local file.
   let requestURL = '';
   let resourceId = false;
-  let token = false;
   let staging = false;
+  const token = process.env.NODE_ENV;
 
   if (window.location.toString().match(/resourceId=/)) {
     resourceId = window.location
       .toString()
       .replace(/.*resourceId=/, '')
-      .replace(/&.*/, '');
-  }
-
-  if (window.location.toString().match(/token=/)) {
-    token = window.location
-      .toString()
-      .replace(/.*token=/, '')
       .replace(/&.*/, '');
   }
 
@@ -91,14 +84,7 @@ export function* makeReservation() {
 
   let requestURL = '';
   let staging = false;
-  let token = false;
-
-  if (window.location.toString().match(/token=/)) {
-    token = window.location
-      .toString()
-      .replace(/.*token=/, '')
-      .replace(/&.*/, '');
-  }
+  const token = process.env.NODE_ENV;
 
   if (window.location.toString().match(/staging=/)) {
     staging = window.location

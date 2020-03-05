@@ -13,10 +13,10 @@ class SceneSetup extends React.Component {
         <h3>Setup required</h3>
         <p>
           To open reservation screen properly you will need to set resourceId
-          and token parameters.
+          and ensure that TOKEN is discoverable in environment variables.
         </p>
         <p>Example:</p>
-        <p>http://localhost/?resourceId=123456&token=qwertyuiop</p>
+        <p>http://localhost/?resourceId=123456</p>
       </Wrapper>
     );
   }

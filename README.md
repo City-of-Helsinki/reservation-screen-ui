@@ -5,11 +5,11 @@ On-screen reservation client built for Helsingin Kaupunki. This app is used on s
 App uses Respa API:  
 `https://dev.hel.fi/apis/respa/`
 
-To open the app you need to provide the resource id and token as GET parameter:  
-`http://localhost/?resourceId=avtzqtz3bsca&token=qwertyuiop`
+To open the app you need to provide the resource id and make TOKEN accessible within the environment:  
+`http://localhost/?resourceId=avtzqtz3bsca`
 
 This is the real meeting room at Oodi:  
-`http://localhost/?resourceId=av5k4vxjxyha&token=qwertyuiop`
+`http://localhost/?resourceId=av5k4vxjxyha`
 
 ## Version management
 
