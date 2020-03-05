@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import LocaleToggle from 'containers/LocaleToggle';
+import PropTypes from 'prop-types';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
