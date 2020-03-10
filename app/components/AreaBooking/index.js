@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import LocaleToggle from 'containers/LocaleToggle';
 import PropTypes from 'prop-types';
+import camelCaseKeys from 'camelcase-keys';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
-import SceneStart from 'components/SceneStart';
 import SceneCancel from 'components/SceneCancel';
 import SceneAction from 'components/SceneAction';
 import SceneVerify from 'components/SceneVerify';
@@ -18,90 +18,113 @@ import reducer from 'containers/HomePage/reducer';
 
 import {
   makeSelectScene,
-  makeSelectFreeSlots,
   makeSelectSelectedSlot,
   makeSelectErrorMessage,
   makeSelectResourceId,
+  makeSelectResource,
 } from 'containers/HomePage/selectors';
-import {
-  changeScene,
-  changeSlot,
-  makeReservation,
-} from 'containers/HomePage/actions';
-/* eslint-disable react/prefer-stateless-function */
-
+import { changeScene, makeReservation } from 'containers/HomePage/actions';
+import Calendar from 'components/Calendar';
 import { Wrapper, Div } from './Wrapper';
 
-class AreaBooking extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+function useElementSize(ref) {
+  const [size, setSize] = useState([0, 0]);
 
-  render() {
-    return (
-      <Wrapper>
-        <Div>
-          <LocaleToggle />
+  useLayoutEffect(() => {
+    function updateSize() {
+      const currentElement = ref.current;
+      if (currentElement) {
+        setSize([ref.current.clientWidth, ref.current.clientHeight]);
+      }
+    }
 
-          {this.props.scene === 'Loading' && <SceneLoading />}
-          {this.props.scene === 'Setup' && <SceneSetup />}
-          {this.props.scene === 'Start' && (
-            <SceneStart
-              onSubmit={this.props.onChangeSceneToAction}
-              onSelectSlot={this.props.onSelectSlot}
-              freeSlots={this.props.freeSlots}
-              selectedSlot={this.props.selectedSlot}
-            />
-          )}
-          {this.props.scene === 'Action' && (
-            <SceneAction
-              onTimesUp={this.props.onChangeSceneToStart}
-              selectedSlot={this.props.selectedSlot}
-              onButtonClick={this.props.onMakeReservation}
-              onCancelClick={this.props.onChangeSceneToCancel}
-            />
-          )}
-          {this.props.scene === 'Cancel' && (
-            <SceneCancel
-              onTimesUp={this.props.onChangeSceneToStart}
-              onButtonClick={this.props.onChangeSceneToStart}
-            />
-          )}
-          {this.props.scene === 'Verify' && (
-            <SceneVerify
-              onTimesUp={this.props.onChangeSceneToStart}
-              onButtonClick={this.props.onChangeSceneToStart}
-            />
-          )}
-          {this.props.scene === 'Error' && (
-            <SceneError
-              errorMessage={this.props.errorMessage}
-              onButtonClick={this.props.onChangeSceneToStart}
-            />
-          )}
-          {this.props.scene === 'StrongAuth' && (
-            <SceneStrongAuth
-              resource={this.props.resource}
-              resourceId={this.props.resourceId}
-              errorMessage={this.props.errorMessage}
-            />
-          )}
-        </Div>
-      </Wrapper>
-    );
-  }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+
+    return () => {
+      window.removeEventListener('resize', updateSize);
+    };
+  }, []);
+
+  return size;
 }
+
+const AreaBooking = ({
+  resource,
+  scene,
+  selectedSlot,
+  onChangeSceneToStart,
+  onMakeReservation,
+  onChangeSceneToCancel,
+  errorMessage,
+  resourceId,
+}) => {
+  const wrapperRef = useRef(null);
+  const [, height] = useElementSize(wrapperRef);
+
+  return (
+    <Wrapper innerRef={wrapperRef}>
+      <Div>
+        <LocaleToggle />
+        {resource &&
+          height && (
+            <Calendar
+              // Approximately remove padding from wrapper height
+              height={height - 2 * 84}
+              // Transform immutable data structure into a JSON object,
+              // and transform snake_case in that object into camelCase.
+              resource={camelCaseKeys(resource.toJS())}
+              onDateChange={() => {}}
+              onTimeChange={() => {}}
+            />
+          )}
+
+        {scene === 'Loading' && <SceneLoading />}
+        {scene === 'Setup' && <SceneSetup />}
+        {scene === 'Action' && (
+          <SceneAction
+            onTimesUp={onChangeSceneToStart}
+            selectedSlot={selectedSlot}
+            onButtonClick={onMakeReservation}
+            onCancelClick={onChangeSceneToCancel}
+          />
+        )}
+        {scene === 'Cancel' && (
+          <SceneCancel
+            onTimesUp={onChangeSceneToStart}
+            onButtonClick={onChangeSceneToStart}
+          />
+        )}
+        {scene === 'Verify' && (
+          <SceneVerify
+            onTimesUp={onChangeSceneToStart}
+            onButtonClick={onChangeSceneToStart}
+          />
+        )}
+        {scene === 'Error' && (
+          <SceneError
+            errorMessage={errorMessage}
+            onButtonClick={onChangeSceneToStart}
+          />
+        )}
+        {scene === 'StrongAuth' && (
+          <SceneStrongAuth
+            resource={resource}
+            resourceId={resourceId}
+            errorMessage={errorMessage}
+          />
+        )}
+      </Div>
+    </Wrapper>
+  );
+};
 
 AreaBooking.propTypes = {
   scene: PropTypes.any,
-  onChangeSceneToAction: PropTypes.any,
-  onSelectSlot: PropTypes.any,
-  freeSlots: PropTypes.any,
   selectedSlot: PropTypes.any,
   onChangeSceneToStart: PropTypes.any,
-  onMakeReservation: PropTypes.any,
   onChangeSceneToCancel: PropTypes.any,
+  onMakeReservation: PropTypes.any,
   errorMessage: PropTypes.any,
   resource: PropTypes.any,
   resourceId: PropTypes.any,
@@ -109,21 +132,18 @@ AreaBooking.propTypes = {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onSelectSlot: slot => dispatch(changeSlot(slot)),
     onMakeReservation: () => dispatch(makeReservation()),
     onChangeSceneToStart: () => dispatch(changeScene('Start')),
-    onChangeSceneToAction: () => dispatch(changeScene('Action')),
     onChangeSceneToCancel: () => dispatch(changeScene('Cancel')),
-    onChangeSceneToVerify: () => dispatch(changeScene('Verify')),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   scene: makeSelectScene(),
-  freeSlots: makeSelectFreeSlots(4),
   selectedSlot: makeSelectSelectedSlot(),
   errorMessage: makeSelectErrorMessage(),
   resourceId: makeSelectResourceId(),
+  resource: makeSelectResource(),
 });
 
 const withConnect = connect(
