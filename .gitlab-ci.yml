@@ -7,7 +7,6 @@ include:
 # These variables are available for all stages
 variables:
   SERVICE_PORT: "3000"
-  POSTGRES_ENABLED: 0
   K8S_PORT: "3000"
  
 # Build stage must be included and it must extend .build.
@@ -16,7 +15,8 @@ build:
  
 review:
   # These variables are available only for review env and are merged with the general variables defined above.
-  # variables:
+  variables:
+    POSTGRES_ENABLED: 0
   only:
     refs:
       - external_pull_requests
