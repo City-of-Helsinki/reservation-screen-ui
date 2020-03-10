@@ -18,15 +18,15 @@ describe('makeSelectFreeSlots', () => {
     const freeSlots = selector(mockedState);
     expect(freeSlots.length).toEqual(4);
 
-    expect(freeSlots[0].begin.getHours()).toEqual(8);
-    expect(freeSlots[0].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[0].end.getHours()).toEqual(8);
-    expect(freeSlots[0].end.getMinutes()).toEqual(30);
+    expect(freeSlots[0].begin.getUTCHours()).toEqual(5);
+    expect(freeSlots[0].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[0].end.getUTCHours()).toEqual(5);
+    expect(freeSlots[0].end.getUTCMinutes()).toEqual(30);
 
-    expect(freeSlots[1].begin.getHours()).toEqual(8);
-    expect(freeSlots[1].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[1].end.getHours()).toEqual(9);
-    expect(freeSlots[1].end.getMinutes()).toEqual(0);
+    expect(freeSlots[1].begin.getUTCHours()).toEqual(5);
+    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[1].end.getUTCHours()).toEqual(6);
+    expect(freeSlots[1].end.getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -42,20 +42,20 @@ describe('makeSelectFreeSlots', () => {
 
     const freeSlots = selector(mockedState);
 
-    expect(freeSlots[0].begin.getHours()).toEqual(12);
-    expect(freeSlots[0].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[0].end.getHours()).toEqual(12);
-    expect(freeSlots[0].end.getMinutes()).toEqual(30);
+    expect(freeSlots[0].begin.getUTCHours()).toEqual(9);
+    expect(freeSlots[0].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[0].end.getUTCHours()).toEqual(9);
+    expect(freeSlots[0].end.getUTCMinutes()).toEqual(30);
 
-    expect(freeSlots[1].begin.getHours()).toEqual(12);
-    expect(freeSlots[1].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[1].end.getHours()).toEqual(13);
-    expect(freeSlots[1].end.getMinutes()).toEqual(0);
+    expect(freeSlots[1].begin.getUTCHours()).toEqual(9);
+    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[1].end.getUTCHours()).toEqual(10);
+    expect(freeSlots[1].end.getUTCMinutes()).toEqual(0);
 
-    expect(freeSlots[2].begin.getHours()).toEqual(12);
-    expect(freeSlots[2].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[2].end.getHours()).toEqual(13);
-    expect(freeSlots[2].end.getMinutes()).toEqual(30);
+    expect(freeSlots[2].begin.getUTCHours()).toEqual(9);
+    expect(freeSlots[2].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[2].end.getUTCHours()).toEqual(10);
+    expect(freeSlots[2].end.getUTCMinutes()).toEqual(30);
   });
 });
 
@@ -85,32 +85,32 @@ describe('makeSelectFreeSlots', () => {
     // Debugging. Enjoy ;)
     // let output = '';
     // slots.map(slot => {
-    //  output += slot.begin.getHours() + ' - ' + slot.end.getHours() + '\n';
+    //  output += slot.begin.getUTCHours() + ' - ' + slot.end.getUTCHours() + '\n';
     // });
     // console.log(output);
 
     const freeSlots = selector(mockedState);
     expect(freeSlots.length).toEqual(4);
 
-    expect(freeSlots[0].begin.getHours()).toEqual(11);
-    expect(freeSlots[0].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[0].end.getHours()).toEqual(11);
-    expect(freeSlots[0].end.getMinutes()).toEqual(30);
+    expect(freeSlots[0].begin.getUTCHours()).toEqual(8);
+    expect(freeSlots[0].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[0].end.getUTCHours()).toEqual(8);
+    expect(freeSlots[0].end.getUTCMinutes()).toEqual(30);
 
-    expect(freeSlots[1].begin.getHours()).toEqual(11);
-    expect(freeSlots[1].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[1].end.getHours()).toEqual(12);
-    expect(freeSlots[1].end.getMinutes()).toEqual(0);
+    expect(freeSlots[1].begin.getUTCHours()).toEqual(8);
+    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[1].end.getUTCHours()).toEqual(9);
+    expect(freeSlots[1].end.getUTCMinutes()).toEqual(0);
 
-    expect(freeSlots[2].begin.getHours()).toEqual(11);
-    expect(freeSlots[2].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[2].end.getHours()).toEqual(12);
-    expect(freeSlots[2].end.getMinutes()).toEqual(30);
+    expect(freeSlots[2].begin.getUTCHours()).toEqual(8);
+    expect(freeSlots[2].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[2].end.getUTCHours()).toEqual(9);
+    expect(freeSlots[2].end.getUTCMinutes()).toEqual(30);
 
-    expect(freeSlots[3].begin.getHours()).toEqual(11);
-    expect(freeSlots[3].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[3].end.getHours()).toEqual(13);
-    expect(freeSlots[3].end.getMinutes()).toEqual(0);
+    expect(freeSlots[3].begin.getUTCHours()).toEqual(8);
+    expect(freeSlots[3].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[3].end.getUTCHours()).toEqual(10);
+    expect(freeSlots[3].end.getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -127,9 +127,9 @@ describe('makeSelectFreeSlots', () => {
     const freeSlots = selector(mockedState);
     expect(freeSlots.length).toEqual(2);
 
-    expect(freeSlots[0].begin.getHours()).toEqual(14);
-    expect(freeSlots[0].begin.getMinutes()).toEqual(0);
-    expect(freeSlots[0].end.getHours()).toEqual(14);
-    expect(freeSlots[0].end.getMinutes()).toEqual(30);
+    expect(freeSlots[0].begin.getUTCHours()).toEqual(11);
+    expect(freeSlots[0].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[0].end.getUTCHours()).toEqual(11);
+    expect(freeSlots[0].end.getUTCMinutes()).toEqual(30);
   });
 });

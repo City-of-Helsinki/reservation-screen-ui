@@ -15,8 +15,8 @@ describe('makeSelectNextAvailableTime', () => {
       },
     });
     const nextAvailableTime = selector(mockedState);
-    expect(nextAvailableTime.getHours()).toEqual(8);
-    expect(nextAvailableTime.getMinutes()).toEqual(0);
+    expect(nextAvailableTime.getUTCHours()).toEqual(5);
+    expect(nextAvailableTime.getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -30,8 +30,8 @@ describe('makeSelectNextAvailableTime', () => {
       },
     });
     const nextAvailableTime = selector(mockedState);
-    expect(nextAvailableTime.getHours()).toEqual(8);
-    expect(nextAvailableTime.getMinutes()).toEqual(30);
+    expect(nextAvailableTime.getUTCHours()).toEqual(5);
+    expect(nextAvailableTime.getUTCMinutes()).toEqual(30);
   });
 });
 
@@ -59,8 +59,8 @@ describe('makeSelectNextAvailableTime', () => {
       },
     });
     const nextAvailableTime = selector(mockedState);
-    expect(nextAvailableTime.getHours()).toEqual(8);
-    expect(nextAvailableTime.getMinutes()).toEqual(0);
+    expect(nextAvailableTime.getUTCHours()).toEqual(5);
+    expect(nextAvailableTime.getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -74,8 +74,8 @@ describe('makeSelectNextAvailableTime', () => {
       },
     });
     const nextAvailableTime = selector(mockedState);
-    expect(nextAvailableTime.getHours()).toEqual(11);
-    expect(nextAvailableTime.getMinutes()).toEqual(0);
+    expect(nextAvailableTime.getUTCHours()).toEqual(8);
+    expect(nextAvailableTime.getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -89,8 +89,8 @@ describe('makeSelectNextAvailableTime', () => {
       },
     });
     const nextAvailableTime = selector(mockedState);
-    expect(nextAvailableTime.getHours()).toEqual(12);
-    expect(nextAvailableTime.getMinutes()).toEqual(0);
+    expect(nextAvailableTime.getUTCHours()).toEqual(9);
+    expect(nextAvailableTime.getUTCMinutes()).toEqual(0);
   });
 });
 

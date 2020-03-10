@@ -40,8 +40,8 @@ describe('makeSelectAvailableUntil', () => {
         resource: mockResourceNoReservations,
       },
     });
-    expect(selector(mockedState).getHours()).toEqual(20);
-    expect(selector(mockedState).getMinutes()).toEqual(0);
+    expect(selector(mockedState).getUTCHours()).toEqual(17);
+    expect(selector(mockedState).getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -54,8 +54,8 @@ describe('makeSelectAvailableUntil', () => {
         resource: mockResourceNoReservations,
       },
     });
-    expect(selector(mockedState).getHours()).toEqual(20);
-    expect(selector(mockedState).getMinutes()).toEqual(0);
+    expect(selector(mockedState).getUTCHours()).toEqual(17);
+    expect(selector(mockedState).getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -68,8 +68,8 @@ describe('makeSelectAvailableUntil', () => {
         resource: mockResourceSomeReservations,
       },
     });
-    expect(selector(mockedState).getHours()).toEqual(9);
-    expect(selector(mockedState).getMinutes()).toEqual(0);
+    expect(selector(mockedState).getUTCHours()).toEqual(6);
+    expect(selector(mockedState).getUTCMinutes()).toEqual(0);
   });
 });
 
@@ -96,7 +96,7 @@ describe('makeSelectAvailableUntil', () => {
       },
     });
 
-    expect(selector(mockedState).getHours()).toEqual(15);
-    expect(selector(mockedState).getMinutes()).toEqual(0);
+    expect(selector(mockedState).getUTCHours()).toEqual(12);
+    expect(selector(mockedState).getUTCMinutes()).toEqual(0);
   });
 });
