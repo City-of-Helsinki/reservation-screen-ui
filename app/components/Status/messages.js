@@ -27,7 +27,7 @@ export default defineMessages({
     defaultMessage: 'klo ',
   },
   availableUntilUntil: {
-    id: 'boilerplate.components.AreaStatus.area.until',
+    id: 'boilerplate.components.AreaStatus.area.until.until',
     defaultMessage: ' asti',
   },
 });
