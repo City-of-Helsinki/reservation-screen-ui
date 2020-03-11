@@ -65,6 +65,19 @@ class TimePickerCalendar extends Component {
     },
   };
 
+  shouldComponentUpdate(prevProps, prevState) {
+    // For some (god forsaken) reason, changes in into the viewType end
+    // up messing the height of the calendar. I tried my best to find
+    // the code causing this, but I did not. I'll retain this check and
+    // hopefully I'll come across the root reason. If you are reading
+    // this, then likely I didn't.
+    if (this.state.viewType !== prevState.viewType) {
+      return false;
+    }
+
+    return true;
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { date } = this.props;
     const { viewType } = this.state;
@@ -170,6 +183,7 @@ class TimePickerCalendar extends Component {
         right: 'timeGridDay,timeGridWeek',
       };
     }
+
     if (viewType !== view) {
       this.props.onViewTypeChange(view);
       this.setState({ viewType: view, header: headerConfig });
@@ -425,7 +439,6 @@ class TimePickerCalendar extends Component {
           header={header}
           maxTime={getFullCalendarMaxTime(resource, date, viewType)}
           minTime={getFullCalendarMinTime(resource, date, viewType)}
-          onDatesRender={this.onDatesRender}
           ref={this.calendarRef}
           select={this.onSelect}
           slotDuration={getFullCalendarSlotDuration(resource, date, viewType)}

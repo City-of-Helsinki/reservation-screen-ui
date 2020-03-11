@@ -35,10 +35,7 @@ const Booking = ({
         resourceDescription={resourceDescription}
         upcomingReservations={upcomingReservations}
       />
-      <AreaBooking
-        isExpanded={isBookingExpanded}
-        onCalendarViewChange={handleCalendarViewChange}
-      />
+      <AreaBooking onCalendarViewChange={handleCalendarViewChange} />
     </Wrapper>
   );
 };
