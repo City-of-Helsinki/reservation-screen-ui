@@ -23,7 +23,7 @@ COPY --chown=appuser:appuser package*.json *yarn* ./
 # hooks
 COPY --chown=appuser:appuser internals/ ./internals/
 
-# Install npm depepndencies
+# Make scripts in dependencies available through path
 ENV PATH /app/node_modules/.bin:$PATH
 
 # =============================
