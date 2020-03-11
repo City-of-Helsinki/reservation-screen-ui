@@ -1,6 +1,7 @@
 import dateFormat from 'dateformat';
 import request from 'utils/request';
 import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import moment from 'moment';
 import { LOAD_RESERVATIONS, MAKE_RESERVATION } from './constants';
 import { makeSelectResourceId, makeSelectSelectedSlot } from './selectors';
 import {
@@ -12,6 +13,20 @@ import {
   makeReservationCompleted,
   makeReservationError,
 } from './actions';
+
+function getCurrentWeekStartEnd() {
+  const now = moment();
+  const start = now
+    .clone()
+    .startOf('isoWeek')
+    .toDate();
+  const end = now
+    .clone()
+    .endOf('isoWeek')
+    .toDate();
+
+  return [start, end];
+}
 
 // TODO: Currently url request parameters are read in this saga. This is not a good practice.
 // Get parameter handling should be done before entering the app.
@@ -47,12 +62,15 @@ export function* getReservations() {
 
   // Start
   // ?start=2018-09-17T08%3A00%3A00%2B03%3A00&end=2018-09-17T20%3A00%3A00%2B03%3A00
-  const start = new Date();
+  // The calendar where we show events has a day and a week view.
+  // Because the difference in the request is negligible, we just always
+  // request all the events for the current week.
+  const [start, end] = getCurrentWeekStartEnd();
   const startTimeStr = encodeURIComponent(
     `${dateFormat(start, 'yyyy-mm-dd')}T00:00:00Z`,
   );
   const endTimeStr = encodeURIComponent(
-    `${dateFormat(start, 'yyyy-mm-dd')}T23:59:59Z`,
+    `${dateFormat(end, 'yyyy-mm-dd')}T23:59:59Z`,
   );
 
   if (!resourceId || !token) {
