@@ -3,18 +3,18 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   closed: {
     id: 'CalendarLegend.closed',
-    defaultMessage: 'Unavailable',
+    defaultMessage: 'Ei varattavissa',
   },
   selection: {
     id: 'CalendarLegend.selection',
-    defaultMessage: 'Selected',
+    defaultMessage: 'Varauksesi',
   },
   taken: {
     id: 'CalendarLegend.taken',
-    defaultMessage: 'Taken',
+    defaultMessage: 'Varattu',
   },
   available: {
     id: 'CalendarLegend.available',
-    defaultMessage: 'Available',
+    defaultMessage: 'Varattavissa',
   },
 });

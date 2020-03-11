@@ -3,15 +3,15 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   minPeriodText: {
     id: 'Calendar.info.minPeriodText',
-    defaultMessage: 'Reservation must be at least {duration}h long',
+    defaultMessage: 'Varauksen on kestettävä vähintään {duration} tuntia.',
   },
   maxPeriodText: {
     id: 'Calendar.info.maxPeriodText',
-    defaultMessage: 'Reservation must be shorter than {duration}h',
+    defaultMessage: 'Varaus saa kestää enimmillään {duration} tuntia.',
   },
   today: {
     id: 'Calendar.info.today',
-    defaultMessage: 'Today',
+    defaultMessage: 'Tänään',
   },
   selectedDateLabel: {
     id: 'Calendar.selectedDateLabel',
