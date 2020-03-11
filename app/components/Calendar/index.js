@@ -160,7 +160,7 @@ class TimePickerCalendar extends Component {
       // mobile view config
       view = 'timeGridDay';
       headerConfig = {
-        left: 'myPrev,myNext,myToday',
+        left: '', // 'myPrev,myNext,myToday'
         center: 'title',
         right: 'timeGridDay,timeGridWeek',
       };
