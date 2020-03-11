@@ -4,7 +4,7 @@ const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   width: 50%;
   padding: 5%;
   background-color: ${props => props.theme.primaryColor};

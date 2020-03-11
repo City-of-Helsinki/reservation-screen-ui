@@ -1,6 +1,7 @@
 {
   "AreaStatus.HideMoreButton.text": "",
   "AreaStatus.ShowMoreButton.text": "More information",
+  "AreaStatus.area.bookAt": "",
   "AreaStatus.area.max": "",
   "AreaStatus.area.persons": "",
   "AreaStatus.area.resourceIsAvailable": "",
@@ -28,7 +29,6 @@
   "boilerplate.components.Header.home": "",
   "boilerplate.components.SceneVerify.link.cancel": "",
   "boilerplate.components.SceneVerify.title": "",
-  "boilerplate.components.Upcoming.title": "Upcoming reservations",
   "boilerplate.containers.FeaturePage.css.header": "",
   "boilerplate.containers.FeaturePage.css.message": "",
   "boilerplate.containers.FeaturePage.feedback.header": "",

@@ -30,4 +30,8 @@ export default defineMessages({
     id: 'AreaStatus.area.max',
     defaultMessage: 'max',
   },
+  bookAt: {
+    id: 'AreaStatus.area.bookAt',
+    defaultMessage: 'Varaa osoitteessa: <b>{linkLabel}</b>',
+  },
 });

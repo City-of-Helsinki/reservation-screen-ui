@@ -1,6 +1,7 @@
 {
   "AreaStatus.HideMoreButton.text": "Piilota tiedot",
   "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
+  "AreaStatus.area.bookAt": "Varaa osoitteessa: <b>{linkLabel}</b>",
   "AreaStatus.area.max": "max",
   "AreaStatus.area.persons": "henkilöä",
   "AreaStatus.area.resourceIsAvailable": "Tila on vapaa",
@@ -27,7 +28,6 @@
   "boilerplate.components.Header.home": "Home",
   "boilerplate.components.SceneVerify.link.cancel": "Valmis",
   "boilerplate.components.SceneVerify.title": "Varaus onnistui!",
-  "boilerplate.components.Upcoming.title": "Tulevat varaukset",
   "boilerplate.containers.FeaturePage.css.header": "Features",
   "boilerplate.containers.FeaturePage.css.message": "Next generation CSS",
   "boilerplate.containers.FeaturePage.feedback.header": "Instant feedback",

@@ -140,6 +140,8 @@
     ]
   },
   "dependencies": {
+    "@formatjs/intl-pluralrules": "^1.5.2",
+    "@formatjs/intl-relativetimeformat": "^4.5.9",
     "@fullcalendar/core": "^4.4.0",
     "@fullcalendar/interaction": "^4.4.0",
     "@fullcalendar/moment-timezone": "^4.4.0",
@@ -169,7 +171,7 @@
     "react-circular-progressbar": "^1.2.1",
     "react-dom": "^16.13.0",
     "react-helmet": "5.2.0",
-    "react-intl": "2.4.0",
+    "react-intl": "^4.1.1",
     "react-loadable": "5.4.0",
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
