@@ -31,7 +31,6 @@ import {
   DATE_FORMAT,
   DEFAULT_CALENDAR_VIEW,
 } from './calendarConstants';
-import messages from './messages';
 
 moment.tz.setDefault(TIME_ZONE);
 // Re-apply moment-timezone default timezone, cause FullCalendar import have override the import
@@ -53,8 +52,8 @@ class TimePickerCalendar extends Component {
   state = {
     viewType: DEFAULT_CALENDAR_VIEW,
     header: {
-      left: '', // 'myPrev,myNext,myToday',
-      center: 'timeGridDay,timeGridWeek',
+      left: '',
+      center: 'timeGridDay, timeGridWeek',
       right: '',
     },
   };
@@ -205,42 +204,15 @@ class TimePickerCalendar extends Component {
   getEvents = () => this.getReservedEvents();
 
   render() {
-    const { date, onDateChange, resource, intl } = this.props;
+    const { date, resource } = this.props;
     const { viewType, header } = this.state;
-    const addValue = viewType === 'timeGridWeek' ? 'w' : 'd';
+
     return (
       <CalendarStyleOverrides>
         <FullCalendar
           {...this.getCalendarOptions()}
           allDaySlot={false}
           businessHours={getFullCalendarBusinessHours(resource, date)}
-          customButtons={{
-            myPrev: {
-              text: ' ',
-              click: () =>
-                onDateChange(
-                  moment(date)
-                    .subtract(1, addValue)
-                    .toDate(),
-                ),
-            },
-            myNext: {
-              text: ' ',
-              click: () =>
-                onDateChange(
-                  moment(date)
-                    .add(1, addValue)
-                    .toDate(),
-                ),
-            },
-            myToday: {
-              text: intl.formatMessage(messages.today),
-              click: () =>
-                onDateChange(
-                  this.calendarRef.current.calendar.view.initialNowDate,
-                ),
-            },
-          }}
           datesRender={this.onDatesRender}
           defaultDate={date}
           events={this.getEvents()}

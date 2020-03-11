@@ -2,13 +2,6 @@
   "AreaStatus.ShowMoreButton.text": "More information",
   "AreaStatus.area.resourceIsAvailable": "",
   "AreaStatus.area.resourceIsNotAvailable": "",
-  "Calendar.info.maxPeriodText":
-    "Bokningen får vara högst {duration} timmar lång.",
-  "Calendar.info.minPeriodText":
-    "Bokningen måste vara minst {duration} timmar lång.",
-  "Calendar.info.today": "Idag",
-  "Calendar.selectedDateLabel": "Utvald tidpunkt:",
-  "Calendar.selectedDateValue": "{date} kl. {start} - kl. {end} ({duration})",
   "CalendarLegend.available": "Tillgängligt",
   "CalendarLegend.closed": "Inte tillgänglig",
   "CalendarLegend.selection": "Vald",

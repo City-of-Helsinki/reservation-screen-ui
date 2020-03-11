@@ -2,13 +2,6 @@
   "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
   "AreaStatus.area.resourceIsAvailable": "Tila on vapaa",
   "AreaStatus.area.resourceIsNotAvailable": "Tila on varattu",
-  "Calendar.info.maxPeriodText":
-    "Varaus saa kestää enimmillään {duration} tuntia.",
-  "Calendar.info.minPeriodText":
-    "Varauksen on kestettävä vähintään {duration} tuntia.",
-  "Calendar.info.today": "Tänään",
-  "Calendar.selectedDateLabel": "Valittu aika:",
-  "Calendar.selectedDateValue": "{date} klo {start} - klo {end} ({duration})",
   "CalendarLegend.available": "Varattavissa",
   "CalendarLegend.closed": "Ei varattavissa",
   "CalendarLegend.selection": "Varauksesi",
