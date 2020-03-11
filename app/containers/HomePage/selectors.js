@@ -3,7 +3,6 @@
  */
 
 import { createSelector } from 'reselect';
-import { fromJS } from 'immutable';
 import { initialState } from './reducer';
 
 // Home state from store.
@@ -14,35 +13,6 @@ const selectHome = state => state.get('home', initialState);
  */
 // const makeFreeSlots = () =>
 //  createSelector(selectHome, state => state.get('reservations'));
-
-/**
- * Select all upcoming reservations.
- */
-const makeUpcomingReservations = amount =>
-  createSelector(selectHome, state => {
-    // Start by getting resource from store.
-    const resource = state.get('resource');
-    const date = state.get('date');
-
-    // Continue only if resource exists and has reservations.
-    if (
-      resource &&
-      resource.has('reservations') &&
-      resource.get('reservations')
-    ) {
-      // Get list of upcoming reservations.
-      const futureReservations = resource
-        .get('reservations')
-        .filter(
-          reservation =>
-            new Date(reservation.get('end')).getTime() > date.getTime(),
-        );
-
-      // Slice the amount we wanted.
-      return futureReservations.slice(0, amount);
-    }
-    return fromJS([]);
-  });
 
 /**
  * Find time until resource is occupied again.
@@ -371,7 +341,6 @@ const makeSelectResource = () =>
 
 export {
   selectHome,
-  makeUpcomingReservations,
   makeSelectResource,
   makeSelectResourceId,
   makeSelectResourceName,

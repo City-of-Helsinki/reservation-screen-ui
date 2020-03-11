@@ -12,11 +12,11 @@ function getIsBookingExpanded(nextViewType) {
 
 const Booking = ({
   isResourceAvailable,
+  resourceId,
   resourceName,
   resourceDescription,
   resourcePeopleCount,
   resourceMaxReservationTime,
-  upcomingReservations,
 }) => {
   const [isBookingExpanded, setBookingExpanded] = useState(
     getIsBookingExpanded(DEFAULT_CALENDAR_VIEW),
@@ -33,11 +33,11 @@ const Booking = ({
       <AreaBooking
         isCondensed={isBookingExpanded}
         isResourceAvailable={isResourceAvailable}
+        resourceId={resourceId}
         resourceName={resourceName}
         resourceDescription={resourceDescription}
         resourcePeopleCount={resourcePeopleCount}
         resourceMaxReservationTime={resourceMaxReservationTime}
-        upcomingReservations={upcomingReservations}
       />
       <AreaStatus onCalendarViewChange={handleCalendarViewChange} />
     </Wrapper>
@@ -46,11 +46,11 @@ const Booking = ({
 
 Booking.propTypes = {
   isResourceAvailable: PropTypes.bool,
+  resourceId: PropTypes.string,
   resourceName: PropTypes.string,
   resourceDescription: PropTypes.string,
-  resourcePeopleCount: PropTypes.string,
+  resourcePeopleCount: PropTypes.number,
   resourceMaxReservationTime: PropTypes.string,
-  upcomingReservations: PropTypes.object,
 };
 
 export default Booking;

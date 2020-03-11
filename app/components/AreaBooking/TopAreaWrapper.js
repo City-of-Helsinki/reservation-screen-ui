@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-const TopAreaWrapper = styled.div`
-  margin-bottom: auto;
-`;
+const TopAreaWrapper = styled.div``;
 
 export default TopAreaWrapper;

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Upcoming from 'components/Upcoming';
+import React from 'react';
 import Clock from 'components/Clock';
 import Status from 'components/Status';
 import SlideUpContent from 'components/SlideUpContent';
@@ -23,17 +22,16 @@ const AreaBooking = ({
   isCondensed,
   isDescriptionOpen,
   date,
+  resourceId,
   resourceName,
   resourcePeopleCount,
   resourceMaxReservationTime,
   nextAvailableTime,
   availableUntil,
   isResourceAvailable,
-  upcomingReservations,
   resourceDescription,
   onToggleDescriptionOpen,
 }) => {
-  const [isHidden] = useState('');
   const wrapperClass = Object.entries({
     'slide-down': true,
     'hide-on-toggle': isCondensed,
@@ -49,16 +47,13 @@ const AreaBooking = ({
         <LocaleToggle />
       </TopAreaWrapper>
       <Status
+        resourceId={resourceId}
         resourceName={resourceName}
         resourcePeopleCount={resourcePeopleCount}
         resourceMaxReservationTime={resourceMaxReservationTime}
         nextAvailableTime={nextAvailableTime}
         availableUntil={availableUntil}
         isResourceAvailable={isResourceAvailable}
-      />
-      <Upcoming
-        className={isHidden}
-        upcomingReservations={upcomingReservations}
       />
       {resourceDescription && (
         <SlideUpContent
@@ -75,18 +70,20 @@ AreaBooking.propTypes = {
   isCondensed: PropTypes.bool.isRequired,
   isDescriptionOpen: PropTypes.bool,
   date: PropTypes.instanceOf(Date).isRequired,
+  resourceId: PropTypes.string,
   resourceName: PropTypes.string,
   resourceDescription: PropTypes.string.isRequired,
-  resourcePeopleCount: PropTypes.string,
+  resourcePeopleCount: PropTypes.number,
   resourceMaxReservationTime: PropTypes.string,
-  nextAvailableTime: PropTypes.oneOf([
+  nextAvailableTime: PropTypes.oneOfType([
     PropTypes.instanceOf(Date),
     PropTypes.bool,
   ]).isRequired,
-  availableUntil: PropTypes.oneOf([PropTypes.instanceOf(Date), PropTypes.bool])
-    .isRequired,
+  availableUntil: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
   isResourceAvailable: PropTypes.bool.isRequired,
-  upcomingReservations: PropTypes.object.isRequired,
   onToggleDescriptionOpen: PropTypes.func.isRequired,
 };
 
