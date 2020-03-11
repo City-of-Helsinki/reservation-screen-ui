@@ -103,24 +103,12 @@ class TimePickerCalendar extends Component {
   };
 
   onDatesRender = info => {
-    const { viewType, header } = this.state;
-    let view = info.view.type;
-    let headerConfig = header;
-
-    // 768
-    if (window.innerWidth < 768) {
-      // mobile view config
-      view = 'timeGridDay';
-      headerConfig = {
-        left: '', // 'myPrev,myNext,myToday'
-        center: 'title',
-        right: 'timeGridDay,timeGridWeek',
-      };
-    }
+    const { viewType } = this.state;
+    const view = info.view.type;
 
     if (viewType !== view) {
       this.props.onViewTypeChange(view);
-      this.setState({ viewType: view, header: headerConfig });
+      this.setState({ viewType: view });
     }
   };
 
