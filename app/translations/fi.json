@@ -12,8 +12,6 @@
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
   "boilerplate.components.AreaBooking.link.reset": "Palaa alkuun",
   "boilerplate.components.AreaStatus.area.clock": "klo",
-  "boilerplate.components.AreaStatus.area.reserved": "Varattu klo",
-  "boilerplate.components.AreaStatus.area.until": "saakka",
   "boilerplate.components.AreaStatus.area.until.until": "asti",
   "boilerplate.components.Confirm.cancel": "Peruuta varaus",
   "boilerplate.components.Confirm.ends": "Varauksesi loppuu {br} kello {time}",

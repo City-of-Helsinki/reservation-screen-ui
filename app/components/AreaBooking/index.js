@@ -72,8 +72,12 @@ AreaBooking.propTypes = {
   isDescriptionOpen: PropTypes.bool,
   date: PropTypes.instanceOf(Date).isRequired,
   resourceName: PropTypes.string,
-  nextAvailableTime: PropTypes.bool.isRequired,
-  availableUntil: PropTypes.bool.isRequired,
+  nextAvailableTime: PropTypes.oneOf([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
+  availableUntil: PropTypes.oneOf([PropTypes.instanceOf(Date), PropTypes.bool])
+    .isRequired,
   isResourceAvailable: PropTypes.bool.isRequired,
   upcomingReservations: PropTypes.object.isRequired,
   resourceDescription: PropTypes.string.isRequired,

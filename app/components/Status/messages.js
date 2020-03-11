@@ -14,20 +14,12 @@ export default defineMessages({
     id: 'AreaStatus.area.resourceIsNotAvailable',
     defaultMessage: 'Tila on varattu',
   },
-  nextAvailableTimeClock: {
-    id: 'boilerplate.components.AreaStatus.area.reserved',
-    defaultMessage: 'Varattu klo ',
-  },
-  nextAvailableTimeUntil: {
-    id: 'boilerplate.components.AreaStatus.area.until',
-    defaultMessage: ' saakka',
-  },
   availableUntilClock: {
     id: 'boilerplate.components.AreaStatus.area.clock',
-    defaultMessage: 'klo ',
+    defaultMessage: 'klo',
   },
   availableUntilUntil: {
     id: 'boilerplate.components.AreaStatus.area.until.until',
-    defaultMessage: ' asti',
+    defaultMessage: 'asti',
   },
 });
