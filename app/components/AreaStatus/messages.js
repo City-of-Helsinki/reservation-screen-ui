@@ -1,21 +1,20 @@
-/*
- * HomePage Messages
- *
- * This contains all the text for the HomePage component.
- */
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  resourceIsAvailable: {
-    id: 'AreaStatus.area.resourceIsAvailable',
-    defaultMessage: 'Tila on vapaa',
+  submitButton: {
+    id: 'boilerplate.components.AreaBooking.button.submit',
+    defaultMessage: 'Varaa',
   },
-  resourceIsNotAvailable: {
-    id: 'AreaStatus.area.resourceIsNotAvailable',
-    defaultMessage: 'Tila on varattu',
+  cancel: {
+    id: 'boilerplate.components.Confirm.cancel',
+    defaultMessage: 'Peruuta varaus',
   },
-  showMore: {
-    id: 'AreaStatus.ShowMoreButton.text',
-    defaultMessage: 'Tilan tarkemmat tiedot',
+  reset: {
+    id: 'boilerplate.components.AreaBooking.link.reset',
+    defaultMessage: 'Palaa alkuun',
+  },
+  finishedLink: {
+    id: 'boilerplate.components.Confirm.finishedLink',
+    defaultMessage: 'Valmis!',
   },
 });

@@ -28,14 +28,14 @@ const Booking = ({
 
   return (
     <Wrapper>
-      <AreaStatus
+      <AreaBooking
         isCondensed={isBookingExpanded}
         isResourceAvailable={isResourceAvailable}
         resourceName={resourceName}
         resourceDescription={resourceDescription}
         upcomingReservations={upcomingReservations}
       />
-      <AreaBooking onCalendarViewChange={handleCalendarViewChange} />
+      <AreaStatus onCalendarViewChange={handleCalendarViewChange} />
     </Wrapper>
   );
 };
