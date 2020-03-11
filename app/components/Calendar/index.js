@@ -18,7 +18,6 @@ import { injectIntl } from 'react-intl';
 
 import CalendarLegend from './legend/CalendarLegend';
 import {
-  isTimeRangeReservable,
   isDateReservable,
   getFullCalendarBusinessHours,
   getFullCalendarMaxTime,
@@ -26,11 +25,9 @@ import {
   getFullCalendarSlotDuration,
   getFullCalendarSlotLabelInterval,
 } from './resourceUtils';
-import * as calendarUtils from './utils';
 import CalendarStyleOverrides from './CalendarStyleOverrides';
 import {
   TIME_ZONE,
-  NEW_RESERVATION,
   DATE_FORMAT,
   DEFAULT_CALENDAR_VIEW,
 } from './calendarConstants';
@@ -55,9 +52,6 @@ class TimePickerCalendar extends Component {
 
   state = {
     viewType: DEFAULT_CALENDAR_VIEW,
-    selected: calendarUtils.getDefaultSelectedTimeRange(
-      this.props.editingReservation,
-    ),
     header: {
       left: '', // 'myPrev,myNext,myToday',
       center: 'timeGridDay,timeGridWeek',
@@ -92,46 +86,11 @@ class TimePickerCalendar extends Component {
     }
   }
 
-  isSelectionValid = selection => {
-    const { resource } = this.props;
-    const events = this.getReservedEvents();
-
-    return isTimeRangeReservable(
-      resource,
-      selection.start,
-      selection.end,
-      events,
-    );
-  };
-
-  onChange = selected => {
-    this.setState({ selected });
-
-    // Invoke select handler callback from props
-    this.props.onTimeChange(selected);
-  };
-
-  onCancel = () => {
-    // Revert to default timerange if cancel
-    const defaultSelectedTimeRange = calendarUtils.getDefaultSelectedTimeRange(
-      this.props.editingReservation,
-    );
-    this.onChange(defaultSelectedTimeRange);
-  };
-
   onEventRender = info => {
     // add cancel button for new selected event
     let duration;
 
-    if (info.event.id === NEW_RESERVATION) {
-      const cancelBtn = document.createElement('span');
-      cancelBtn.classList.add('app-TimePickerCalendar__cancelEvent');
-      cancelBtn.addEventListener('click', () => this.onCancel(), {
-        once: true,
-      });
-      info.el.append(cancelBtn);
-      duration = this.getDurationText(info.event);
-    } else if (info.event.id === '') {
+    if (info.event.id === '') {
       duration = this.getDurationText(info.event);
     }
 
@@ -141,31 +100,6 @@ class TimePickerCalendar extends Component {
       eventDuration.classList.add('app-TimePickerCalendar__maxDuration');
       info.el.append(eventDuration);
     }
-  };
-
-  onSelect = selectionInfo => {
-    // const { t } = this.props;
-    const calendarApi = this.calendarRef.current.getApi();
-    calendarApi.unselect();
-    // Clear FullCalendar select tooltip
-
-    const selectable = this.getSelectableTimeRange(selectionInfo);
-    // Make sure selected time alway furfill period check.
-
-    const isValid = this.isSelectionValid(selectable);
-
-    if (isValid) {
-      this.onChange(selectable);
-    } else {
-      // TODO: Display error
-    }
-  };
-
-  // Check if event resize allowed
-  onEventResize = selectionInfo => {
-    const { event } = selectionInfo;
-    const selectable = this.getSelectableTimeRange(event, selectionInfo);
-    this.onChange(selectable);
   };
 
   onDatesRender = info => {
@@ -190,71 +124,6 @@ class TimePickerCalendar extends Component {
     }
   };
 
-  /**
-   * To ensure the selected time range will always between min and max period
-   * Return a selectable timerange if input timerange is somehow not between min and max period
-   * Display info text to user about those changes.
-   *
-   * @return  {Object}  Normalized selected time range
-   */
-  getSelectableTimeRange = (selected, eventCallback) => {
-    const { resource /* , t */ } = this.props;
-
-    let selectable = {
-      start: selected.start,
-      end: selected.end,
-    };
-
-    const isUnderMinPeriod = calendarUtils.isTimeRangeUnderMinPeriod(
-      resource,
-      selectable.start,
-      selectable.end,
-    );
-
-    const isOverMaxPeriod = calendarUtils.isTimeRangeOverMaxPeriod(
-      resource,
-      selectable.start,
-      selectable.end,
-    );
-
-    if (isUnderMinPeriod) {
-      // const minPeriod = get(resource, 'min_period', null);
-      // const minPeriodDuration = moment.duration(minPeriod).asHours();
-
-      if (eventCallback) {
-        eventCallback.revert();
-        // TODO: Inform user
-      }
-
-      selectable = calendarUtils.getMinPeriodTimeRange(
-        resource,
-        selected.start,
-        selected.end,
-      );
-      // Make sure selected time will always bigger than min period
-    }
-
-    if (isOverMaxPeriod) {
-      // const maxPeriod = get(resource, 'max_period', null);
-      // const maxPeriodDuration = moment.duration(maxPeriod).asHours();
-
-      if (eventCallback) {
-        eventCallback.revert();
-      }
-
-      // TODO: Inform user
-
-      selectable = calendarUtils.getMaxPeriodTimeRange(
-        resource,
-        selectable.start,
-        selectable.end,
-      );
-      // Make sure selected time will always smaller than max period
-    }
-
-    return selectable;
-  };
-
   getDurationText = selected => {
     const { resource } = this.props;
     const start = moment(selected.start);
@@ -270,28 +139,6 @@ class TimePickerCalendar extends Component {
     }
 
     return `${duration / 3600000}h ${maxDurationText}`;
-  };
-
-  getSelectedDateText = () => {
-    const { intl } = this.props;
-    const { selected } = this.state;
-
-    if (selected) {
-      const start = moment(selected.start);
-      const end = moment(selected.end);
-
-      const tVariables = {
-        date: start.format('dd D.M.Y'),
-        start: start.format('HH:mm'),
-        end: end.format('HH:mm'),
-        duration: this.getDurationText(),
-        price: 0,
-      };
-
-      return intl.formatMessage(messages.selectedDateValue, tVariables);
-    }
-
-    return '';
   };
 
   getReservedEvents = () => {
@@ -340,7 +187,7 @@ class TimePickerCalendar extends Component {
   getCalendarOptions = () => ({
     timeZone: TIME_ZONE,
     height: this.props.height || 'auto',
-    editable: true,
+    editable: false,
     eventConstraint: 'businessHours',
     eventOverlap: false,
     firstDay: 1,
@@ -348,7 +195,7 @@ class TimePickerCalendar extends Component {
     locales: [enLocale, svLocale, fiLocale],
     nowIndicator: true,
     plugins: [timeGridPlugin, momentTimezonePlugin, interactionPlugin],
-    selectable: true,
+    selectable: false,
     selectOverlap: false,
     selectConstraint: 'businessHours',
     selectMirror: true,
@@ -367,31 +214,7 @@ class TimePickerCalendar extends Component {
     defaultView: DEFAULT_CALENDAR_VIEW,
   });
 
-  getEvents = () => {
-    const { resource } = this.props;
-    const { selected } = this.state;
-
-    const events = this.getReservedEvents();
-    if (selected) {
-      const webEventSelected = window.innerWidth > 768 ? 'fc-selected' : '';
-      events.push({
-        classNames: [
-          'app-TimePickerCalendar__event',
-          'app-TimePickerCalendar__newReservation',
-          webEventSelected,
-        ],
-        editable: true,
-        durationEditable: !calendarUtils.isTimeRangeOverMaxPeriod(
-          resource,
-          selected.start,
-          selected.end,
-        ),
-        id: NEW_RESERVATION,
-        ...selected,
-      });
-    }
-    return events;
-  };
+  getEvents = () => this.getReservedEvents();
 
   render() {
     const { date, onDateChange, resource, intl } = this.props;
@@ -432,15 +255,11 @@ class TimePickerCalendar extends Component {
           }}
           datesRender={this.onDatesRender}
           defaultDate={date}
-          eventDrop={this.onEventResize}
-          eventRender={this.onEventRender}
-          eventResize={this.onEventResize}
           events={this.getEvents()}
           header={header}
           maxTime={getFullCalendarMaxTime(resource, date, viewType)}
           minTime={getFullCalendarMinTime(resource, date, viewType)}
           ref={this.calendarRef}
-          select={this.onSelect}
           slotDuration={getFullCalendarSlotDuration(resource, date, viewType)}
           slotLabelInterval={getFullCalendarSlotLabelInterval(resource)}
         />
