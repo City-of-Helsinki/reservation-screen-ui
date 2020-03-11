@@ -1,6 +1,6 @@
 {
-  "AreaStatus.HideMoreButton.text": "Piilota tiedot",
-  "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
+  "AreaStatus.HideMoreButton.text": "Piilota lisätieto",
+  "AreaStatus.ShowMoreButton.text": "Lisätietoja",
   "AreaStatus.area.bookAt": "Varaa osoitteessa: <b>{linkLabel}</b>",
   "AreaStatus.area.max": "max",
   "AreaStatus.area.persons": "henkilöä",
