@@ -8,8 +8,6 @@
   "Calendar.info.today": "Today",
   "Calendar.selectedDateLabel": "Selected time:",
   "Calendar.selectedDateValue": "{date} at {start} - at {end} ({duration})",
-  "Calendar.selectedDateValueWithPrice":
-    "{date} at {start} - at {end} ({duration}) for {price}€",
   "CalendarLegend.available": "Available",
   "CalendarLegend.closed": "Unavailable",
   "CalendarLegend.selection": "Selected",

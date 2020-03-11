@@ -9,8 +9,6 @@
   "Calendar.info.today": "Tänään",
   "Calendar.selectedDateLabel": "Valittu aika:",
   "Calendar.selectedDateValue": "{date} klo {start} - klo {end} ({duration})",
-  "Calendar.selectedDateValueWithPrice":
-    "{date} klo {start} - klo {end} ({duration}) yht {price}€",
   "CalendarLegend.available": "Varattavissa",
   "CalendarLegend.closed": "Ei varattavissa",
   "CalendarLegend.selection": "Varauksesi",

@@ -21,8 +21,4 @@ export default defineMessages({
     id: 'Calendar.selectedDateValue',
     defaultMessage: '{date} klo {start} - klo {end} ({duration})',
   },
-  selectedDateValueWithPrice: {
-    id: 'Calendar.selectedDateValueWithPrice',
-    defaultMessage: '{date} klo {start} - klo {end} ({duration}) yht {price}€',
-  },
 });

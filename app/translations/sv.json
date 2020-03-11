@@ -9,8 +9,6 @@
   "Calendar.info.today": "Idag",
   "Calendar.selectedDateLabel": "Utvald tidpunkt:",
   "Calendar.selectedDateValue": "{date} kl. {start} - kl. {end} ({duration})",
-  "Calendar.selectedDateValueWithPrice":
-    "{date} kl. {start} - kl. {end} ({duration}) for {price}€",
   "CalendarLegend.available": "Tillgängligt",
   "CalendarLegend.closed": "Inte tillgänglig",
   "CalendarLegend.selection": "Vald",

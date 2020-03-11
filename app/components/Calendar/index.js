@@ -19,7 +19,6 @@ import { injectIntl } from 'react-intl';
 import CalendarLegend from './legend/CalendarLegend';
 import {
   isTimeRangeReservable,
-  getReservationPrice,
   isDateReservable,
   getFullCalendarBusinessHours,
   getFullCalendarMaxTime,
@@ -253,28 +252,20 @@ class TimePickerCalendar extends Component {
   };
 
   getSelectedDateText = () => {
-    const { intl, resource } = this.props;
+    const { intl } = this.props;
     const { selected } = this.state;
 
     if (selected) {
       const start = moment(selected.start);
       const end = moment(selected.end);
-      const price = getReservationPrice(selected.start, selected.end, resource);
 
       const tVariables = {
         date: start.format('dd D.M.Y'),
         start: start.format('HH:mm'),
         end: end.format('HH:mm'),
         duration: this.getDurationText(),
-        price,
+        price: 0,
       };
-
-      if (price) {
-        return intl.formatMessage(
-          messages.selectedDateValueWithPrice,
-          tVariables,
-        );
-      }
 
       return intl.formatMessage(messages.selectedDateValue, tVariables);
     }
