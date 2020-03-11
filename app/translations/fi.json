@@ -1,6 +1,8 @@
 {
   "AreaStatus.HideMoreButton.text": "Piilota tiedot",
   "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
+  "AreaStatus.area.max": "max",
+  "AreaStatus.area.persons": "henkilöä",
   "AreaStatus.area.resourceIsAvailable": "Tila on vapaa",
   "AreaStatus.area.resourceIsNotAvailable": "Tila on varattu",
   "CalendarLegend.available": "Varattavissa",

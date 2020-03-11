@@ -25,9 +25,11 @@ import { loadRepos } from '../App/actions';
 import { loadReservations, updateClock } from './actions';
 import {
   makeUpcomingReservations,
-  makeSelectResourceName,
   makeSelectResourceId,
+  makeSelectResourceName,
   makeSelectResourceDescription,
+  makeSelectResourcePeopleCapacity,
+  makeSelectResourceMaxPeriod,
   makeSelectIsResourceAvailable,
 } from './selectors';
 import reducer from './reducer';
@@ -131,9 +133,11 @@ export class HomePage extends React.PureComponent {
           <Booking
             upcomingReservations={this.props.upcomingReservations}
             resourceName={this.props.resourceName}
+            resourceDescription={this.props.resourceDescription}
+            resourcePeopleCount={this.props.resourcePeopleCount}
+            resourceMaxReservationTime={this.props.resourceMaxReservationTime}
             resourceId={this.props.resourceId}
             isResourceAvailable={this.props.isResourceAvailable}
-            resourceDescription={this.props.resourceDescription}
           />
         </Article>
       </ThemeProvider>
@@ -170,9 +174,11 @@ const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
   upcomingReservations: makeUpcomingReservations(3),
   isResourceAvailable: makeSelectIsResourceAvailable(),
-  resourceName: makeSelectResourceName(),
   resourceId: makeSelectResourceId(),
+  resourceName: makeSelectResourceName(),
   resourceDescription: makeSelectResourceDescription(),
+  resourcePeopleCount: makeSelectResourcePeopleCapacity(),
+  resourceMaxReservationTime: makeSelectResourceMaxPeriod(),
 });
 
 const withConnect = connect(

@@ -22,4 +22,12 @@ export default defineMessages({
     id: 'boilerplate.components.AreaStatus.area.until.until',
     defaultMessage: 'asti',
   },
+  persons: {
+    id: 'AreaStatus.area.persons',
+    defaultMessage: 'henkilöä',
+  },
+  max: {
+    id: 'AreaStatus.area.max',
+    defaultMessage: 'max',
+  },
 });

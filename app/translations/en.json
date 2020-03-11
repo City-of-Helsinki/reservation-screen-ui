@@ -1,6 +1,8 @@
 {
   "AreaStatus.HideMoreButton.text": "",
   "AreaStatus.ShowMoreButton.text": "More information",
+  "AreaStatus.area.max": "",
+  "AreaStatus.area.persons": "",
   "AreaStatus.area.resourceIsAvailable": "",
   "AreaStatus.area.resourceIsNotAvailable": "",
   "CalendarLegend.available": "Available",

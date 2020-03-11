@@ -14,6 +14,8 @@ const Booking = ({
   isResourceAvailable,
   resourceName,
   resourceDescription,
+  resourcePeopleCount,
+  resourceMaxReservationTime,
   upcomingReservations,
 }) => {
   const [isBookingExpanded, setBookingExpanded] = useState(
@@ -33,6 +35,8 @@ const Booking = ({
         isResourceAvailable={isResourceAvailable}
         resourceName={resourceName}
         resourceDescription={resourceDescription}
+        resourcePeopleCount={resourcePeopleCount}
+        resourceMaxReservationTime={resourceMaxReservationTime}
         upcomingReservations={upcomingReservations}
       />
       <AreaStatus onCalendarViewChange={handleCalendarViewChange} />
@@ -44,6 +48,8 @@ Booking.propTypes = {
   isResourceAvailable: PropTypes.bool,
   resourceName: PropTypes.string,
   resourceDescription: PropTypes.string,
+  resourcePeopleCount: PropTypes.string,
+  resourceMaxReservationTime: PropTypes.string,
   upcomingReservations: PropTypes.object,
 };
 

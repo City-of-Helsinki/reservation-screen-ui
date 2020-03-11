@@ -24,6 +24,8 @@ const AreaBooking = ({
   isDescriptionOpen,
   date,
   resourceName,
+  resourcePeopleCount,
+  resourceMaxReservationTime,
   nextAvailableTime,
   availableUntil,
   isResourceAvailable,
@@ -48,6 +50,8 @@ const AreaBooking = ({
       </TopAreaWrapper>
       <Status
         resourceName={resourceName}
+        resourcePeopleCount={resourcePeopleCount}
+        resourceMaxReservationTime={resourceMaxReservationTime}
         nextAvailableTime={nextAvailableTime}
         availableUntil={availableUntil}
         isResourceAvailable={isResourceAvailable}
@@ -72,6 +76,9 @@ AreaBooking.propTypes = {
   isDescriptionOpen: PropTypes.bool,
   date: PropTypes.instanceOf(Date).isRequired,
   resourceName: PropTypes.string,
+  resourceDescription: PropTypes.string.isRequired,
+  resourcePeopleCount: PropTypes.string,
+  resourceMaxReservationTime: PropTypes.string,
   nextAvailableTime: PropTypes.oneOf([
     PropTypes.instanceOf(Date),
     PropTypes.bool,
@@ -80,7 +87,6 @@ AreaBooking.propTypes = {
     .isRequired,
   isResourceAvailable: PropTypes.bool.isRequired,
   upcomingReservations: PropTypes.object.isRequired,
-  resourceDescription: PropTypes.string.isRequired,
   onToggleDescriptionOpen: PropTypes.func.isRequired,
 };
 

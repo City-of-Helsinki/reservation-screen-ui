@@ -215,6 +215,14 @@ const makeSelectResourceName = () =>
 const makeSelectResourceId = () =>
   createSelector(selectHome, state => state.getIn(['resource', 'id']));
 
+const makeSelectResourcePeopleCapacity = () =>
+  createSelector(selectHome, state =>
+    state.getIn(['resource', 'people_capacity']),
+  );
+
+const makeSelectResourceMaxPeriod = () =>
+  createSelector(selectHome, state => state.getIn(['resource', 'max_period']));
+
 /**
  *Select resource description
  */
@@ -368,6 +376,8 @@ export {
   makeSelectResourceId,
   makeSelectResourceName,
   makeSelectResourceDescription,
+  makeSelectResourcePeopleCapacity,
+  makeSelectResourceMaxPeriod,
   makeSelectIsResourceAvailable,
   makeSelectDate,
   makeSelectScene,
