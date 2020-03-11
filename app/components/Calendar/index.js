@@ -28,7 +28,12 @@ import {
 } from './resourceUtils';
 import * as calendarUtils from './utils';
 import CalendarStyleOverrides from './CalendarStyleOverrides';
-import { TIME_ZONE, NEW_RESERVATION, DATE_FORMAT } from './calendarConstants';
+import {
+  TIME_ZONE,
+  NEW_RESERVATION,
+  DATE_FORMAT,
+  DEFAULT_CALENDAR_VIEW,
+} from './calendarConstants';
 import messages from './messages';
 
 moment.tz.setDefault(TIME_ZONE);
@@ -45,10 +50,11 @@ class TimePickerCalendar extends Component {
     onTimeChange: PropTypes.func.isRequired,
     editingReservation: PropTypes.object,
     height: PropTypes.number,
+    onViewTypeChange: PropTypes.func.isRequired,
   };
 
   state = {
-    viewType: 'timeGridDay',
+    viewType: DEFAULT_CALENDAR_VIEW,
     selected: calendarUtils.getDefaultSelectedTimeRange(
       this.props.editingReservation,
     ),
@@ -165,6 +171,7 @@ class TimePickerCalendar extends Component {
       };
     }
     if (viewType !== view) {
+      this.props.onViewTypeChange(view);
       this.setState({ viewType: view, header: headerConfig });
     }
   };
@@ -343,7 +350,7 @@ class TimePickerCalendar extends Component {
     eventLongPressDelay: 20,
     selectLongPressDelay: 200,
     // Almost invoke click event on mobile immediatelly without any delay
-    defaultView: 'timeGridDay',
+    defaultView: DEFAULT_CALENDAR_VIEW,
   });
 
   getEvents = () => {

@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   padding: 5%;
   background-color: ${props => props.theme.primaryColor};
 
+  &.hide-on-toggle,
   .hide-on-toggle {
     display: none;
   }

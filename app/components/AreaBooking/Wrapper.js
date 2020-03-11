@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-items: center;
   width: 50%;
+  flex-grow: 1;
   background-color: ${props => props.theme.secondaryColor};
   padding: 5%;
   background-image: url(${props => props.theme.bgImage});
