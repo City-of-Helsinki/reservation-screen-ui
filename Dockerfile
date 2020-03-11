@@ -35,17 +35,13 @@ ARG NODE_ENV=develop
 ENV NODE_ENV $NODE_ENV
 
 USER root
+
 RUN apt-install.sh \
-      build-essential \
-      autoconf \
-      libpng-dev
-
-USER appuser
-
-RUN npm install
-
-USER root
-RUN apt-cleanup.sh build-essential
+       build-essential \
+       autoconf \
+       libpng-dev && \
+    su - appuser -c npm install && \
+    apt-cleanup.sh build-essential
 
 USER appuser
 
