@@ -1,25 +1,32 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import AreaBooking from 'components/AreaBooking';
 import AreaStatus from 'components/AreaStatus';
 import Wrapper from './Wrapper';
 
-// eslint-disable-next-line react/prefer-stateless-function
-class Booking extends React.Component {
-  render() {
-    return (
-      <Wrapper>
-        <AreaStatus
-          upcomingReservations={this.props.upcomingReservations}
-          resourceName={this.props.resourceName}
-          isResourceAvailable={this.props.isResourceAvailable}
-          resourceDescription={this.props.resourceDescription}
-        />
-        <AreaBooking />
-      </Wrapper>
-    );
-  }
-}
+const Booking = ({
+  isResourceAvailable,
+  resourceName,
+  resourceDescription,
+  upcomingReservations,
+}) => (
+  <Wrapper>
+    <AreaStatus
+      isResourceAvailable={isResourceAvailable}
+      resourceName={resourceName}
+      resourceDescription={resourceDescription}
+      upcomingReservations={upcomingReservations}
+    />
+    <AreaBooking />
+  </Wrapper>
+);
+
+Booking.propTypes = {
+  isResourceAvailable: PropTypes.bool,
+  resourceName: PropTypes.string,
+  resourceDescription: PropTypes.string,
+  upcomingReservations: PropTypes.object,
+};
 
 export default Booking;

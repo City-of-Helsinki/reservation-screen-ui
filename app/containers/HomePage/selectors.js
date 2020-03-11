@@ -358,9 +358,13 @@ const makeSelectIsDescriptionOpen = () =>
 const makeSelectErrorMessage = () =>
   createSelector(selectHome, homeState => homeState.get('errorMessage'));
 
+const makeSelectResource = () =>
+  createSelector(selectHome, state => state.get('resource'));
+
 export {
   selectHome,
   makeUpcomingReservations,
+  makeSelectResource,
   makeSelectResourceId,
   makeSelectResourceName,
   makeSelectResourceDescription,
