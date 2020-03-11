@@ -1,5 +1,4 @@
 import React, { useState, useLayoutEffect, useRef } from 'react';
-import LocaleToggle from 'containers/LocaleToggle';
 import PropTypes from 'prop-types';
 import camelCaseKeys from 'camelcase-keys';
 
@@ -66,7 +65,6 @@ const AreaStatus = ({
   return (
     <Wrapper innerRef={wrapperRef}>
       <Div>
-        <LocaleToggle />
         {resource &&
           height && (
             <Calendar

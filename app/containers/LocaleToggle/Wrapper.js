@@ -1,10 +1,5 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  padding: 2px;
-  position: absolute;
-  right: 5%;
-  top: 5%;
-`;
+const Wrapper = styled.div``;
 
 export default Wrapper;

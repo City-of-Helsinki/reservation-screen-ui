@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import Upcoming from 'components/Upcoming';
 import Clock from 'components/Clock';
 import Status from 'components/Status';
@@ -7,6 +6,7 @@ import SlideUpContent from 'components/SlideUpContent';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import PropTypes from 'prop-types';
 import {
   makeSelectDate,
   makeSelectNextAvailableTime,
@@ -14,55 +14,71 @@ import {
   makeSelectIsDescriptionOpen,
 } from 'containers/HomePage/selectors';
 import { toggleIsDescriptionOpen } from 'containers/HomePage/actions';
+import LocaleToggle from 'containers/LocaleToggle';
 
 import Wrapper from './Wrapper';
+import TopAreaWrapper from './TopAreaWrapper';
 
-/* eslint-disable react/prefer-stateless-function */
-class AreaBooking extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const AreaBooking = ({
+  isCondensed,
+  isDescriptionOpen,
+  date,
+  resourceName,
+  nextAvailableTime,
+  availableUntil,
+  isResourceAvailable,
+  upcomingReservations,
+  resourceDescription,
+  onToggleDescriptionOpen,
+}) => {
+  const [isHidden] = useState('');
+  const wrapperClass = Object.entries({
+    'slide-down': true,
+    'hide-on-toggle': isCondensed,
+  })
+    .filter(([, isIncluded]) => isIncluded)
+    .map(([className]) => className)
+    .join(' ');
 
-  render() {
-    const wrapperClass = Object.entries({
-      'slide-down': true,
-      'hide-on-toggle': this.props.isCondensed,
-    })
-      .filter(([, isIncluded]) => isIncluded)
-      .map(([className]) => className)
-      .join(' ');
-
-    return (
-      <Wrapper className={wrapperClass}>
-        <Clock
-          className={this.props.isDescriptionOpen}
-          date={this.props.date}
+  return (
+    <Wrapper className={wrapperClass}>
+      <TopAreaWrapper>
+        <Clock className={isDescriptionOpen} date={date} />
+        <LocaleToggle />
+      </TopAreaWrapper>
+      <Status
+        resourceName={resourceName}
+        nextAvailableTime={nextAvailableTime}
+        availableUntil={availableUntil}
+        isResourceAvailable={isResourceAvailable}
+      />
+      <Upcoming
+        className={isHidden}
+        upcomingReservations={upcomingReservations}
+      />
+      {resourceDescription && (
+        <SlideUpContent
+          visible={isDescriptionOpen}
+          content={resourceDescription}
+          onButtonClick={() => onToggleDescriptionOpen()}
         />
+      )}
+    </Wrapper>
+  );
+};
 
-        <Status
-          resourceName={this.props.resourceName}
-          nextAvailableTime={this.props.nextAvailableTime}
-          availableUntil={this.props.availableUntil}
-          isResourceAvailable={this.props.isResourceAvailable}
-        />
-
-        <Upcoming
-          className={this.state.isHidden}
-          upcomingReservations={this.props.upcomingReservations}
-        />
-
-        {this.props.resourceDescription && (
-          <SlideUpContent
-            visible={this.props.isDescriptionOpen}
-            content={this.props.resourceDescription}
-            onButtonClick={() => this.props.onToggleDescriptionOpen()}
-          />
-        )}
-      </Wrapper>
-    );
-  }
-}
+AreaBooking.propTypes = {
+  isCondensed: PropTypes.bool.isRequired,
+  isDescriptionOpen: PropTypes.bool,
+  date: PropTypes.instanceOf(Date).isRequired,
+  resourceName: PropTypes.string,
+  nextAvailableTime: PropTypes.bool.isRequired,
+  availableUntil: PropTypes.bool.isRequired,
+  isResourceAvailable: PropTypes.bool.isRequired,
+  upcomingReservations: PropTypes.object.isRequired,
+  resourceDescription: PropTypes.string.isRequired,
+  onToggleDescriptionOpen: PropTypes.func.isRequired,
+};
 
 export function mapDispatchToProps(dispatch) {
   return {
