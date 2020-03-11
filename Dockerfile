@@ -27,7 +27,7 @@ COPY --chown=appuser:appuser internals/ ./internals/
 ENV PATH /app/node_modules/.bin:$PATH
 
 # =============================
-FROM appbase as development_base
+FROM appbase as development
 # =============================
 
 # Set NODE_ENV to development in the development container
@@ -51,10 +51,6 @@ USER appuser
 
 # Copy all files
 COPY --chown=appuser:appuser . .
-
-# =============================
-FROM development_base as development
-# =============================
 
 # Bake package.json start command into the image
 CMD ["npm", "start"]
