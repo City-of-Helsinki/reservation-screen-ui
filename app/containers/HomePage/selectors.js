@@ -110,92 +110,12 @@ const makeSelectAvailableUntil = () =>
  * Find time when the resource is available next.
  */
 const makeSelectNextAvailableTime = () =>
-  createSelector(selectHome, state => {
-    // Get resource.
-    const resource = state.get('resource');
-
-    if (!resource) {
+  createSelector(makeSelectFreeSlots(1), ([slot]) => {
+    if (!slot) {
       return false;
     }
 
-    // Get opening times.
-    const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
-    const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
-
-    // Get current time.
-    const currentTime = state.get('date');
-
-    // List of free slots for the day.
-    const freeSlots = [];
-
-    // Continue if we have reservations.
-    if (
-      resource.has('reservations') &&
-      resource.get('reservations') &&
-      resource.get('reservations').size > 0
-    ) {
-      // Just a shortcut here...
-      const reservations = resource.get('reservations');
-
-      // First test if resource is free on opening time. If free, add to list.
-      if (opens !== reservations.getIn([0, 'begin'])) {
-        freeSlots.push(new Date(opens));
-      }
-
-      // If space is free, add current time to list
-      const currentReservation = reservations.find(
-        reservation =>
-          new Date(reservation.get('begin')).getTime() <=
-            currentTime.getTime() &&
-          new Date(reservation.get('end')).getTime() >= currentTime.getTime(),
-      );
-      if (!currentReservation) {
-        freeSlots.push(currentTime);
-      }
-
-      // Loop through all reservations. Compare reservation's end time
-      // to next reservation's start time. If times differs there's
-      // a free slot!
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < reservations.size; i++) {
-        // Shortcuts.
-        const reservation = reservations.get(i);
-        const nextReservation =
-          i + 1 < reservations.size ? reservations.get(i + 1) : false;
-
-        // There is free time after current reservation, if:
-        //
-        // 1. There is no next reservation
-        // 2. The next reservation doesn't start immediately.
-        if (
-          !nextReservation ||
-          reservation.get('end') !== nextReservation.get('begin')
-        ) {
-          freeSlots.push(new Date(reservation.get('end')));
-        }
-      }
-    }
-    // No reservations so next available time is when the resource is open.
-    else {
-      // If resource is still closed, next available time is when resource opens.
-      // eslint-disable-next-line no-lonely-if
-      if (currentTime < opens.getTime()) {
-        freeSlots.push(new Date(opens));
-      }
-      // Otherwise next available time is immediately.
-      else {
-        freeSlots.push(currentTime);
-      }
-    }
-
-    // Find next free slot. Should be in the future before closing time.
-    const nextAvailableTime = freeSlots.find(
-      freeSlot =>
-        freeSlot.getTime() >= currentTime &&
-        freeSlot.getTime() < closes.getTime(),
-    );
-
-    return nextAvailableTime || false;
+    return slot.begin;
   });
 
 /**
@@ -227,6 +147,29 @@ const makeSelectIsResourceAvailable = () =>
     return true;
   });
 
+function getHours(hours, minutes) {
+  const minutesInHours = Number(minutes) / 60;
+
+  return Number(hours) + minutesInHours;
+}
+
+function getSlotSizeInHours(time) {
+  if (!time) {
+    return null;
+  }
+
+  const [hours, minutes] = time.split(':');
+
+  return getHours(hours, minutes);
+}
+
+function getHoursAndMinutes(hours) {
+  const wholeHours = Number(hours.toFixed(0));
+  const minutes = Number((hours % 1).toFixed(3)) * 60;
+
+  return [wholeHours, minutes];
+}
+
 /**
  * Get list of free slots. I'm not proud of this implementation. If someone has better ideas feel free to fix :)
  */
@@ -235,6 +178,7 @@ const makeSelectFreeSlots = amount =>
     // Get variables from state.
     const resource = state.get('resource');
     const minPeriod = state.getIn(['resource', 'min_period']);
+    const slotSize = state.getIn(['resource', 'slot_size']);
     let begin = state.get('date');
     const freeSlots = [];
     const minPeriodTimestamp = `1970-01-01T${minPeriod}Z`;
@@ -250,13 +194,29 @@ const makeSelectFreeSlots = amount =>
     let fixedBeginTime = new Date(begin);
     fixedBeginTime.setSeconds(0);
     fixedBeginTime.setMilliseconds(0);
-    if (fixedBeginTime.getMinutes() >= 30) {
-      fixedBeginTime.setMinutes(30);
-    } else {
-      fixedBeginTime.setMinutes(0);
-    }
 
     if (resource) {
+      // To avoid the weird stuff floats and division can cause, we are
+      // only taking the first three decimals into count.
+      const slotSizeInHours = Number(getSlotSizeInHours(slotSize).toFixed(3));
+      const fixedBeginTimeHours = Number(
+        getHours(
+          fixedBeginTime.getHours(),
+          fixedBeginTime.getMinutes(),
+        ).toFixed(3),
+      );
+      const remainder =
+        // Before division multiply the floats into integers. After,
+        // divide back into a float that represents hours.
+        Math.min((fixedBeginTimeHours * 1000) % (slotSizeInHours * 1000)) /
+        1000;
+      // Go to current slot's beginning.
+      const currentSlotStartHour = fixedBeginTimeHours - remainder;
+      const [hours, minutes] = getHoursAndMinutes(currentSlotStartHour);
+
+      fixedBeginTime.setHours(hours);
+      fixedBeginTime.setMinutes(minutes);
+
       const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
       // eslint-disable-next-line no-unused-vars
       const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
@@ -310,6 +270,7 @@ const makeSelectFreeSlots = amount =>
         }
       }
     }
+
     return freeSlots.slice(0, amount);
   });
 
