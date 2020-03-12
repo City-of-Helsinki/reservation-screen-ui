@@ -9,6 +9,8 @@
   "CalendarLegend.closed": "Inte tillgänglig",
   "CalendarLegend.selection": "Vald",
   "CalendarLegend.taken": "Tagen",
+  "QuickBooking.confirmBooking": "",
+  "QuickBooking.dismissBooking": "",
   "QuickBooking.startBookingNewReservation": "",
   "SceneError.link.cancel": "Cancel",
   "SceneError.title": "Reservation failed",

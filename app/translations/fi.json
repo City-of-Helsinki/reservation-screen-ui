@@ -9,6 +9,8 @@
   "CalendarLegend.closed": "Ei varattavissa",
   "CalendarLegend.selection": "Varauksesi",
   "CalendarLegend.taken": "Varattu",
+  "QuickBooking.confirmBooking": "Tee varaus",
+  "QuickBooking.dismissBooking": "Peruuta varaus",
   "QuickBooking.startBookingNewReservation": "Tee uusi varaus",
   "SceneError.link.cancel": "Peruuta",
   "SceneError.title": "Varaus ei onnistunut",

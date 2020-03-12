@@ -5,4 +5,12 @@ export default defineMessages({
     id: 'QuickBooking.startBookingNewReservation',
     defaultMessage: 'Tee uusi varaus',
   },
+  confirmBooking: {
+    id: 'QuickBooking.confirmBooking',
+    defaultMessage: 'Tee varaus',
+  },
+  dismissBooking: {
+    id: 'QuickBooking.dismissBooking',
+    defaultMessage: 'Peruuta varaus',
+  },
 });

@@ -119,9 +119,11 @@ const QuickBooking = ({
               onClick={onIncreaseBookingDuration}
             />
           </ComposerControls>
-          <Button onClick={onConfirmBooking}>Tee varaus</Button>
+          <Button onClick={onConfirmBooking}>
+            <FormattedMessage {...messages.confirmBooking} />
+          </Button>
           <TransparentButton onClick={onDismissBooking}>
-            Peruuta varaus
+            <FormattedMessage {...messages.dismissBooking} />
           </TransparentButton>
         </ComposerWrapper>
       )}
