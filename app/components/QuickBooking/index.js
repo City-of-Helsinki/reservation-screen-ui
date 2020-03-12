@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import { toggleDisplayClass } from 'utils/toggleDisplayClass';
 import Wrapper from './Wrapper';
 import messages from './messages';
 
@@ -44,11 +45,11 @@ function getViewScene() {
   return Scenes.IDLE;
 }
 
-const QuickBooking = ({ onStartBooking }) => {
+const QuickBooking = ({ onStartBooking, isHidden }) => {
   const scene = getViewScene();
 
   return (
-    <Wrapper>
+    <Wrapper className={toggleDisplayClass(isHidden)}>
       {scene === Scenes.IDLE && (
         <BigButton onClick={onStartBooking}>
           <BigButtonIcon />
@@ -62,6 +63,7 @@ const QuickBooking = ({ onStartBooking }) => {
 };
 
 QuickBooking.propTypes = {
+  isHidden: PropTypes.bool,
   // resourceMaxReservationTime: PropTypes.number,
   // resourceMinReservationTime: PropTypes.number,
   // resourceSlotSize: PropTypes.number,

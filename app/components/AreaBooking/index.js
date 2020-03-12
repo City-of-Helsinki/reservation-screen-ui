@@ -60,6 +60,7 @@ const AreaBooking = ({
         />
         {isResourceAvailable && (
           <QuickBooking
+            isHidden={isDescriptionOpen}
             // resourceMaxReservationTime={{}}
             // resourceMinReservationTime={{}}
             // resourceSlotSize={{}}
