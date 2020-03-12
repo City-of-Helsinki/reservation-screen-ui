@@ -47,9 +47,9 @@ function getViewScene(isCreatingReservation) {
 const QuickBooking = ({
   isHidden,
   onConfirmBooking,
+  onDecreaseBookingDuration,
   onDismissBooking,
-  onDecreaseBookingTime,
-  onIncreaseBookingTime,
+  onIncreaseBookingDuration,
   onStartBooking,
   reservationBeingCreated,
 }) => {
@@ -57,7 +57,7 @@ const QuickBooking = ({
   const scene = getViewScene(isCreatingReservation);
   const currentReservationEndTime =
     isCreatingReservation &&
-    dateFormat(Date(reservationBeingCreated.get('end')), 'HH:mm');
+    dateFormat(new Date(reservationBeingCreated.get('end')), 'HH:MM');
 
   return (
     <Wrapper className={toggleDisplayClass(isHidden)}>
@@ -69,11 +69,11 @@ const QuickBooking = ({
       {scene === Scenes.COMPOSING && (
         <ComposerWrapper>
           <ComposerControls>
-            <CircleButton icon="+" onClick={onIncreaseBookingTime} />
+            <CircleButton icon="-" onClick={onDecreaseBookingDuration} />
             <ComposerCurrentEndTime>
               {currentReservationEndTime}
             </ComposerCurrentEndTime>
-            <CircleButton icon="-" onClick={onDecreaseBookingTime} />
+            <CircleButton icon="+" onClick={onIncreaseBookingDuration} />
           </ComposerControls>
           <Button onClick={onConfirmBooking}>Tee varaus</Button>
           <TransparentButton onClick={onDismissBooking}>
@@ -91,9 +91,9 @@ QuickBooking.propTypes = {
   // resourceMinReservationTime: PropTypes.number,
   // resourceSlotSize: PropTypes.number,
   onConfirmBooking: PropTypes.func.isRequired,
-  onDecreaseBookingTime: PropTypes.func.isRequired,
+  onDecreaseBookingDuration: PropTypes.func.isRequired,
   onDismissBooking: PropTypes.func.isRequired,
-  onIncreaseBookingTime: PropTypes.func.isRequired,
+  onIncreaseBookingDuration: PropTypes.func.isRequired,
   onStartBooking: PropTypes.func.isRequired,
   reservationBeingCreated: PropTypes.object,
 };

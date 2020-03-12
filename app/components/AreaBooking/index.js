@@ -33,6 +33,9 @@ const AreaBooking = ({
   isDescriptionOpen,
   isResourceAvailable,
   nextAvailableTime,
+  onIncreaseBookingDuration,
+  onDecreaseBookingDuration,
+  onDismissBooking,
   onToggleDescriptionOpen,
   onStartBooking,
   reservationBeingCreated,
@@ -65,6 +68,20 @@ const AreaBooking = ({
     [onStartBooking, currentSlot, resource],
   );
 
+  const handleOnDecreaseBookingDuration = useCallback(
+    () => {
+      onDecreaseBookingDuration(resource);
+    },
+    [onDecreaseBookingDuration, resource],
+  );
+
+  const handleOnIncreaseBookingDuration = useCallback(
+    () => {
+      onIncreaseBookingDuration(resource);
+    },
+    [onIncreaseBookingDuration, resource],
+  );
+
   return (
     <Wrapper className={wrapperClass}>
       <TopAreaWrapper>
@@ -87,9 +104,9 @@ const AreaBooking = ({
             // resourceMinReservationTime={{}}
             // resourceSlotSize={{}}
             onConfirmBooking={() => {}}
-            onIncreaseBookingTime={() => {}}
-            onDecreaseBookingTime={() => {}}
-            onDismissBooking={() => {}}
+            onDecreaseBookingDuration={handleOnDecreaseBookingDuration}
+            onDismissBooking={onDismissBooking}
+            onIncreaseBookingDuration={handleOnIncreaseBookingDuration}
             onStartBooking={handleStartBooking}
             reservationBeingCreated={reservationBeingCreated}
           />
@@ -123,6 +140,9 @@ AreaBooking.propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.bool,
   ]).isRequired,
+  onDismissBooking: PropTypes.func.isRequired,
+  onDecreaseBookingDuration: PropTypes.func.isRequired,
+  onIncreaseBookingDuration: PropTypes.func.isRequired,
   onToggleDescriptionOpen: PropTypes.func.isRequired,
   onStartBooking: PropTypes.func.isRequired,
   reservationBeingCreated: PropTypes.object,
