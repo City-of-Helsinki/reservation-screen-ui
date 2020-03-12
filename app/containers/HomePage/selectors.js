@@ -177,36 +177,6 @@ const makeSelectNextAvailableTime = () =>
   });
 
 /**
- * Select resource name.
- */
-const makeSelectResourceName = () =>
-  createSelector(selectHome, state => state.getIn(['resource', 'name', 'fi']));
-
-const makeSelectResourceId = () =>
-  createSelector(selectHome, state => state.getIn(['resource', 'id']));
-
-const makeSelectResourcePeopleCapacity = () =>
-  createSelector(selectHome, state =>
-    state.getIn(['resource', 'people_capacity']),
-  );
-
-const makeSelectResourceMaxPeriod = () =>
-  createSelector(selectHome, state => state.getIn(['resource', 'max_period']));
-
-/**
- *Select resource description
- */
-const makeSelectResourceDescription = () =>
-  createSelector(selectHome, state => {
-    let description = state.getIn(['resource', 'description', 'fi']);
-    if (description) {
-      description = description.replace(/\n/, '<br /><br />');
-      return description;
-    }
-    return '';
-  });
-
-/**
  * Return true is the space is open right now.
  */
 const makeSelectIsResourceAvailable = () =>
@@ -337,16 +307,11 @@ const makeSelectErrorMessage = () =>
   createSelector(selectHome, homeState => homeState.get('errorMessage'));
 
 const makeSelectResource = () =>
-  createSelector(selectHome, state => state.get('resource'));
+  createSelector(selectHome, state => state.get('resource', undefined));
 
 export {
   selectHome,
   makeSelectResource,
-  makeSelectResourceId,
-  makeSelectResourceName,
-  makeSelectResourceDescription,
-  makeSelectResourcePeopleCapacity,
-  makeSelectResourceMaxPeriod,
   makeSelectIsResourceAvailable,
   makeSelectDate,
   makeSelectScene,

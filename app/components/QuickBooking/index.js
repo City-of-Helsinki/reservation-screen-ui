@@ -39,14 +39,24 @@ const BigButtonLabel = styled.span`
 
 const Scenes = Object.freeze({
   IDLE: 'idle',
+  COMPOSING: 'composing',
 });
 
-function getViewScene() {
+function getViewScene(isCreatingReservation) {
+  if (isCreatingReservation) {
+    return Scenes.COMPOSING;
+  }
+
   return Scenes.IDLE;
 }
 
-const QuickBooking = ({ onStartBooking, isHidden }) => {
-  const scene = getViewScene();
+const QuickBooking = ({
+  isHidden,
+  onStartBooking,
+  reservationBeingCreated,
+}) => {
+  const isCreatingReservation = reservationBeingCreated !== null;
+  const scene = getViewScene(isCreatingReservation);
 
   return (
     <Wrapper className={toggleDisplayClass(isHidden)}>
@@ -57,6 +67,9 @@ const QuickBooking = ({ onStartBooking, isHidden }) => {
             <FormattedMessage {...messages.startBookingNewReservation} />
           </BigButtonLabel>
         </BigButton>
+      )}
+      {scene === Scenes.COMPOSING && (
+        <React.Fragment>Composing placeholder</React.Fragment>
       )}
     </Wrapper>
   );
@@ -72,6 +85,7 @@ QuickBooking.propTypes = {
   // onDismissBooking: PropTypes.func.isRequired,
   // onIncreaseBookingTime: PropTypes.func.isRequired,
   // onDecreaseBookingTime: PropTypes.func.isRequired,
+  reservationBeingCreated: PropTypes.object,
 };
 
 export default QuickBooking;

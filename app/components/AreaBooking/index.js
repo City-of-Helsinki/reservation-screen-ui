@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Clock from 'components/Clock';
 import Status from 'components/Status';
 import SlideUpContent from 'components/SlideUpContent';
@@ -6,11 +6,15 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import { Map } from 'immutable';
 import {
-  makeSelectDate,
-  makeSelectNextAvailableTime,
   makeSelectAvailableUntil,
+  makeSelectDate,
+  makeSelectFreeSlots,
   makeSelectIsDescriptionOpen,
+  makeSelectNextAvailableTime,
+  makeSelectResource,
 } from 'containers/HomePage/selectors';
 import { toggleIsDescriptionOpen } from 'containers/HomePage/actions';
 import LocaleToggle from 'containers/LocaleToggle';
@@ -21,19 +25,30 @@ import TopAreaWrapper from './TopAreaWrapper';
 import MidAreaWrapper from './MidAreaWrapper';
 
 const AreaBooking = ({
+  availableUntil,
+  currentSlot,
+  date,
   isCondensed,
   isDescriptionOpen,
-  date,
-  resourceId,
-  resourceName,
-  resourcePeopleCount,
-  resourceMaxReservationTime,
-  nextAvailableTime,
-  availableUntil,
   isResourceAvailable,
-  resourceDescription,
+  nextAvailableTime,
   onToggleDescriptionOpen,
+  onStartBooking,
+  reservationBeingCreated,
+  resource: resourceWithoutDefault,
 }) => {
+  const { locale } = useIntl();
+
+  const resource = resourceWithoutDefault || new Map();
+  const localeWithDefault = locale || 'fi';
+  const resourceId = resource.get('id');
+  const resourceName = resource.getIn(['name', localeWithDefault], '');
+  const resourcePeopleCount = resource.get('people_capacity');
+  const resourceMaxReservationTime = resource.get('max_period');
+  const resourceDescription = resource
+    .getIn(['description', localeWithDefault], '')
+    // Show line breaks
+    .replace(/\n/, '<br /><br />');
   const wrapperClass = Object.entries({
     'slide-down': true,
     'hide-on-toggle': isCondensed,
@@ -41,6 +56,13 @@ const AreaBooking = ({
     .filter(([, isIncluded]) => isIncluded)
     .map(([className]) => className)
     .join(' ');
+
+  const handleStartBooking = useCallback(
+    () => {
+      onStartBooking(currentSlot[0], resource);
+    },
+    [onStartBooking, currentSlot, resource],
+  );
 
   return (
     <Wrapper className={wrapperClass}>
@@ -64,11 +86,12 @@ const AreaBooking = ({
             // resourceMaxReservationTime={{}}
             // resourceMinReservationTime={{}}
             // resourceSlotSize={{}}
-            onStartBooking={() => {}}
+            onStartBooking={handleStartBooking}
             // onConfirmBooking={() => {}}
             // onDismissBooking={() => {}}
             // onIncreaseBookingTime={() => {}}
             // onDecreaseBookingTime={() => {}}
+            reservationBeingCreated={reservationBeingCreated}
           />
         )}
       </MidAreaWrapper>
@@ -84,24 +107,23 @@ const AreaBooking = ({
 };
 
 AreaBooking.propTypes = {
-  isCondensed: PropTypes.bool.isRequired,
-  isDescriptionOpen: PropTypes.bool,
-  date: PropTypes.instanceOf(Date).isRequired,
-  resourceId: PropTypes.string,
-  resourceName: PropTypes.string,
-  resourceDescription: PropTypes.string.isRequired,
-  resourcePeopleCount: PropTypes.number,
-  resourceMaxReservationTime: PropTypes.string,
-  nextAvailableTime: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.bool,
-  ]).isRequired,
   availableUntil: PropTypes.oneOfType([
     PropTypes.instanceOf(Date),
     PropTypes.bool,
   ]).isRequired,
+  currentSlot: PropTypes.array,
+  date: PropTypes.instanceOf(Date).isRequired,
+  isCondensed: PropTypes.bool.isRequired,
+  isDescriptionOpen: PropTypes.bool,
   isResourceAvailable: PropTypes.bool.isRequired,
+  nextAvailableTime: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
   onToggleDescriptionOpen: PropTypes.func.isRequired,
+  onStartBooking: PropTypes.func.isRequired,
+  reservationBeingCreated: PropTypes.object,
+  resource: PropTypes.object,
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -111,10 +133,12 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  date: makeSelectDate(),
-  nextAvailableTime: makeSelectNextAvailableTime(),
   availableUntil: makeSelectAvailableUntil(),
+  currentSlot: makeSelectFreeSlots(1),
+  date: makeSelectDate(),
   isDescriptionOpen: makeSelectIsDescriptionOpen(),
+  nextAvailableTime: makeSelectNextAvailableTime(),
+  resource: makeSelectResource(),
 });
 
 const withConnect = connect(

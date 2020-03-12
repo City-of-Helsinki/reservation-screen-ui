@@ -40,13 +40,14 @@ class TimePickerCalendar extends Component {
 
   static propTypes = {
     date: PropTypes.string,
-    resource: PropTypes.object.isRequired,
-    onDateChange: PropTypes.func.isRequired,
-    intl: PropTypes.object.isRequired,
-    onTimeChange: PropTypes.func.isRequired,
     editingReservation: PropTypes.object,
     height: PropTypes.number,
+    intl: PropTypes.object.isRequired,
+    onDateChange: PropTypes.func.isRequired,
+    onTimeChange: PropTypes.func.isRequired,
     onViewTypeChange: PropTypes.func.isRequired,
+    resource: PropTypes.object.isRequired,
+    reservationBeingCreated: PropTypes.object,
   };
 
   state = {
@@ -129,10 +130,13 @@ class TimePickerCalendar extends Component {
   };
 
   getReservedEvents = () => {
-    const { resource, date } = this.props;
+    const { resource, date, reservationBeingCreated } = this.props;
 
     // Add the resources reservations as normal FullCalendar events.
-    const reservations = get(resource, 'reservations', []);
+    const realReservations = get(resource, 'reservations', []);
+    const reservations = reservationBeingCreated
+      ? [...realReservations, reservationBeingCreated]
+      : realReservations;
     const events = isEmpty(reservations)
       ? []
       : reservations.map(reservation => ({

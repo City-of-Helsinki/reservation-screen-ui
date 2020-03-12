@@ -23,14 +23,7 @@ import {
 } from 'containers/App/selectors';
 import { loadRepos } from '../App/actions';
 import { loadReservations, updateClock } from './actions';
-import {
-  makeSelectResourceId,
-  makeSelectResourceName,
-  makeSelectResourceDescription,
-  makeSelectResourcePeopleCapacity,
-  makeSelectResourceMaxPeriod,
-  makeSelectIsResourceAvailable,
-} from './selectors';
+import { makeSelectIsResourceAvailable } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -132,11 +125,7 @@ export class HomePage extends React.PureComponent {
             <meta name="description" content="Reservation status" />
           </Helmet>
           <Booking
-            resourceId={this.props.resourceId}
-            resourceName={this.props.resourceName}
-            resourceDescription={this.props.resourceDescription}
-            resourcePeopleCount={this.props.resourcePeopleCount}
-            resourceMaxReservationTime={this.props.resourceMaxReservationTime}
+            currentSlot={this.props.currentSlot}
             isResourceAvailable={this.props.isResourceAvailable}
           />
         </Article>
@@ -173,11 +162,6 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
   isResourceAvailable: makeSelectIsResourceAvailable(),
-  resourceId: makeSelectResourceId(),
-  resourceName: makeSelectResourceName(),
-  resourceDescription: makeSelectResourceDescription(),
-  resourcePeopleCount: makeSelectResourcePeopleCapacity(),
-  resourceMaxReservationTime: makeSelectResourceMaxPeriod(),
 });
 
 const withConnect = connect(

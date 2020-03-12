@@ -51,14 +51,15 @@ function useElementSize(ref) {
 }
 
 const AreaStatus = ({
-  resource: resourceWithoutDefault,
-  scene,
-  selectedSlot,
+  errorMessage,
   onChangeSceneToStart,
   onMakeReservation,
   onChangeSceneToCancel,
   onCalendarViewChange,
-  errorMessage,
+  resource: resourceWithoutDefault,
+  reservationBeingCreated,
+  scene,
+  selectedSlot,
 }) => {
   const wrapperRef = useRef(null);
   const [, height] = useElementSize(wrapperRef);
@@ -74,12 +75,13 @@ const AreaStatus = ({
             <Calendar
               // Approximately remove padding from wrapper height
               height={height - 2 * 84}
-              // Transform immutable data structure into a JSON object,
-              // and transform snake_case in that object into camelCase.
-              resource={camelCaseKeys(resource.toJS())}
               onDateChange={() => {}}
               onTimeChange={() => {}}
               onViewTypeChange={onCalendarViewChange}
+              // Transform immutable data structure into a JSON object,
+              // and transform snake_case in that object into camelCase.
+              resource={camelCaseKeys(resource.toJS())}
+              reservationBeingCreated={reservationBeingCreated}
             />
           )}
 
@@ -124,14 +126,15 @@ const AreaStatus = ({
 };
 
 AreaStatus.propTypes = {
-  scene: PropTypes.any,
-  selectedSlot: PropTypes.any,
+  errorMessage: PropTypes.any,
   onChangeSceneToStart: PropTypes.any,
   onChangeSceneToCancel: PropTypes.any,
   onMakeReservation: PropTypes.any,
   onCalendarViewChange: PropTypes.func,
-  errorMessage: PropTypes.any,
   resource: PropTypes.any,
+  reservationBeingCreated: PropTypes.object,
+  scene: PropTypes.any,
+  selectedSlot: PropTypes.any,
 };
 
 export function mapDispatchToProps(dispatch) {
