@@ -13,7 +13,6 @@ import SceneVerify from 'components/SceneVerify';
 import SceneError from 'components/SceneError';
 import SceneSetup from 'components/SceneSetup';
 import SceneLoading from 'components/SceneLoading';
-import SceneStrongAuth from 'components/SceneStrongAuth';
 import reducer from 'containers/HomePage/reducer';
 import {
   makeSelectScene,
@@ -65,7 +64,6 @@ const AreaStatus = ({
   const [, height] = useElementSize(wrapperRef);
 
   const resource = resourceWithoutDefault || new Map();
-  const resourceId = resource.get('id');
 
   return (
     <Wrapper innerRef={wrapperRef}>
@@ -111,13 +109,6 @@ const AreaStatus = ({
           <SceneError
             errorMessage={errorMessage}
             onButtonClick={onChangeSceneToStart}
-          />
-        )}
-        {scene === 'StrongAuth' && (
-          <SceneStrongAuth
-            resource={resource}
-            resourceId={resourceId}
-            errorMessage={errorMessage}
           />
         )}
       </Div>

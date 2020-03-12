@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+
 import H1 from 'components/H1';
 import FormattedTime from 'components/FormattedTime';
 import P from './P';
@@ -16,9 +17,6 @@ const Wrapper = styled.div`
 `;
 
 const ReservationRules = styled.div`
-  font-size: ${props => props.theme.fontSize[4]};
-`;
-const ExtraInformation = styled.span`
   font-size: ${props => props.theme.fontSize[4]};
 `;
 
@@ -39,7 +37,6 @@ const Status = ({
   isResourceAvailable,
   nextAvailableTime,
   availableUntil,
-  resourceId,
   resourceName,
   resourcePeopleCount,
   resourceMaxReservationTime,
@@ -48,7 +45,6 @@ const Status = ({
   const showAvailableUntil = isResourceAvailable && availableUntil;
   const resourceMaxReservationTimeHours = getHours(resourceMaxReservationTime);
   const hasReservationRules = resourcePeopleCount || resourceMaxReservationTime;
-  const productionRespaResourcePageUrlLabel = `varaamo.hel.fi/${resourceId}`;
 
   return (
     <Wrapper>
@@ -76,17 +72,6 @@ const Status = ({
           {resourceMaxReservationTimeHours}h
         </ReservationRules>
       )}
-      {!isResourceAvailable && (
-        <ExtraInformation>
-          <FormattedMessage
-            {...messages.bookAt}
-            values={{
-              linkLabel: productionRespaResourcePageUrlLabel,
-              b: (...chunks) => <b>{chunks}</b>,
-            }}
-          />
-        </ExtraInformation>
-      )}
     </Wrapper>
   );
 };
@@ -101,7 +86,6 @@ Status.propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.bool,
   ]).isRequired,
-  resourceId: PropTypes.string,
   resourceName: PropTypes.string,
   resourcePeopleCount: PropTypes.number,
   resourceMaxReservationTime: PropTypes.string,

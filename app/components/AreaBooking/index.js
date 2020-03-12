@@ -19,6 +19,7 @@ import {
 import { toggleIsDescriptionOpen } from 'containers/HomePage/actions';
 import LocaleToggle from 'containers/LocaleToggle';
 import QuickBooking from 'components/QuickBooking';
+import StrongAuth from 'components/StrongAuth';
 
 import Wrapper from './Wrapper';
 import TopAreaWrapper from './TopAreaWrapper';
@@ -72,7 +73,6 @@ const AreaBooking = ({
       </TopAreaWrapper>
       <MidAreaWrapper>
         <Status
-          resourceId={resourceId}
           resourceName={resourceName}
           resourcePeopleCount={resourcePeopleCount}
           resourceMaxReservationTime={resourceMaxReservationTime}
@@ -93,6 +93,9 @@ const AreaBooking = ({
             // onDecreaseBookingTime={() => {}}
             reservationBeingCreated={reservationBeingCreated}
           />
+        )}
+        {!isResourceAvailable && (
+          <StrongAuth isHidden={isDescriptionOpen} resourceId={resourceId} />
         )}
       </MidAreaWrapper>
       {resourceDescription && (
