@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import dateFormat from 'dateformat';
+import { fromJS } from 'immutable';
 
 import AreaBooking from 'components/AreaBooking';
 import AreaStatus from 'components/AreaStatus';
@@ -16,7 +17,7 @@ function getEmptyReservation(currentSlot, resource) {
     return null;
   }
 
-  return {
+  return fromJS({
     begin: `${dateFormat(currentSlot.begin, 'yyyy-mm-dd')}T${dateFormat(
       currentSlot.begin,
       'HH:MM:ss.000o',
@@ -35,7 +36,7 @@ function getEmptyReservation(currentSlot, resource) {
     reserver_phone_number: '123456789',
     reserver_name: 'Anonymous reserver',
     reserver_id: 'anonymous',
-  };
+  });
 }
 
 const Booking = ({ isResourceAvailable }) => {

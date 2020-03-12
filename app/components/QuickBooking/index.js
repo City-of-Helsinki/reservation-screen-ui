@@ -2,39 +2,33 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import dateFormat from 'dateformat';
 
 import { toggleDisplayClass } from 'utils/toggleDisplayClass';
+import Button from 'components/Button';
 import Wrapper from './Wrapper';
+import CircleButton from './CircleButton';
+import TransparentButton from './TransparentButton';
 import messages from './messages';
 
-const BigButton = styled.button``;
-const BigButtonIcon = styled.span`
+const ComposerWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ComposerControls = styled.div`
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 200px;
-  height: 200px;
-  margin-bottom: 24px;
-
-  background: #fff;
-  border-radius: 100%;
-
-  &::after {
-    display: block;
-    content: '+';
-
-    /* The content is a plus sign and in the used font-family it's not
-     centered vertically on the line. */
-    position: relative;
-    top: -16px;
-
-    color: ${props => props.theme.primaryColor};
-    font-size: 200px;
-  }
+  margin-bottom: 16px;
 `;
-const BigButtonLabel = styled.span`
-  font-size: 30px;
-  text-decoration: underline;
+
+const ComposerCurrentEndTime = styled.span`
+  margin: 0 50px;
+
+  font-size: 100px;
 `;
 
 const Scenes = Object.freeze({
@@ -52,24 +46,40 @@ function getViewScene(isCreatingReservation) {
 
 const QuickBooking = ({
   isHidden,
+  onConfirmBooking,
+  onDismissBooking,
+  onDecreaseBookingTime,
+  onIncreaseBookingTime,
   onStartBooking,
   reservationBeingCreated,
 }) => {
   const isCreatingReservation = reservationBeingCreated !== null;
   const scene = getViewScene(isCreatingReservation);
+  const currentReservationEndTime =
+    isCreatingReservation &&
+    dateFormat(Date(reservationBeingCreated.get('end')), 'HH:mm');
 
   return (
     <Wrapper className={toggleDisplayClass(isHidden)}>
       {scene === Scenes.IDLE && (
-        <BigButton onClick={onStartBooking}>
-          <BigButtonIcon />
-          <BigButtonLabel>
-            <FormattedMessage {...messages.startBookingNewReservation} />
-          </BigButtonLabel>
-        </BigButton>
+        <CircleButton onClick={onStartBooking} variant="superBig" icon="+">
+          <FormattedMessage {...messages.startBookingNewReservation} />
+        </CircleButton>
       )}
       {scene === Scenes.COMPOSING && (
-        <React.Fragment>Composing placeholder</React.Fragment>
+        <ComposerWrapper>
+          <ComposerControls>
+            <CircleButton icon="+" onClick={onIncreaseBookingTime} />
+            <ComposerCurrentEndTime>
+              {currentReservationEndTime}
+            </ComposerCurrentEndTime>
+            <CircleButton icon="-" onClick={onDecreaseBookingTime} />
+          </ComposerControls>
+          <Button onClick={onConfirmBooking}>Tee varaus</Button>
+          <TransparentButton onClick={onDismissBooking}>
+            Peruuta varaus
+          </TransparentButton>
+        </ComposerWrapper>
       )}
     </Wrapper>
   );
@@ -80,11 +90,11 @@ QuickBooking.propTypes = {
   // resourceMaxReservationTime: PropTypes.number,
   // resourceMinReservationTime: PropTypes.number,
   // resourceSlotSize: PropTypes.number,
+  onConfirmBooking: PropTypes.func.isRequired,
+  onDecreaseBookingTime: PropTypes.func.isRequired,
+  onDismissBooking: PropTypes.func.isRequired,
+  onIncreaseBookingTime: PropTypes.func.isRequired,
   onStartBooking: PropTypes.func.isRequired,
-  // onConfirmBooking: PropTypes.func.isRequired,
-  // onDismissBooking: PropTypes.func.isRequired,
-  // onIncreaseBookingTime: PropTypes.func.isRequired,
-  // onDecreaseBookingTime: PropTypes.func.isRequired,
   reservationBeingCreated: PropTypes.object,
 };
 

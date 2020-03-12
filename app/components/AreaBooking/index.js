@@ -86,11 +86,11 @@ const AreaBooking = ({
             // resourceMaxReservationTime={{}}
             // resourceMinReservationTime={{}}
             // resourceSlotSize={{}}
+            onConfirmBooking={() => {}}
+            onIncreaseBookingTime={() => {}}
+            onDecreaseBookingTime={() => {}}
+            onDismissBooking={() => {}}
             onStartBooking={handleStartBooking}
-            // onConfirmBooking={() => {}}
-            // onDismissBooking={() => {}}
-            // onIncreaseBookingTime={() => {}}
-            // onDecreaseBookingTime={() => {}}
             reservationBeingCreated={reservationBeingCreated}
           />
         )}

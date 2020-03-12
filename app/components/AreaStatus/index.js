@@ -49,6 +49,16 @@ function useElementSize(ref) {
   return size;
 }
 
+// Transform immutable data structure into a JSON object, and transform
+// snake_case in that object into camelCase.
+function fromSnakeCaseImmutableToCamelCaseJS(immutable) {
+  if (!immutable) {
+    return immutable;
+  }
+
+  return camelCaseKeys(immutable.toJS());
+}
+
 const AreaStatus = ({
   errorMessage,
   onChangeSceneToStart,
@@ -76,10 +86,14 @@ const AreaStatus = ({
               onDateChange={() => {}}
               onTimeChange={() => {}}
               onViewTypeChange={onCalendarViewChange}
-              // Transform immutable data structure into a JSON object,
-              // and transform snake_case in that object into camelCase.
-              resource={camelCaseKeys(resource.toJS())}
-              reservationBeingCreated={reservationBeingCreated}
+              // We pulled the calendar component from a different
+              // project using a different data structure, so we need
+              // to do some integration work here to avoid refactoring
+              // the Calendar.
+              resource={fromSnakeCaseImmutableToCamelCaseJS(resource)}
+              reservationBeingCreated={fromSnakeCaseImmutableToCamelCaseJS(
+                reservationBeingCreated,
+              )}
             />
           )}
 
