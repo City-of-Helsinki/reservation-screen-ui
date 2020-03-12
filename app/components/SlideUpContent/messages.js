@@ -11,7 +11,7 @@ export default defineMessages({
     defaultMessage: 'Tilan tiedot',
   },
   hideMore: {
-    id: 'AreaStatus.ShowMoreButton.text',
+    id: 'AreaStatus.HideMoreButton.text',
     defaultMessage: 'Piilota tiedot',
   },
 });

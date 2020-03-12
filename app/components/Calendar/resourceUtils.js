@@ -1,26 +1,9 @@
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
-import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 import moment from 'moment';
 
 import { DATE_FORMAT } from './calendarConstants';
-
-/**
- * getSlotSizeInMinutes();
- * @param resource {object} Resource object.
- * @returns {number} Slot size in minutes.
- */
-const getSlotSizeInMinutes = resource => {
-  const slotSize = get(resource, 'slot_size', null);
-
-  if (slotSize) {
-    const slotSizeDuration = moment.duration(slotSize);
-    return slotSizeDuration.hours() * 60 + slotSizeDuration.minutes();
-  }
-
-  return 30;
-};
 
 /**
  * getOpeningHours();
@@ -314,82 +297,4 @@ export const isDateReservable = (resource, date) => {
     : true;
 
   return isAdmin || (isBefore && isAfter);
-};
-
-/**
- * Check if selected time range
- * overlapped with timerange from reserved reservations. (from resource data)
- * @param {Array} events
- * @param {Date} start
- * @param {Date} end
- * @returns {boolean} Is current selected timerange overlap with reserved events.
- */
-const isBetweenReservedTimeRange = (events, start, end) =>
-  events.some(event => {
-    // selection start is between event timerange
-    if (start >= event.start && start < event.end) {
-      return true;
-    }
-    // selection end is between event timerange
-    if (end > event.start && end <= event.end) {
-      return true;
-    }
-    // selected time inside of event timerange
-
-    if (end <= event.end && start >= event.start) {
-      return true;
-    }
-
-    return false;
-  });
-/**
- * isTimeRangeReservable();
- * @param resource {object} Resource object.
- * @param start {Date|string} Either a Date object or date string that can be parsed as moment object.
- * @param end {Date|string} Either a Date object or date string that can be parsed as moment object.
- * @param isStaff {boolean} Staff users have permission to bypass maxPeriod check.
- * @param events {Array} Reserved reservations from resource data.
- * @returns {boolean}
- */
-export const isTimeRangeReservable = (resource, start, end, events) => {
-  const now = moment();
-  const startMoment = moment(start);
-  const endMoment = moment(end);
-
-  // Check if current time slot is overlapped with reserved reservation
-  if (!isEmpty(events)) {
-    const isReserved = isBetweenReservedTimeRange(
-      events,
-      start,
-      endMoment.toDate(),
-    );
-
-    if (isReserved) {
-      return false;
-    }
-  }
-
-  if (
-    !isDateReservable(resource, startMoment.format(DATE_FORMAT)) ||
-    !isDateReservable(resource, endMoment.format(DATE_FORMAT))
-  ) {
-    return false;
-  }
-
-  // Check if the given event times are inside opening hours.
-  const dateString = startMoment.format(DATE_FORMAT);
-  const openingHours = getOpeningHours(resource, dateString) || {};
-  const opens = moment(openingHours.opens);
-  const closes = moment(openingHours.closes);
-
-  if (startMoment.isBefore(opens) || endMoment.isAfter(closes)) {
-    return false;
-  }
-
-  const slotSize = getSlotSizeInMinutes(resource);
-  const oneTimeSlotBeforeNow = now.subtract(slotSize, 'minutes');
-
-  // Prevent selecting times from past.
-  // But allow user to select timeslot which is happening.
-  return startMoment.isAfter(oneTimeSlotBeforeNow);
 };

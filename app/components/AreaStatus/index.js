@@ -21,14 +21,20 @@ import Wrapper from './Wrapper';
 class AreaStatus extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      toggleClass: 'slide-down',
-    };
+    this.state = {};
   }
 
   render() {
+    const wrapperClass = Object.entries({
+      'slide-down': true,
+      'hide-on-toggle': this.props.isCondensed,
+    })
+      .filter(([, isIncluded]) => isIncluded)
+      .map(([className]) => className)
+      .join(' ');
+
     return (
-      <Wrapper className={this.state.toggleClass}>
+      <Wrapper className={wrapperClass}>
         <Clock
           className={this.props.isDescriptionOpen}
           date={this.props.date}

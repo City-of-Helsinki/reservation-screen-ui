@@ -1,13 +1,8 @@
 {
+  "AreaStatus.HideMoreButton.text": "",
   "AreaStatus.ShowMoreButton.text": "More information",
   "AreaStatus.area.resourceIsAvailable": "",
   "AreaStatus.area.resourceIsNotAvailable": "",
-  "Calendar.info.maxPeriodText": "Reservation must be shorter than {duration}h",
-  "Calendar.info.minPeriodText":
-    "Reservation must be at least {duration}h long",
-  "Calendar.info.today": "Today",
-  "Calendar.selectedDateLabel": "Selected time:",
-  "Calendar.selectedDateValue": "{date} at {start} - at {end} ({duration})",
   "CalendarLegend.available": "Available",
   "CalendarLegend.closed": "Unavailable",
   "CalendarLegend.selection": "Selected",
@@ -16,6 +11,10 @@
   "SceneError.title": "Reservation failed",
   "boilerplate.components.AreaBooking.button.submit": "Book",
   "boilerplate.components.AreaBooking.link.reset": "",
+  "boilerplate.components.AreaStatus.area.clock": "",
+  "boilerplate.components.AreaStatus.area.reserved": "",
+  "boilerplate.components.AreaStatus.area.until": "",
+  "boilerplate.components.AreaStatus.area.until.until": "",
   "boilerplate.components.Confirm.cancel": "Cancel reservation",
   "boilerplate.components.Confirm.ends":
     "Your reservations ends {br} at {time}",

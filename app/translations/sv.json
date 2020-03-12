@@ -1,14 +1,8 @@
 {
+  "AreaStatus.HideMoreButton.text": "",
   "AreaStatus.ShowMoreButton.text": "More information",
   "AreaStatus.area.resourceIsAvailable": "",
   "AreaStatus.area.resourceIsNotAvailable": "",
-  "Calendar.info.maxPeriodText":
-    "Bokningen får vara högst {duration} timmar lång.",
-  "Calendar.info.minPeriodText":
-    "Bokningen måste vara minst {duration} timmar lång.",
-  "Calendar.info.today": "Idag",
-  "Calendar.selectedDateLabel": "Utvald tidpunkt:",
-  "Calendar.selectedDateValue": "{date} kl. {start} - kl. {end} ({duration})",
   "CalendarLegend.available": "Tillgängligt",
   "CalendarLegend.closed": "Inte tillgänglig",
   "CalendarLegend.selection": "Vald",
@@ -17,6 +11,10 @@
   "SceneError.title": "Reservation failed",
   "boilerplate.components.AreaBooking.button.submit": "Book",
   "boilerplate.components.AreaBooking.link.reset": "",
+  "boilerplate.components.AreaStatus.area.clock": "",
+  "boilerplate.components.AreaStatus.area.reserved": "",
+  "boilerplate.components.AreaStatus.area.until": "",
+  "boilerplate.components.AreaStatus.area.until.until": "",
   "boilerplate.components.Confirm.cancel": "Cancel reservation",
   "boilerplate.components.Confirm.ends":
     "Your reservations ends {br} at {time}",

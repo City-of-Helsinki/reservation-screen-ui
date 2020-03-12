@@ -56,6 +56,7 @@ const AreaBooking = ({
   onChangeSceneToStart,
   onMakeReservation,
   onChangeSceneToCancel,
+  onCalendarViewChange,
   errorMessage,
   resourceId,
 }) => {
@@ -76,6 +77,7 @@ const AreaBooking = ({
               resource={camelCaseKeys(resource.toJS())}
               onDateChange={() => {}}
               onTimeChange={() => {}}
+              onViewTypeChange={onCalendarViewChange}
             />
           )}
 
@@ -125,6 +127,7 @@ AreaBooking.propTypes = {
   onChangeSceneToStart: PropTypes.any,
   onChangeSceneToCancel: PropTypes.any,
   onMakeReservation: PropTypes.any,
+  onCalendarViewChange: PropTypes.func,
   errorMessage: PropTypes.any,
   resource: PropTypes.any,
   resourceId: PropTypes.any,

@@ -18,7 +18,6 @@ import { injectIntl } from 'react-intl';
 
 import CalendarLegend from './legend/CalendarLegend';
 import {
-  isTimeRangeReservable,
   isDateReservable,
   getFullCalendarBusinessHours,
   getFullCalendarMaxTime,
@@ -26,10 +25,12 @@ import {
   getFullCalendarSlotDuration,
   getFullCalendarSlotLabelInterval,
 } from './resourceUtils';
-import * as calendarUtils from './utils';
 import CalendarStyleOverrides from './CalendarStyleOverrides';
-import { TIME_ZONE, NEW_RESERVATION, DATE_FORMAT } from './calendarConstants';
-import messages from './messages';
+import {
+  TIME_ZONE,
+  DATE_FORMAT,
+  DEFAULT_CALENDAR_VIEW,
+} from './calendarConstants';
 
 moment.tz.setDefault(TIME_ZONE);
 // Re-apply moment-timezone default timezone, cause FullCalendar import have override the import
@@ -45,19 +46,30 @@ class TimePickerCalendar extends Component {
     onTimeChange: PropTypes.func.isRequired,
     editingReservation: PropTypes.object,
     height: PropTypes.number,
+    onViewTypeChange: PropTypes.func.isRequired,
   };
 
   state = {
-    viewType: 'timeGridDay',
-    selected: calendarUtils.getDefaultSelectedTimeRange(
-      this.props.editingReservation,
-    ),
+    viewType: DEFAULT_CALENDAR_VIEW,
     header: {
-      left: '', // 'myPrev,myNext,myToday',
-      center: 'timeGridDay,timeGridWeek',
+      left: '',
+      center: 'timeGridDay, timeGridWeek',
       right: '',
     },
   };
+
+  shouldComponentUpdate(prevProps, prevState) {
+    // For some (god forsaken) reason, changes in into the viewType end
+    // up messing the height of the calendar. I tried my best to find
+    // the code causing this, but I did not. I'll retain this check and
+    // hopefully I'll come across the root reason. If you are reading
+    // this, then likely I didn't.
+    if (this.state.viewType !== prevState.viewType) {
+      return false;
+    }
+
+    return true;
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { date } = this.props;
@@ -73,46 +85,11 @@ class TimePickerCalendar extends Component {
     }
   }
 
-  isSelectionValid = selection => {
-    const { resource } = this.props;
-    const events = this.getReservedEvents();
-
-    return isTimeRangeReservable(
-      resource,
-      selection.start,
-      selection.end,
-      events,
-    );
-  };
-
-  onChange = selected => {
-    this.setState({ selected });
-
-    // Invoke select handler callback from props
-    this.props.onTimeChange(selected);
-  };
-
-  onCancel = () => {
-    // Revert to default timerange if cancel
-    const defaultSelectedTimeRange = calendarUtils.getDefaultSelectedTimeRange(
-      this.props.editingReservation,
-    );
-    this.onChange(defaultSelectedTimeRange);
-  };
-
   onEventRender = info => {
     // add cancel button for new selected event
     let duration;
 
-    if (info.event.id === NEW_RESERVATION) {
-      const cancelBtn = document.createElement('span');
-      cancelBtn.classList.add('app-TimePickerCalendar__cancelEvent');
-      cancelBtn.addEventListener('click', () => this.onCancel(), {
-        once: true,
-      });
-      info.el.append(cancelBtn);
-      duration = this.getDurationText(info.event);
-    } else if (info.event.id === '') {
+    if (info.event.id === '') {
       duration = this.getDurationText(info.event);
     }
 
@@ -124,114 +101,14 @@ class TimePickerCalendar extends Component {
     }
   };
 
-  onSelect = selectionInfo => {
-    // const { t } = this.props;
-    const calendarApi = this.calendarRef.current.getApi();
-    calendarApi.unselect();
-    // Clear FullCalendar select tooltip
-
-    const selectable = this.getSelectableTimeRange(selectionInfo);
-    // Make sure selected time alway furfill period check.
-
-    const isValid = this.isSelectionValid(selectable);
-
-    if (isValid) {
-      this.onChange(selectable);
-    } else {
-      // TODO: Display error
-    }
-  };
-
-  // Check if event resize allowed
-  onEventResize = selectionInfo => {
-    const { event } = selectionInfo;
-    const selectable = this.getSelectableTimeRange(event, selectionInfo);
-    this.onChange(selectable);
-  };
-
   onDatesRender = info => {
-    const { viewType, header } = this.state;
-    let view = info.view.type;
-    let headerConfig = header;
+    const { viewType } = this.state;
+    const view = info.view.type;
 
-    // 768
-    if (window.innerWidth < 768) {
-      // mobile view config
-      view = 'timeGridDay';
-      headerConfig = {
-        left: '', // 'myPrev,myNext,myToday'
-        center: 'title',
-        right: 'timeGridDay,timeGridWeek',
-      };
-    }
     if (viewType !== view) {
-      this.setState({ viewType: view, header: headerConfig });
+      this.props.onViewTypeChange(view);
+      this.setState({ viewType: view });
     }
-  };
-
-  /**
-   * To ensure the selected time range will always between min and max period
-   * Return a selectable timerange if input timerange is somehow not between min and max period
-   * Display info text to user about those changes.
-   *
-   * @return  {Object}  Normalized selected time range
-   */
-  getSelectableTimeRange = (selected, eventCallback) => {
-    const { resource /* , t */ } = this.props;
-
-    let selectable = {
-      start: selected.start,
-      end: selected.end,
-    };
-
-    const isUnderMinPeriod = calendarUtils.isTimeRangeUnderMinPeriod(
-      resource,
-      selectable.start,
-      selectable.end,
-    );
-
-    const isOverMaxPeriod = calendarUtils.isTimeRangeOverMaxPeriod(
-      resource,
-      selectable.start,
-      selectable.end,
-    );
-
-    if (isUnderMinPeriod) {
-      // const minPeriod = get(resource, 'min_period', null);
-      // const minPeriodDuration = moment.duration(minPeriod).asHours();
-
-      if (eventCallback) {
-        eventCallback.revert();
-        // TODO: Inform user
-      }
-
-      selectable = calendarUtils.getMinPeriodTimeRange(
-        resource,
-        selected.start,
-        selected.end,
-      );
-      // Make sure selected time will always bigger than min period
-    }
-
-    if (isOverMaxPeriod) {
-      // const maxPeriod = get(resource, 'max_period', null);
-      // const maxPeriodDuration = moment.duration(maxPeriod).asHours();
-
-      if (eventCallback) {
-        eventCallback.revert();
-      }
-
-      // TODO: Inform user
-
-      selectable = calendarUtils.getMaxPeriodTimeRange(
-        resource,
-        selectable.start,
-        selectable.end,
-      );
-      // Make sure selected time will always smaller than max period
-    }
-
-    return selectable;
   };
 
   getDurationText = selected => {
@@ -249,28 +126,6 @@ class TimePickerCalendar extends Component {
     }
 
     return `${duration / 3600000}h ${maxDurationText}`;
-  };
-
-  getSelectedDateText = () => {
-    const { intl } = this.props;
-    const { selected } = this.state;
-
-    if (selected) {
-      const start = moment(selected.start);
-      const end = moment(selected.end);
-
-      const tVariables = {
-        date: start.format('dd D.M.Y'),
-        start: start.format('HH:mm'),
-        end: end.format('HH:mm'),
-        duration: this.getDurationText(),
-        price: 0,
-      };
-
-      return intl.formatMessage(messages.selectedDateValue, tVariables);
-    }
-
-    return '';
   };
 
   getReservedEvents = () => {
@@ -319,7 +174,7 @@ class TimePickerCalendar extends Component {
   getCalendarOptions = () => ({
     timeZone: TIME_ZONE,
     height: this.props.height || 'auto',
-    editable: true,
+    editable: false,
     eventConstraint: 'businessHours',
     eventOverlap: false,
     firstDay: 1,
@@ -327,7 +182,7 @@ class TimePickerCalendar extends Component {
     locales: [enLocale, svLocale, fiLocale],
     nowIndicator: true,
     plugins: [timeGridPlugin, momentTimezonePlugin, interactionPlugin],
-    selectable: true,
+    selectable: false,
     selectOverlap: false,
     selectConstraint: 'businessHours',
     selectMirror: true,
@@ -343,84 +198,28 @@ class TimePickerCalendar extends Component {
     eventLongPressDelay: 20,
     selectLongPressDelay: 200,
     // Almost invoke click event on mobile immediatelly without any delay
-    defaultView: 'timeGridDay',
+    defaultView: DEFAULT_CALENDAR_VIEW,
   });
 
-  getEvents = () => {
-    const { resource } = this.props;
-    const { selected } = this.state;
-
-    const events = this.getReservedEvents();
-    if (selected) {
-      const webEventSelected = window.innerWidth > 768 ? 'fc-selected' : '';
-      events.push({
-        classNames: [
-          'app-TimePickerCalendar__event',
-          'app-TimePickerCalendar__newReservation',
-          webEventSelected,
-        ],
-        editable: true,
-        durationEditable: !calendarUtils.isTimeRangeOverMaxPeriod(
-          resource,
-          selected.start,
-          selected.end,
-        ),
-        id: NEW_RESERVATION,
-        ...selected,
-      });
-    }
-    return events;
-  };
+  getEvents = () => this.getReservedEvents();
 
   render() {
-    const { date, onDateChange, resource, intl } = this.props;
+    const { date, resource } = this.props;
     const { viewType, header } = this.state;
-    const addValue = viewType === 'timeGridWeek' ? 'w' : 'd';
+
     return (
       <CalendarStyleOverrides>
         <FullCalendar
           {...this.getCalendarOptions()}
           allDaySlot={false}
           businessHours={getFullCalendarBusinessHours(resource, date)}
-          customButtons={{
-            myPrev: {
-              text: ' ',
-              click: () =>
-                onDateChange(
-                  moment(date)
-                    .subtract(1, addValue)
-                    .toDate(),
-                ),
-            },
-            myNext: {
-              text: ' ',
-              click: () =>
-                onDateChange(
-                  moment(date)
-                    .add(1, addValue)
-                    .toDate(),
-                ),
-            },
-            myToday: {
-              text: intl.formatMessage(messages.today),
-              click: () =>
-                onDateChange(
-                  this.calendarRef.current.calendar.view.initialNowDate,
-                ),
-            },
-          }}
           datesRender={this.onDatesRender}
           defaultDate={date}
-          eventDrop={this.onEventResize}
-          eventRender={this.onEventRender}
-          eventResize={this.onEventResize}
           events={this.getEvents()}
           header={header}
           maxTime={getFullCalendarMaxTime(resource, date, viewType)}
           minTime={getFullCalendarMinTime(resource, date, viewType)}
-          onDatesRender={this.onDatesRender}
           ref={this.calendarRef}
-          select={this.onSelect}
           slotDuration={getFullCalendarSlotDuration(resource, date, viewType)}
           slotLabelInterval={getFullCalendarSlotLabelInterval(resource)}
         />

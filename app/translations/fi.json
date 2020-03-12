@@ -1,14 +1,8 @@
 {
+  "AreaStatus.HideMoreButton.text": "Piilota tiedot",
   "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
   "AreaStatus.area.resourceIsAvailable": "Tila on vapaa",
   "AreaStatus.area.resourceIsNotAvailable": "Tila on varattu",
-  "Calendar.info.maxPeriodText":
-    "Varaus saa kestää enimmillään {duration} tuntia.",
-  "Calendar.info.minPeriodText":
-    "Varauksen on kestettävä vähintään {duration} tuntia.",
-  "Calendar.info.today": "Tänään",
-  "Calendar.selectedDateLabel": "Valittu aika:",
-  "Calendar.selectedDateValue": "{date} klo {start} - klo {end} ({duration})",
   "CalendarLegend.available": "Varattavissa",
   "CalendarLegend.closed": "Ei varattavissa",
   "CalendarLegend.selection": "Varauksesi",
@@ -17,6 +11,10 @@
   "SceneError.title": "Varaus ei onnistunut",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
   "boilerplate.components.AreaBooking.link.reset": "Palaa alkuun",
+  "boilerplate.components.AreaStatus.area.clock": "klo",
+  "boilerplate.components.AreaStatus.area.reserved": "Varattu klo",
+  "boilerplate.components.AreaStatus.area.until": "saakka",
+  "boilerplate.components.AreaStatus.area.until.until": "asti",
   "boilerplate.components.Confirm.cancel": "Peruuta varaus",
   "boilerplate.components.Confirm.ends": "Varauksesi loppuu {br} kello {time}",
   "boilerplate.components.Confirm.finishedLink": "Valmis!",
