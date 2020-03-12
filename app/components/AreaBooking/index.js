@@ -16,7 +16,10 @@ import {
   makeSelectNextAvailableTime,
   makeSelectResource,
 } from 'containers/HomePage/selectors';
-import { toggleIsDescriptionOpen } from 'containers/HomePage/actions';
+import {
+  toggleIsDescriptionOpen,
+  makeReservation,
+} from 'containers/HomePage/actions';
 import LocaleToggle from 'containers/LocaleToggle';
 import QuickBooking from 'components/QuickBooking';
 import StrongAuth from 'components/StrongAuth';
@@ -33,9 +36,10 @@ const AreaBooking = ({
   isDescriptionOpen,
   isResourceAvailable,
   nextAvailableTime,
-  onIncreaseBookingDuration,
+  onConfirmBooking,
   onDecreaseBookingDuration,
   onDismissBooking,
+  onIncreaseBookingDuration,
   onToggleDescriptionOpen,
   onStartBooking,
   reservationBeingCreated,
@@ -84,6 +88,13 @@ const AreaBooking = ({
     [onIncreaseBookingDuration, resource],
   );
 
+  const handleConfirmBooking = useCallback(
+    () => {
+      onConfirmBooking(reservationBeingCreated);
+    },
+    [onConfirmBooking, reservationBeingCreated],
+  );
+
   return (
     <Wrapper className={wrapperClass}>
       <TopAreaWrapper>
@@ -102,7 +113,7 @@ const AreaBooking = ({
         {isResourceAvailable && (
           <QuickBooking
             isHidden={isDescriptionOpen}
-            onConfirmBooking={() => {}}
+            onConfirmBooking={handleConfirmBooking}
             onDecreaseBookingDuration={handleOnDecreaseBookingDuration}
             onDismissBooking={onDismissBooking}
             onIncreaseBookingDuration={handleOnIncreaseBookingDuration}
@@ -142,6 +153,7 @@ AreaBooking.propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.bool,
   ]).isRequired,
+  onConfirmBooking: PropTypes.func.isRequired,
   onDismissBooking: PropTypes.func.isRequired,
   onDecreaseBookingDuration: PropTypes.func.isRequired,
   onIncreaseBookingDuration: PropTypes.func.isRequired,
@@ -153,6 +165,7 @@ AreaBooking.propTypes = {
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onConfirmBooking: reservation => dispatch(makeReservation(reservation)),
     onToggleDescriptionOpen: () => dispatch(toggleIsDescriptionOpen()),
   };
 }

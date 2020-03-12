@@ -79,7 +79,8 @@ const AreaStatus = ({
     <Wrapper innerRef={wrapperRef}>
       <Div>
         {resource &&
-          height && (
+          height &&
+          scene === 'Start' && (
             <Calendar
               // Approximately remove padding from wrapper height
               height={height - 2 * 84}
