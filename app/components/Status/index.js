@@ -89,8 +89,14 @@ const Status = ({
 
 Status.propTypes = {
   isResourceAvailable: PropTypes.bool,
-  nextAvailableTime: PropTypes.bool,
-  availableUntil: PropTypes.bool,
+  nextAvailableTime: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
+  availableUntil: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
   resourceId: PropTypes.string,
   resourceName: PropTypes.string,
   resourcePeopleCount: PropTypes.number,

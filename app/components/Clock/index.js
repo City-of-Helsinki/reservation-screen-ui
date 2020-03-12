@@ -26,7 +26,7 @@ const Clock = ({ date, className }) => {
 
 Clock.propTypes = {
   date: PropTypes.instanceOf(Date).isRequired,
-  className: PropTypes.string,
+  className: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 
 export default Clock;
