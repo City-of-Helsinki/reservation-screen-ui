@@ -26,17 +26,15 @@ COPY --chown=appuser:appuser internals/ ./internals/
 # Make scripts in dependencies available through path
 ENV PATH /app/node_modules/.bin:$PATH
 
-# =============================
-FROM appbase as development
-# =============================
-
-# Set NODE_ENV to development in the development container
-ARG NODE_ENV=develop
-ENV NODE_ENV $NODE_ENV
-
 USER root
 
-RUN apt-install.sh \
+# Build scripts for production stage rely on devDependencies. When
+# NODE_ENV is production, some of these dependencies would not be
+# installed. For this purpose, we are setting NODE_ENV to "develop" for
+# the durationo this RUN command to ensure that all dependencies are
+# installed.
+RUN export NODE_ENV=develop && \
+    apt-install.sh \
        build-essential \
        autoconf \
        libpng-dev && \
@@ -44,6 +42,14 @@ RUN apt-install.sh \
     apt-cleanup.sh build-essential
 
 USER appuser
+
+# =============================
+FROM appbase as development
+# =============================
+
+# Set NODE_ENV to development in the development container
+ARG NODE_ENV=development
+ENV NODE_ENV $NODE_ENV
 
 # Copy all files
 COPY --chown=appuser:appuser . .
@@ -55,27 +61,7 @@ CMD ["npm", "start"]
 FROM appbase as staticbuilder
 # =============================
 
-# Build scripts rely on devDependencies. When NODE_ENV is production,
-# some of these dependencies would not be installed.
-ARG NODE_ENV=develop
-ENV NODE_ENV $NODE_ENV
-
-USER root
-RUN apt-install.sh \
-      build-essential \
-      autoconf \
-      libpng-dev
-
-USER appuser
-
-RUN npm install
-
-USER root
-RUN apt-cleanup.sh build-essential
-
-USER appuser
-
-# Set NODE_ENV to production in the production container
+# Set NODE_ENV to production for build
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
@@ -88,8 +74,9 @@ RUN npm run build
 FROM appbase as production
 # =============================
 
-# Copy dependencies
-COPY --from=staticbuilder --chown=appuser:appuser /app/node_modules /app/node_modules
+# Set NODE_ENV to production in the production container
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
 
 # Copy server
 COPY --from=staticbuilder --chown=appuser:appuser /app/server /app/server
