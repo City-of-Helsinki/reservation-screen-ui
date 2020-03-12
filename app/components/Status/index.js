@@ -15,8 +15,12 @@ const Wrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-const ReservationRules = styled.div``;
-const ExtraInformation = styled.span``;
+const ReservationRules = styled.div`
+  font-size: ${props => props.theme.fontSize[4]};
+`;
+const ExtraInformation = styled.span`
+  font-size: ${props => props.theme.fontSize[4]};
+`;
 
 function getHours(stringHours) {
   if (!stringHours) {

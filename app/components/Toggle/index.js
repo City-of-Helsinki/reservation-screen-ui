@@ -21,6 +21,7 @@ const Li = styled.li`
   color: black;
   text-align: center;
   text-decoration: underline;
+  font-size: ${props => props.theme.fontSize[4]};
 
   &:not(:last-child) {
     margin-right: 1rem;

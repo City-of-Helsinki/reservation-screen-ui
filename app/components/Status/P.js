@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const P = styled.p`
-  font-size: 24px;
+  font-size: ${props => props.theme.fontSize[2]};
   margin: 0 0 12px;
 `;
 

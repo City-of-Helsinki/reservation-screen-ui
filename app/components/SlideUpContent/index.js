@@ -11,14 +11,14 @@ const ShowMoreButton = styled.button`
 
   font-family: inherit;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: ${props => props.theme.fontSize[4]};
   text-decoration: underline;
 
   background: transparent;
 `;
 
 const Div = styled.div`
-  font-size: 16px;
+  font-size: ${props => props.theme.fontSize[3]};
   line-height: 24px;
 
   p:empty {

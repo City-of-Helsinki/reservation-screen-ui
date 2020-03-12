@@ -40,6 +40,8 @@ import BackgroundImage from './images/bg-wave-green.png';
 import BackgroundImageSoon from './images/bg-wave-yellow.png';
 import BackgroundImageTaken from './images/bg-wave-red.png';
 
+const fontSize = ['63px', '60px', '30px', '20px', '18px', '16px'];
+
 const themeAvailableNow = {
   // vapaa
   primaryColor: '#63e080',
@@ -123,7 +125,7 @@ export class HomePage extends React.PureComponent {
     }
 
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={{ ...theme, fontSize }}>
         <Article>
           <Helmet>
             <title>Home</title>
