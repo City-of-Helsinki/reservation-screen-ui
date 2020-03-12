@@ -40,7 +40,7 @@ RUN apt-install.sh \
        build-essential \
        autoconf \
        libpng-dev && \
-    su - appuser -c npm install && \
+    su appuser -c "npm install" && \
     apt-cleanup.sh build-essential
 
 USER appuser
