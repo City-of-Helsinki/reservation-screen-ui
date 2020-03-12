@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import dateFormat from 'dateformat';
+import moment from 'moment';
 
 import { toggleDisplayClass } from 'utils/toggleDisplayClass';
 import Button from 'components/Button';
@@ -44,6 +45,28 @@ function getViewScene(isCreatingReservation) {
   return Scenes.IDLE;
 }
 
+function getCurrentReservationLength(reservation) {
+  if (!reservation) {
+    return null;
+  }
+
+  const startDateTime = moment(reservation.get('begin'));
+  const endDateTime = moment(reservation.get('end'));
+
+  return endDateTime.diff(startDateTime, 'hours', true);
+}
+
+function timeStringToHourNumber(timeString) {
+  if (!timeString) {
+    return null;
+  }
+
+  const [hours, minutes] = timeString.split(':');
+  const minutesInHours = Number(minutes) / 60;
+
+  return Number(hours) + minutesInHours;
+}
+
 const QuickBooking = ({
   isHidden,
   onConfirmBooking,
@@ -52,12 +75,25 @@ const QuickBooking = ({
   onIncreaseBookingDuration,
   onStartBooking,
   reservationBeingCreated,
+  resourceMaxReservationDuration,
+  resourceMinReservationDuration,
+  resourceSlotSize,
 }) => {
   const isCreatingReservation = reservationBeingCreated !== null;
   const scene = getViewScene(isCreatingReservation);
   const currentReservationEndTime =
     isCreatingReservation &&
     dateFormat(new Date(reservationBeingCreated.get('end')), 'HH:MM');
+  const currentReservationLength = getCurrentReservationLength(
+    reservationBeingCreated,
+  );
+  const minPeriod = timeStringToHourNumber(resourceMinReservationDuration);
+  const maxPeriod = timeStringToHourNumber(resourceMaxReservationDuration);
+  const slotSize = timeStringToHourNumber(resourceSlotSize);
+  const isDurationCanBeDecreased =
+    currentReservationLength - slotSize >= minPeriod;
+  const isDurationCanBeIncreased =
+    currentReservationLength + slotSize <= maxPeriod;
 
   return (
     <Wrapper className={toggleDisplayClass(isHidden)}>
@@ -69,11 +105,19 @@ const QuickBooking = ({
       {scene === Scenes.COMPOSING && (
         <ComposerWrapper>
           <ComposerControls>
-            <CircleButton icon="-" onClick={onDecreaseBookingDuration} />
+            <CircleButton
+              disabled={!isDurationCanBeDecreased}
+              icon="-"
+              onClick={onDecreaseBookingDuration}
+            />
             <ComposerCurrentEndTime>
               {currentReservationEndTime}
             </ComposerCurrentEndTime>
-            <CircleButton icon="+" onClick={onIncreaseBookingDuration} />
+            <CircleButton
+              disabled={!isDurationCanBeIncreased}
+              icon="+"
+              onClick={onIncreaseBookingDuration}
+            />
           </ComposerControls>
           <Button onClick={onConfirmBooking}>Tee varaus</Button>
           <TransparentButton onClick={onDismissBooking}>
@@ -87,15 +131,15 @@ const QuickBooking = ({
 
 QuickBooking.propTypes = {
   isHidden: PropTypes.bool,
-  // resourceMaxReservationTime: PropTypes.number,
-  // resourceMinReservationTime: PropTypes.number,
-  // resourceSlotSize: PropTypes.number,
   onConfirmBooking: PropTypes.func.isRequired,
   onDecreaseBookingDuration: PropTypes.func.isRequired,
   onDismissBooking: PropTypes.func.isRequired,
   onIncreaseBookingDuration: PropTypes.func.isRequired,
   onStartBooking: PropTypes.func.isRequired,
   reservationBeingCreated: PropTypes.object,
+  resourceMaxReservationDuration: PropTypes.string,
+  resourceMinReservationDuration: PropTypes.string,
+  resourceSlotSize: PropTypes.string,
 };
 
 export default QuickBooking;

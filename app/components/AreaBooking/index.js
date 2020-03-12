@@ -48,7 +48,9 @@ const AreaBooking = ({
   const resourceId = resource.get('id');
   const resourceName = resource.getIn(['name', localeWithDefault], '');
   const resourcePeopleCount = resource.get('people_capacity');
-  const resourceMaxReservationTime = resource.get('max_period');
+  const resourceMaxReservationDuration = resource.get('max_period');
+  const resourceMinReservationDuration = resource.get('min_period');
+  const resourceSlotSize = resource.get('slot_size');
   const resourceDescription = resource
     .getIn(['description', localeWithDefault], '')
     // Show line breaks
@@ -92,7 +94,7 @@ const AreaBooking = ({
         <Status
           resourceName={resourceName}
           resourcePeopleCount={resourcePeopleCount}
-          resourceMaxReservationTime={resourceMaxReservationTime}
+          resourceMaxReservationTime={resourceMaxReservationDuration}
           nextAvailableTime={nextAvailableTime}
           availableUntil={availableUntil}
           isResourceAvailable={isResourceAvailable}
@@ -100,15 +102,15 @@ const AreaBooking = ({
         {isResourceAvailable && (
           <QuickBooking
             isHidden={isDescriptionOpen}
-            // resourceMaxReservationTime={{}}
-            // resourceMinReservationTime={{}}
-            // resourceSlotSize={{}}
             onConfirmBooking={() => {}}
             onDecreaseBookingDuration={handleOnDecreaseBookingDuration}
             onDismissBooking={onDismissBooking}
             onIncreaseBookingDuration={handleOnIncreaseBookingDuration}
             onStartBooking={handleStartBooking}
             reservationBeingCreated={reservationBeingCreated}
+            resourceMaxReservationDuration={resourceMaxReservationDuration}
+            resourceMinReservationDuration={resourceMinReservationDuration}
+            resourceSlotSize={resourceSlotSize}
           />
         )}
         {!isResourceAvailable && (

@@ -8,7 +8,11 @@ const isNormal = rules => props => (props.variant === VARIANTS[0] ? rules : '');
 const isSuperBig = rules => props =>
   props.variant === VARIANTS[1] ? rules : '';
 
-const Button = styled.button``;
+const Button = styled.button`
+  &:disabled {
+    opacity: 0.2;
+  }
+`;
 const Icon = styled.span`
   display: flex;
   align-items: center;
