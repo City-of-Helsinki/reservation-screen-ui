@@ -3,6 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
+import dateFormat from 'dateformat';
 import { initialState } from './reducer';
 
 // Home state from store.
@@ -29,14 +30,48 @@ const makeSelectAvailableUntil = () =>
     // Get current time.
     const currentTime = state.get('date');
 
+    // Get opening times.
+    const openingHoursForToday = resource
+      .get('opening_hours')
+      .find(openingHour => {
+        const date = dateFormat(new Date(currentTime), 'yyyy-mm-dd');
+        const openingHourDate = dateFormat(
+          new Date(openingHour.get('date')),
+          'yyyy-mm-dd',
+        );
+
+        return date === openingHourDate;
+      });
+    // Closing time not available. Default to 22.00.
+    const defaultClosingTime = new Date();
+    defaultClosingTime.setHours(22);
+    defaultClosingTime.setMinutes(0);
+    defaultClosingTime.setSeconds(0);
+    const closes = openingHoursForToday
+      ? openingHoursForToday.get('closes')
+      : defaultClosingTime;
+
     // Continue if we have reservations.
     if (
       resource.has('reservations') &&
       resource.get('reservations') &&
       resource.get('reservations').size > 0
     ) {
-      // Just a shortcut here...
-      const reservations = resource.get('reservations');
+      const reservations = resource
+        .get('reservations')
+        // The reservation list contains reservations for the entire
+        // week so we must filter out all the ones that don't take place
+        // during today.
+        .filter(reservation => {
+          const today = new Date();
+          const begin = new Date(reservation.get('being'));
+
+          return (
+            today.getDate() === begin.getDate() &&
+            today.getMonth() === begin.getMonth() &&
+            today.getYear() === begin.getYear()
+          );
+        });
 
       // Find current reservation.
       const currentReservation = reservations.find(
@@ -62,26 +97,13 @@ const makeSelectAvailableUntil = () =>
       if (nextReservation) {
         return new Date(nextReservation.get('begin'));
       }
-    }
-    // No resevations at all. Next resource is available until closing time.
-    else {
-      // Get opening times.
-      const closes = resource.getIn(['opening_hours', 0, 'closes']);
 
-      // Space is available until closing time.
-      if (closes) {
-        return new Date(closes);
-      }
-      // Closing time not available. Default to 22.00.
-
-      const newCloses = new Date();
-      newCloses.setHours(22);
-      newCloses.setMinutes(0);
-      newCloses.setSeconds(0);
-      return newCloses;
+      // If there are no other reservations, the resource is available
+      // until closing time.
     }
 
-    return false;
+    // No reservations at all. Next resource is available until closing time.
+    return new Date(closes);
   });
 
 /**
