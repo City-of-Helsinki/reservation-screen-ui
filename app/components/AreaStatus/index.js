@@ -1,10 +1,11 @@
 import React, { useState, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import camelCaseKeys from 'camelcase-keys';
-
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Map } from 'immutable';
+
 import injectReducer from 'utils/injectReducer';
 import SceneCancel from 'components/SceneCancel';
 import SceneAction from 'components/SceneAction';
@@ -14,12 +15,10 @@ import SceneSetup from 'components/SceneSetup';
 import SceneLoading from 'components/SceneLoading';
 import SceneStrongAuth from 'components/SceneStrongAuth';
 import reducer from 'containers/HomePage/reducer';
-
 import {
   makeSelectScene,
   makeSelectSelectedSlot,
   makeSelectErrorMessage,
-  makeSelectResourceId,
   makeSelectResource,
 } from 'containers/HomePage/selectors';
 import { changeScene, makeReservation } from 'containers/HomePage/actions';
@@ -29,27 +28,30 @@ import { Wrapper, Div } from './Wrapper';
 function useElementSize(ref) {
   const [size, setSize] = useState([0, 0]);
 
-  useLayoutEffect(() => {
-    function updateSize() {
-      const currentElement = ref.current;
-      if (currentElement) {
-        setSize([ref.current.clientWidth, ref.current.clientHeight]);
+  useLayoutEffect(
+    () => {
+      function updateSize() {
+        const currentElement = ref.current;
+        if (currentElement) {
+          setSize([ref.current.clientWidth, ref.current.clientHeight]);
+        }
       }
-    }
 
-    window.addEventListener('resize', updateSize);
-    updateSize();
+      window.addEventListener('resize', updateSize);
+      updateSize();
 
-    return () => {
-      window.removeEventListener('resize', updateSize);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener('resize', updateSize);
+      };
+    },
+    [ref],
+  );
 
   return size;
 }
 
 const AreaStatus = ({
-  resource,
+  resource: resourceWithoutDefault,
   scene,
   selectedSlot,
   onChangeSceneToStart,
@@ -57,10 +59,12 @@ const AreaStatus = ({
   onChangeSceneToCancel,
   onCalendarViewChange,
   errorMessage,
-  resourceId,
 }) => {
   const wrapperRef = useRef(null);
   const [, height] = useElementSize(wrapperRef);
+
+  const resource = resourceWithoutDefault || new Map();
+  const resourceId = resource.get('id');
 
   return (
     <Wrapper innerRef={wrapperRef}>
@@ -128,7 +132,6 @@ AreaStatus.propTypes = {
   onCalendarViewChange: PropTypes.func,
   errorMessage: PropTypes.any,
   resource: PropTypes.any,
-  resourceId: PropTypes.any,
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -143,7 +146,6 @@ const mapStateToProps = createStructuredSelector({
   scene: makeSelectScene(),
   selectedSlot: makeSelectSelectedSlot(),
   errorMessage: makeSelectErrorMessage(),
-  resourceId: makeSelectResourceId(),
   resource: makeSelectResource(),
 });
 
