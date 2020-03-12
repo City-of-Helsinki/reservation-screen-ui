@@ -10,6 +10,7 @@
   "CalendarLegend.closed": "Ei varattavissa",
   "CalendarLegend.selection": "Varauksesi",
   "CalendarLegend.taken": "Varattu",
+  "QuickBooking.startBookingNewReservation": "Tee uusi varaus",
   "SceneError.link.cancel": "Peruuta",
   "SceneError.title": "Varaus ei onnistunut",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",

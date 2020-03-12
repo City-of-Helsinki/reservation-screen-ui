@@ -10,6 +10,7 @@
   "CalendarLegend.closed": "Unavailable",
   "CalendarLegend.selection": "Selected",
   "CalendarLegend.taken": "Taken",
+  "QuickBooking.startBookingNewReservation": "Make a new reservation",
   "SceneError.link.cancel": "Cancel",
   "SceneError.title": "Reservation failed",
   "boilerplate.components.AreaBooking.button.submit": "Book",

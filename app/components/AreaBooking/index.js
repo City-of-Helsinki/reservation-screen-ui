@@ -14,9 +14,11 @@ import {
 } from 'containers/HomePage/selectors';
 import { toggleIsDescriptionOpen } from 'containers/HomePage/actions';
 import LocaleToggle from 'containers/LocaleToggle';
+import QuickBooking from 'components/QuickBooking';
 
 import Wrapper from './Wrapper';
 import TopAreaWrapper from './TopAreaWrapper';
+import MidAreaWrapper from './MidAreaWrapper';
 
 const AreaBooking = ({
   isCondensed,
@@ -46,15 +48,29 @@ const AreaBooking = ({
         <Clock className={isDescriptionOpen} date={date} />
         <LocaleToggle />
       </TopAreaWrapper>
-      <Status
-        resourceId={resourceId}
-        resourceName={resourceName}
-        resourcePeopleCount={resourcePeopleCount}
-        resourceMaxReservationTime={resourceMaxReservationTime}
-        nextAvailableTime={nextAvailableTime}
-        availableUntil={availableUntil}
-        isResourceAvailable={isResourceAvailable}
-      />
+      <MidAreaWrapper>
+        <Status
+          resourceId={resourceId}
+          resourceName={resourceName}
+          resourcePeopleCount={resourcePeopleCount}
+          resourceMaxReservationTime={resourceMaxReservationTime}
+          nextAvailableTime={nextAvailableTime}
+          availableUntil={availableUntil}
+          isResourceAvailable={isResourceAvailable}
+        />
+        {isResourceAvailable && (
+          <QuickBooking
+            // resourceMaxReservationTime={{}}
+            // resourceMinReservationTime={{}}
+            // resourceSlotSize={{}}
+            onStartBooking={() => {}}
+            // onConfirmBooking={() => {}}
+            // onDismissBooking={() => {}}
+            // onIncreaseBookingTime={() => {}}
+            // onDecreaseBookingTime={() => {}}
+          />
+        )}
+      </MidAreaWrapper>
       {resourceDescription && (
         <SlideUpContent
           visible={isDescriptionOpen}
