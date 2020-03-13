@@ -4,7 +4,6 @@ const TransparentButton = styled.button`
   display: inline-block;
   box-sizing: border-box;
   padding: 16px 35px;
-  text-decoration: none;
   -webkit-font-smoothing: antialiased;
   -webkit-touch-callout: none;
   user-select: none;
