@@ -43,6 +43,18 @@ function getEmptyReservation(currentSlot, resource) {
     reserver_phone_number: '123456789',
     reserver_name: 'Anonymous reserver',
     reserver_id: 'anonymous',
+    billing_address_city: 'Helsinki',
+    billing_address_zip: '00100',
+    billing_address_street: 'Helsinki',
+    billing_first_name: 'Anonymous',
+    billing_last_name: 'Reserver',
+    billing_phone_number: '00000000',
+    billing_email_address: 'varaamo@hel.fi',
+    company: 'City of Helsinki',
+    number_of_participants: 0,
+    participants: 'Anonymous participants',
+    host_name: 'Anonymous host',
+    reservation_extra_questions: 'Non blank answer',
   });
 }
 
