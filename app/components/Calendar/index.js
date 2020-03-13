@@ -145,6 +145,7 @@ class TimePickerCalendar extends Component {
           id: reservation.id,
           start: moment(reservation.begin).toDate(),
           end: moment(reservation.end).toDate(),
+          title: reservation.eventSubject,
         }));
 
     // Check resources reservation rules and disable days if needed.
