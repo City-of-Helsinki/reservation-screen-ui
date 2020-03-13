@@ -24,7 +24,7 @@ describe('makeSelectFreeSlots', () => {
     expect(freeSlots[0].end.getUTCMinutes()).toEqual(30);
 
     expect(freeSlots[1].begin.getUTCHours()).toEqual(5);
-    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(30);
     expect(freeSlots[1].end.getUTCHours()).toEqual(6);
     expect(freeSlots[1].end.getUTCMinutes()).toEqual(0);
   });
@@ -48,11 +48,11 @@ describe('makeSelectFreeSlots', () => {
     expect(freeSlots[0].end.getUTCMinutes()).toEqual(30);
 
     expect(freeSlots[1].begin.getUTCHours()).toEqual(9);
-    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(30);
     expect(freeSlots[1].end.getUTCHours()).toEqual(10);
     expect(freeSlots[1].end.getUTCMinutes()).toEqual(0);
 
-    expect(freeSlots[2].begin.getUTCHours()).toEqual(9);
+    expect(freeSlots[2].begin.getUTCHours()).toEqual(10);
     expect(freeSlots[2].begin.getUTCMinutes()).toEqual(0);
     expect(freeSlots[2].end.getUTCHours()).toEqual(10);
     expect(freeSlots[2].end.getUTCMinutes()).toEqual(30);
@@ -98,17 +98,17 @@ describe('makeSelectFreeSlots', () => {
     expect(freeSlots[0].end.getUTCMinutes()).toEqual(30);
 
     expect(freeSlots[1].begin.getUTCHours()).toEqual(8);
-    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[1].begin.getUTCMinutes()).toEqual(30);
     expect(freeSlots[1].end.getUTCHours()).toEqual(9);
     expect(freeSlots[1].end.getUTCMinutes()).toEqual(0);
 
-    expect(freeSlots[2].begin.getUTCHours()).toEqual(8);
+    expect(freeSlots[2].begin.getUTCHours()).toEqual(9);
     expect(freeSlots[2].begin.getUTCMinutes()).toEqual(0);
     expect(freeSlots[2].end.getUTCHours()).toEqual(9);
     expect(freeSlots[2].end.getUTCMinutes()).toEqual(30);
 
-    expect(freeSlots[3].begin.getUTCHours()).toEqual(8);
-    expect(freeSlots[3].begin.getUTCMinutes()).toEqual(0);
+    expect(freeSlots[3].begin.getUTCHours()).toEqual(9);
+    expect(freeSlots[3].begin.getUTCMinutes()).toEqual(30);
     expect(freeSlots[3].end.getUTCHours()).toEqual(10);
     expect(freeSlots[3].end.getUTCMinutes()).toEqual(0);
   });
