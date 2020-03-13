@@ -1,3 +1,4 @@
+/* stylelint-disable */
 import styled from 'styled-components';
 import theme from './calendarTheme';
 
