@@ -1,0 +1,36 @@
+# Mandatory include
+include:
+  - project: 'city-of-helsinki/kuva/ci-cd-config/ci-configuration'
+    ref: v2
+    file: '/.gitlab-ci-template.yml'
+ 
+# These variables are available for all stages
+variables:
+  SERVICE_PORT: "3000"
+  K8S_PORT: "3000"
+ 
+# Build stage must be included and it must extend .build.
+build:
+  extends: .build
+ 
+review:
+  # These variables are available only for review env and are merged with the general variables defined above.
+  variables:
+    POSTGRES_ENABLED: 0
+  only:
+    refs:
+      - external_pull_requests
+
+staging:
+  # By default the staging environment is created from the master-branch.
+  # Here we define that it should be created from the branch called "develop" instead.
+  only:
+    refs:
+      - develop
+  # These variables are available only for staging env and are merged with the general variables defined above.
+  # variables:
+
+# No production build for now
+# production:
+  # These variables are available only for production env and are merged with the general variables defined above.
+  # variables:

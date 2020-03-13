@@ -6,6 +6,7 @@ const logger = require('./logger');
 const argv = require('./argv');
 const port = require('./port');
 const setup = require('./middlewares/frontendMiddleware');
+const { setSignalReady } = require('./signalReadyUtil');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok =
   (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
@@ -33,6 +34,8 @@ app.listen(port, host, async err => {
   if (err) {
     return logger.error(err.message);
   }
+
+  setSignalReady();
 
   // Connect to ngrok in dev mode
   if (ngrok) {

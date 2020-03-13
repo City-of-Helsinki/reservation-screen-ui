@@ -32,7 +32,7 @@ const CalendarLegendOverrides = styled.div.attrs({ className })`
     background-color: ${theme.RED};
   }
 
-  & .color-box__available{
+  & .color-box__available {
     background-color: ${theme.WHITE};
     border-top: 1px solid ${theme.GRAY};
     border-bottom: 1px solid ${theme.GRAY};
@@ -46,7 +46,6 @@ const CalendarLegendOverrides = styled.div.attrs({ className })`
     height: 1px;
     background: ${theme.GRAY_LIGHT};
   }
-}
 `;
 
 export default CalendarLegendOverrides;
