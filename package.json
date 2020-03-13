@@ -165,7 +165,7 @@
     "moment-timezone": "^0.5.28",
     "prop-types": "15.6.1",
     "qrcode.react": "^0.8.0",
-    "react": "16.4.1",
+    "react": "^16.13.0",
     "react-circular-progressbar": "^1.2.1",
     "react-dom": "^16.13.0",
     "react-helmet": "5.2.0",
