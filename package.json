@@ -144,7 +144,6 @@
     "@fullcalendar/react": "^4.4.0",
     "@fullcalendar/timegrid": "^4.4.0",
     "babel-polyfill": "6.26.0",
-    "camelcase-keys": "^6.2.0",
     "chalk": "2.4.1",
     "compression": "1.7.2",
     "cross-env": "5.2.0",

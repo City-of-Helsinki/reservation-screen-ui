@@ -1,6 +1,5 @@
 import React, { useState, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import camelCaseKeys from 'camelcase-keys';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -49,16 +48,6 @@ function useElementSize(ref) {
   return size;
 }
 
-// Transform immutable data structure into a JSON object, and transform
-// snake_case in that object into camelCase.
-function fromSnakeCaseImmutableToCamelCaseJS(immutable) {
-  if (!immutable) {
-    return immutable;
-  }
-
-  return camelCaseKeys(immutable.toJS());
-}
-
 const AreaStatus = ({
   errorMessage,
   onChangeSceneToStart,
@@ -74,6 +63,7 @@ const AreaStatus = ({
   const [, height] = useElementSize(wrapperRef);
 
   const resource = resourceWithoutDefault || new Map();
+  const currentDate = new Date();
 
   return (
     <Wrapper innerRef={wrapperRef}>
@@ -82,6 +72,7 @@ const AreaStatus = ({
           height &&
           scene === 'Start' && (
             <Calendar
+              date={currentDate}
               // Approximately remove padding from wrapper height
               height={height - 2 * 84}
               onDateChange={() => {}}
@@ -91,10 +82,10 @@ const AreaStatus = ({
               // project using a different data structure, so we need
               // to do some integration work here to avoid refactoring
               // the Calendar.
-              resource={fromSnakeCaseImmutableToCamelCaseJS(resource)}
-              reservationBeingCreated={fromSnakeCaseImmutableToCamelCaseJS(
-                reservationBeingCreated,
-              )}
+              resource={resource && resource.toJS()}
+              reservationBeingCreated={
+                reservationBeingCreated && reservationBeingCreated.toJS()
+              }
             />
           )}
 

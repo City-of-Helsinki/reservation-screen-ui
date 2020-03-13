@@ -7,33 +7,34 @@ const rootClassName = 'app-TimePickerCalendar';
 const CalendarStyleOverrides = styled.div.attrs({
   className: rootClassName,
 })`
-  & ${rootClassName}__event {
-    color: ${theme.HEL_COAT} !important;
-    border-radius: 0 !important;
+  & .${rootClassName}__event {
+    color: ${theme.WHITE};
+
+    background-color: ${theme.RED};
   }
 
-  & ${rootClassName}__event--reserved {
-    color: ${theme.WHITE} !important;
-    background-color: ${theme.RED} !important;
-    border-color: ${theme.RED} !important;
+  & .${rootClassName}__event--unconfirmed {
+    color: ${theme.WHITE};
+
+    background-color: ${theme.HEL_COAT};
   }
 
-  & ${rootClassName}__restrictedDate {
-    background-color: ${theme.GRAY_LIGHT} !important;
+  & .${rootClassName}__restrictedDate {
+    background-color: ${theme.GRAY_LIGHT};
   }
 
-  & ${rootClassName}__newReservation {
+  & .${rootClassName}__newReservation {
     position: relative;
   }
 
-  & ${rootClassName}__cancelEvent {
+  & .${rootClassName}__cancelEvent {
     position: absolute;
     right: 0.25em;
     bottom: 0;
     z-index: 2;
   }
 
-  & ${rootClassName}__cancelEvent::after {
+  & .${rootClassName}__cancelEvent::after {
     display: inline;
     content: '\00D7';
     font-size: 1.25em;
@@ -41,17 +42,34 @@ const CalendarStyleOverrides = styled.div.attrs({
     line-height: 0.75;
   }
 
-  & ${rootClassName}__maxDuration {
+  & .${rootClassName}__maxDuration {
     font-size: 1.25rem;
+  }
+
+  &&& .fc-today,
+  &&& .fc-bgevent {
+    background: transparent;
+  }
+
+  &&& .fc-past,
+  &&& .fc-future {
+    background: ${theme.GRAY_LIGHT};
+  }
+
+  & .fc-ltr .fc-time-grid .fc-event-container {
+    margin: 0;
   }
 
   & .fc-event,
   & .fc-event:hover {
+    padding: 9px 8px;
+    margin: 0;
+
     font-size: 1.75rem;
     font-weight: bold;
-    background-color: #bddbf0;
-    border: 1px solid ${theme.HEL_COAT};
-    color: ${theme.HEL_COAT};
+
+    border: none;
+    border-radius: 0;
   }
 
   & .fc-event.fc-selected::after {
@@ -78,6 +96,12 @@ const CalendarStyleOverrides = styled.div.attrs({
 
   & .fc-time-grid-event.fc-selected .fc-resizer::after {
     color: #fff !important;
+  }
+
+  & .fc-time-grid-event .fc-time,
+  & .fc-time-grid-event .fc-title {
+    font-size: ${props => props.theme.fontSize[3]};
+    line-height: 1.3;
   }
 
   .fc-header-toolbar .fc-myToday-button {

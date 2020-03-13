@@ -7,7 +7,7 @@
 // https://github.com/City-of-Helsinki/varaamo/blob/23b6ba3aba9b6646a2aa344e69edd9d0e6bf20d0/app/assets/styles/_application-variables.scss
 const WHITE = '#fff';
 const BLACK = '#000';
-const RED = '#bd2719';
+const RED = '#ed2127';
 const GRAY_LIGHT = '#ebedf1';
 const HEL_COAT = '#0072c6';
 const FONT_WEIGHT_BOLD = '600';

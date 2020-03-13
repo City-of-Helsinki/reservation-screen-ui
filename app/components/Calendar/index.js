@@ -22,7 +22,6 @@ import {
   getFullCalendarBusinessHours,
   getFullCalendarMaxTime,
   getFullCalendarMinTime,
-  getFullCalendarSlotDuration,
   getFullCalendarSlotLabelInterval,
 } from './resourceUtils';
 import CalendarStyleOverrides from './CalendarStyleOverrides';
@@ -105,18 +104,18 @@ class TimePickerCalendar extends Component {
   }
 
   onEventRender = info => {
-    // add cancel button for new selected event
-    let duration;
-
-    if (info.event.id === '') {
-      duration = this.getDurationText(info.event);
-    }
+    const duration = this.getDurationText(info.event);
 
     if (duration) {
       const eventDuration = document.createElement('span');
-      eventDuration.textContent = duration;
+      eventDuration.textContent = ` (${duration})`;
       eventDuration.classList.add('app-TimePickerCalendar__maxDuration');
-      info.el.append(eventDuration);
+
+      const timeElement = info.el.querySelector('div.fc-time');
+
+      if (timeElement) {
+        timeElement.append(eventDuration);
+      }
     }
   };
 
@@ -141,10 +140,10 @@ class TimePickerCalendar extends Component {
     if (resource.max_period) {
       const maxDuration = get(resource, 'max_period', null);
       const maxDurationSeconds = moment.duration(maxDuration).asSeconds();
-      maxDurationText = `(${maxDurationSeconds / 3600}h max)`;
+      maxDurationText = `, max ${maxDurationSeconds / 3600}h`;
     }
 
-    return `${duration / 3600000}h ${maxDurationText}`;
+    return `${duration / 3600000}h${maxDurationText}`;
   };
 
   getReservedEvents = () => {
@@ -158,12 +157,14 @@ class TimePickerCalendar extends Component {
     const events = isEmpty(reservations)
       ? []
       : reservations.map(reservation => ({
-          classNames: 'app-TimePickerCalendar__event',
+          classNames: reservation.id
+            ? 'app-TimePickerCalendar__event'
+            : 'app-TimePickerCalendar__event--unconfirmed',
           editable: false,
           id: reservation.id,
           start: moment(reservation.begin).toDate(),
           end: moment(reservation.end).toDate(),
-          title: reservation.eventSubject,
+          title: reservation.event_subject,
         }));
 
     // Check resources reservation rules and disable days if needed.
@@ -254,8 +255,9 @@ class TimePickerCalendar extends Component {
           header={header}
           maxTime={getFullCalendarMaxTime(resource, date, viewType)}
           minTime={getFullCalendarMinTime(resource, date, viewType)}
+          eventRender={this.onEventRender}
           ref={this.calendarRef}
-          slotDuration={getFullCalendarSlotDuration(resource, date, viewType)}
+          slotDuration="00:15:00"
           slotLabelInterval={getFullCalendarSlotLabelInterval(resource)}
         />
         <CalendarLegend />
