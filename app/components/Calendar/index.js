@@ -32,11 +32,14 @@ import {
   DEFAULT_CALENDAR_VIEW,
 } from './calendarConstants';
 
+const ONE_HOUR_IN_MS = 3600000;
+
 moment.tz.setDefault(TIME_ZONE);
 // Re-apply moment-timezone default timezone, cause FullCalendar import have override the import
 
 class TimePickerCalendar extends Component {
   calendarRef = React.createRef();
+  timer = null;
 
   static propTypes = {
     date: PropTypes.string,
@@ -58,6 +61,21 @@ class TimePickerCalendar extends Component {
       right: '',
     },
   };
+
+  componentDidMount() {
+    // Scroll calendar to current time when mounted.
+    this.scrollCalendarToCurrentTime();
+
+    // And scroll again after each passing hour.
+    this.timer = setInterval(
+      () => this.scrollCalendarToCurrentTime(),
+      ONE_HOUR_IN_MS,
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
 
   shouldComponentUpdate(prevProps, prevState) {
     // For some (god forsaken) reason, changes in into the viewType end
@@ -207,6 +225,18 @@ class TimePickerCalendar extends Component {
   });
 
   getEvents = () => this.getReservedEvents();
+
+  scrollCalendarToCurrentTime = () => {
+    const calendarApi = this.calendarRef.current.getApi();
+    const now = new Date().getTime();
+    const startOfToday = new Date(now).setHours(0, 0, 0, 0);
+    // Find the amount of time that has passed today, and take away two
+    // hours. This way the calendar will scroll with current time, while
+    // leaving revealing a bit of the past as well.
+    const twoHoursAgo = now - startOfToday - 2 * ONE_HOUR_IN_MS;
+
+    calendarApi.scrollToTime(twoHoursAgo);
+  };
 
   render() {
     const { date, resource } = this.props;
