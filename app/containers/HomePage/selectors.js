@@ -6,6 +6,18 @@ import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
 import { initialState } from './reducer';
 
+function getOpeningHoursForDay(resource, day) {
+  return resource.get('opening_hours').find(openingHour => {
+    const date = dateFormat(new Date(day), 'yyyy-mm-dd');
+    const openingHourDate = dateFormat(
+      new Date(openingHour.get('date')),
+      'yyyy-mm-dd',
+    );
+
+    return date === openingHourDate;
+  });
+}
+
 // Home state from store.
 const selectHome = state => state.get('home', initialState);
 
@@ -31,17 +43,8 @@ const makeSelectAvailableUntil = () =>
     const currentTime = state.get('date');
 
     // Get opening times.
-    const openingHoursForToday = resource
-      .get('opening_hours')
-      .find(openingHour => {
-        const date = dateFormat(new Date(currentTime), 'yyyy-mm-dd');
-        const openingHourDate = dateFormat(
-          new Date(openingHour.get('date')),
-          'yyyy-mm-dd',
-        );
+    const openingHoursForToday = getOpeningHoursForDay(resource, currentTime);
 
-        return date === openingHourDate;
-      });
     // Closing time not available. Default to 22.00.
     const defaultClosingTime = new Date();
     defaultClosingTime.setHours(22);
@@ -147,128 +150,111 @@ const makeSelectIsResourceAvailable = () =>
     return true;
   });
 
-function getHours(hours, minutes) {
-  const minutesInHours = Number(minutes) / 60;
-
-  return Number(hours) + minutesInHours;
-}
-
-function getSlotSizeInHours(time) {
+function getSlotSizeInTime(time) {
   if (!time) {
     return null;
   }
 
   const [hours, minutes] = time.split(':');
+  const startDateTime = new Date(2000, 0, 1, 0, 0, 0, 0);
+  const endDateTime = new Date(2000, 0, 1, hours, minutes, 0, 0);
+  const timeDifference = endDateTime.getTime() - startDateTime.getTime();
 
-  return getHours(hours, minutes);
+  return timeDifference;
 }
 
-function getHoursAndMinutes(hours) {
-  const wholeHours = Number(hours.toFixed(0));
-  const minutes = Number((hours % 1).toFixed(3)) * 60;
+function slotOverlapsWithReservations(slot, reservations) {
+  const slotBegin = slot.begin.getTime();
+  const slotEnd = slot.end.getTime();
 
-  return [wholeHours, minutes];
+  return reservations.reduce((acc, reservation) => {
+    const reservationBegin = new Date(reservation.get('begin')).getTime();
+    const reservationEnd = new Date(reservation.get('end')).getTime();
+
+    const isAfter = slotBegin >= reservationEnd && slotEnd >= reservationEnd;
+    const isBefore =
+      slotEnd <= reservationBegin && slotBegin <= reservationBegin;
+    const overlaps = !(isAfter || isBefore);
+
+    return acc || overlaps;
+  }, false);
 }
 
 /**
- * Get list of free slots. I'm not proud of this implementation. If someone has better ideas feel free to fix :)
+ * Get list of free slots.
  */
 const makeSelectFreeSlots = amount =>
   createSelector(selectHome, state => {
     // Get variables from state.
     const resource = state.get('resource');
-    const minPeriod = state.getIn(['resource', 'min_period']);
     const slotSize = state.getIn(['resource', 'slot_size']);
-    let begin = state.get('date');
-    const freeSlots = [];
-    const minPeriodTimestamp = `1970-01-01T${minPeriod}Z`;
-    const minPeriodMilliseconds = new Date(minPeriodTimestamp); // .getTime();
+    const date = state.get('date');
+    let freeSlots = [];
 
-    // Begin always on even minute.
-    begin.setSeconds(0);
-    begin.setMilliseconds(0);
-
-    // Calculate new begin time. Slot begins always at previous even hours or
-    // half hours. So if the time is 15:15 fixed begin time is 15:00.
-    // If time is 15:35 fixed time is 15:30.
-    let fixedBeginTime = new Date(begin);
-    fixedBeginTime.setSeconds(0);
-    fixedBeginTime.setMilliseconds(0);
+    const now = new Date(date);
+    // Ignore current seconds and milliseconds.
+    now.setSeconds(0, 0);
 
     if (resource) {
-      // To avoid the weird stuff floats and division can cause, we are
-      // only taking the first three decimals into count.
-      const slotSizeInHours = Number(getSlotSizeInHours(slotSize).toFixed(3));
-      const fixedBeginTimeHours = Number(
-        getHours(
-          fixedBeginTime.getHours(),
-          fixedBeginTime.getMinutes(),
-        ).toFixed(3),
+      // Transform timestamp (HH:MM:SS...) into milliseconds
+      const slotSizeInTime = getSlotSizeInTime(slotSize);
+
+      const nowTime = now.getTime();
+      const startOfNowDayTime = new Date(nowTime).setHours(0, 0, 0, 0); // setHours returns unix time
+      // The remainder represents the amount of time that is left over
+      // when nowTime is fitted into slots. NowTime is the amount of
+      // milliseconds relative to the seventies, so we are shifting
+      // that to only take the day in question into account in order to
+      // avoid big numbers. Do the toFixed hack to avoid dealing with
+      // floats.
+      const remainder = Number(
+        ((nowTime - startOfNowDayTime) % slotSizeInTime).toFixed(0),
       );
-      const remainder =
-        // Before division multiply the floats into integers. After,
-        // divide back into a float that represents hours.
-        Math.min((fixedBeginTimeHours * 1000) % (slotSizeInHours * 1000)) /
-        1000;
-      // Go to current slot's beginning.
-      const currentSlotStartHour = fixedBeginTimeHours - remainder;
-      const [hours, minutes] = getHoursAndMinutes(currentSlotStartHour);
+      // Go to current slot's beginning by ignoring left over time.
+      const currentSlotStartTime = new Date(nowTime - remainder);
 
-      fixedBeginTime.setHours(hours);
-      fixedBeginTime.setMinutes(minutes);
+      const defaultOpeningTime = new Date(new Date().setHours(0, 0, 0, 0));
+      const defaultClosingTime = new Date(new Date().setHours(23, 59, 59, 59));
+      const openingHours = getOpeningHoursForDay(resource, now);
+      // Opening ang closing hours are date time stamps.
+      const opens = new Date(openingHours.get('opens', defaultOpeningTime));
+      const closes = new Date(openingHours.get('closes', defaultClosingTime));
 
-      const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
-      // eslint-disable-next-line no-unused-vars
-      const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
+      const currentSlotIsBeforeOpeningTime =
+        currentSlotStartTime.getTime() < opens.getTime();
+      // If current slot begins before opening time, use opening time
+      // instead.
+      const slotsStartTime = currentSlotIsBeforeOpeningTime
+        ? opens
+        : currentSlotStartTime;
+      const slotsEndTime = closes;
 
-      // Begin from opening time.
-      if (begin.getTime() < opens.getTime()) {
-        begin = opens;
-        fixedBeginTime = opens;
-      }
+      // Build all the possible slots for today. This is done by finding
+      // the difference between slotsEndTime and slotsStartTime and then
+      // finding out how many slots can be fitted into it. The yielded
+      // slot count is used for creating all current and upcoming slots
+      // for today.
+      const slotCount =
+        (slotsEndTime.getTime() - slotsStartTime.getTime()) / slotSizeInTime;
+      const allUpcomingSlotsForToday = Array.from(
+        { length: slotCount },
+        (_, i) => {
+          const slotBegin = new Date(
+            slotsStartTime.getTime() + i * slotSizeInTime,
+          );
+          const slotEnd = new Date(slotBegin.getTime() + slotSizeInTime);
 
-      // Shortcut.
+          return { begin: slotBegin, end: slotEnd };
+        },
+      );
+
       const reservations = resource.get('reservations');
 
-      // Check if current time is free.
-      const currentReservations = reservations.filter(
-        reservation =>
-          new Date(reservation.get('begin')).getTime() < begin.getTime() &&
-          new Date(reservation.get('end')).getTime() > begin.getTime(),
+      // Filter slots that overlap with a reservation because they are
+      // not free.
+      freeSlots = allUpcomingSlotsForToday.filter(
+        slot => !slotOverlapsWithReservations(slot, reservations),
       );
-
-      // Current time is not free. Cannot make new reservations.
-      if (currentReservations.size > 0) {
-        return [];
-      }
-
-      // Iterate upcoming four hours and add slots to list if duration exceeds min time limit.
-      // eslint-disable-next-line no-plusplus
-      for (let minute = 1; minute < 4 * 60; minute++) {
-        // Create end time.
-        const end = new Date(begin.getTime() + minute * 60 * 1000);
-
-        // Check if the time is free.
-        // eslint-disable-next-line no-shadow
-        const currentReservations = reservations.filter(
-          reservation =>
-            new Date(reservation.get('begin')).getTime() < end.getTime() &&
-            new Date(reservation.get('end')).getTime() > end.getTime(),
-        );
-
-        // Given end time is not available anymore. Quit.
-        if (currentReservations.size > 0) {
-          break;
-        }
-
-        // If current time is even minute and slot duration is long enough, add to list.
-        if (
-          (end.getMinutes() === 0 || end.getMinutes() === 30) &&
-          end.getTime() - fixedBeginTime.getTime() >= minPeriodMilliseconds
-        ) {
-          freeSlots.push({ begin: fixedBeginTime, end });
-        }
-      }
     }
 
     return freeSlots.slice(0, amount);
