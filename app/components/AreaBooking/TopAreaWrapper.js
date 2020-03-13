@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
-const TopAreaWrapper = styled.div;
+/* stylelint-disable */
+const TopAreaWrapper = styled.div``;
 
 export default TopAreaWrapper;
