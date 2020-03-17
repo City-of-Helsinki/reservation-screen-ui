@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'Status.max',
     defaultMessage: 'max',
   },
+  freeToUse: {
+    id: 'Status.freeToUse',
+    defaultMessage: 'Tila on käytettävissä vapaasti',
+  },
 });

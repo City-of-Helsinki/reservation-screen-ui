@@ -10,6 +10,7 @@
   "QuickBooking.startBookingNewReservation": "Tee uusi varaus",
   "SceneError.link.cancel": "Peruuta",
   "SceneError.title": "Varaus ei onnistunut",
+  "Status.freeToUse": "Tila on käytettävissä ilman varausta",
   "Status.max": "max",
   "Status.persons": "henkilöä",
   "Status.resourceIsAvailableUntil": "Tila on vapaa klo {time} asti",

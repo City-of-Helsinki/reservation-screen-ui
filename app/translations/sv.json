@@ -10,6 +10,7 @@
   "QuickBooking.startBookingNewReservation": "Skapa bokning",
   "SceneError.link.cancel": "Cancel",
   "SceneError.title": "Bokningen misslyckades",
+  "Status.freeToUse": "Utrymmet är fritt tillgänglig utan bokning",
   "Status.max": "max",
   "Status.persons": "personer",
   "Status.resourceIsAvailableUntil": "Ledig till kl. {time}",

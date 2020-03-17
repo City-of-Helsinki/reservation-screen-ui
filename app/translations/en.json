@@ -10,6 +10,7 @@
   "QuickBooking.startBookingNewReservation": "Make new reservation",
   "SceneError.link.cancel": "Cancel",
   "SceneError.title": "Reservation failed",
+  "Status.freeToUse": "The room is available without reservation",
   "Status.max": "max",
   "Status.persons": "people",
   "Status.resourceIsAvailableUntil": "Available until {time}",
