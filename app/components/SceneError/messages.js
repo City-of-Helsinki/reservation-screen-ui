@@ -7,15 +7,11 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   cancel: {
-    id: 'link.cancel',
-    defaultMessage: 'Peruuta tilaus',
-  },
-  book: {
-    id: 'link.book',
-    defaultMessage: 'Varaa',
+    id: 'SceneError.link.cancel',
+    defaultMessage: 'Takaisin alkuun',
   },
   title: {
-    id: 'title.book',
-    defaultMessage: 'Varaa tila',
+    id: 'SceneError.title',
+    defaultMessage: 'Varaus ei onnistunut',
   },
 });
