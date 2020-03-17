@@ -8,7 +8,7 @@
   "QuickBooking.confirmBooking": "Boka",
   "QuickBooking.dismissBooking": "Avbryt",
   "QuickBooking.startBookingNewReservation": "Skapa bokning",
-  "SceneError.link.cancel": "Cancel",
+  "SceneError.link.cancel": "Avboka",
   "SceneError.title": "Bokningen misslyckades",
   "Status.freeToUse": "Utrymmet är fritt tillgänglig utan bokning",
   "Status.max": "max",
