@@ -63,7 +63,7 @@ const AreaStatus = ({
   const [, height] = useElementSize(wrapperRef);
 
   const resource = resourceWithoutDefault || new Map();
-  const currentDate = new Date();
+  const currentDate = new Date().toISOString();
 
   return (
     <Wrapper innerRef={wrapperRef}>
