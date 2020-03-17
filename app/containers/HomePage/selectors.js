@@ -181,12 +181,10 @@ const makeSelectFreeSlots = amount =>
     },
   );
 
-function getFallbackClosingTime(allSlots, openingHours) {
-  const closes = new Date(openingHours.get('closes'));
+function getFallbackClosingTime(allSlots, closes) {
   const lastSlot = allSlots[allSlots.length - 1];
 
-  // If there are no hours the current time is past opening hours.
-  // In that case, use closing time as a fallback.
+  // As a last resort use closing time.
   if (!lastSlot) {
     return closes;
   }
@@ -210,6 +208,14 @@ const makeSelectAvailableUntil = () =>
       }
 
       const openingHours = getOpeningHoursForDay(resource, now);
+      const closes = new Date(openingHours.get('closes'));
+
+      // If current time is past closing time, return false because the
+      // resource can't be booked anymore.
+      if (closes.getTime() < now.getTime()) {
+        return false;
+      }
+
       const fallbackTime = getFallbackClosingTime(
         allUpcomingSlotsForToday,
         openingHours,
