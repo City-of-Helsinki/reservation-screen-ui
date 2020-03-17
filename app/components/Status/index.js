@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import H1 from 'components/H1';
 import FormattedTime from 'components/FormattedTime';
+import ClockIcon from './icons/clockIcon';
+import PersonIcon from './icons/userIcon';
 import P from './P';
 import messages from './messages';
 
@@ -18,6 +20,17 @@ const Wrapper = styled.div`
 
 const ReservationRules = styled.div`
   font-size: ${props => props.theme.fontSize[4]};
+`;
+
+const Icon = styled.span`
+  display: inline-block;
+  max-width: 24px;
+  max-height: 24px;
+`;
+
+const ReservationRulesSpacer = styled.span`
+  display: inline-block;
+  width: 20px;
 `;
 
 function getHours(stringHours) {
@@ -35,6 +48,7 @@ function getHours(stringHours) {
 
 const Status = ({
   isResourceAvailable,
+  isOnlyInfoAllowed,
   nextAvailableTime,
   availableUntil,
   resourceName,
@@ -51,10 +65,13 @@ const Status = ({
       <H1>{resourceName}</H1>
       {showAvailableUntil && (
         <P className="sau">
-          <FormattedMessage
-            {...messages.resourceIsAvailableUntil}
-            values={{ time: <FormattedTime date={availableUntil} /> }}
-          />
+          {!isOnlyInfoAllowed && (
+            <FormattedMessage
+              {...messages.resourceIsAvailableUntil}
+              values={{ time: <FormattedTime date={availableUntil} /> }}
+            />
+          )}
+          {isOnlyInfoAllowed && <FormattedMessage {...messages.freeToUse} />}
         </P>
       )}
       {showNextAvailableTime && (
@@ -67,8 +84,15 @@ const Status = ({
       )}
       {hasReservationRules && (
         <ReservationRules>
-          {resourcePeopleCount} <FormattedMessage {...messages.persons} />{' '}
-          <span>&middot;</span> <FormattedMessage {...messages.max} />{' '}
+          <Icon>
+            <PersonIcon />
+          </Icon>{' '}
+          {resourcePeopleCount} <FormattedMessage {...messages.persons} />
+          <ReservationRulesSpacer />
+          <Icon>
+            <ClockIcon />
+          </Icon>{' '}
+          <FormattedMessage {...messages.max} />{' '}
           {resourceMaxReservationTimeHours}h
         </ReservationRules>
       )}
@@ -78,6 +102,7 @@ const Status = ({
 
 Status.propTypes = {
   isResourceAvailable: PropTypes.bool,
+  isOnlyInfoAllowed: PropTypes.bool,
   nextAvailableTime: PropTypes.oneOfType([
     PropTypes.instanceOf(Date),
     PropTypes.bool,
