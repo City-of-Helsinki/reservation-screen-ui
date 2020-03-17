@@ -6,28 +6,24 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  resourceIsAvailable: {
-    id: 'AreaStatus.area.resourceIsAvailable',
-    defaultMessage: 'Tila on vapaa',
+  resourceIsAvailableUntil: {
+    id: 'Status.resourceIsAvailableUntil',
+    defaultMessage: 'Tila on vapaa klo {time} asti',
   },
-  resourceIsNotAvailable: {
-    id: 'AreaStatus.area.resourceIsNotAvailable',
-    defaultMessage: 'Tila on varattu',
-  },
-  availableUntilClock: {
-    id: 'boilerplate.components.AreaStatus.area.clock',
-    defaultMessage: 'klo',
-  },
-  availableUntilUntil: {
-    id: 'boilerplate.components.AreaStatus.area.until.until',
-    defaultMessage: 'asti',
+  resourceIsNotAvailableUntil: {
+    id: 'Status.resourceIsNotAvailableUntil',
+    defaultMessage: 'Vapautuu klo {time}',
   },
   persons: {
-    id: 'AreaStatus.area.persons',
+    id: 'Status.persons',
     defaultMessage: 'henkilöä',
   },
   max: {
-    id: 'AreaStatus.area.max',
+    id: 'Status.max',
     defaultMessage: 'max',
+  },
+  freeToUse: {
+    id: 'Status.freeToUse',
+    defaultMessage: 'Tila on käytettävissä vapaasti',
   },
 });

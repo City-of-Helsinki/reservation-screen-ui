@@ -9,6 +9,7 @@ const TransparentButton = styled.button`
   user-select: none;
   cursor: pointer;
   outline: 0;
+  margin-top: 10px;
 
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: ${props => props.theme.fontSize[3]};

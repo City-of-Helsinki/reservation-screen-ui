@@ -28,6 +28,39 @@ import Wrapper from './Wrapper';
 import TopAreaWrapper from './TopAreaWrapper';
 import MidAreaWrapper from './MidAreaWrapper';
 
+// Some resource can not be reserved through this application, only
+// their status should be viewable.
+function getOnlyInfoAllowed(resource) {
+  const needManualConfirmation = resource.get('need_manual_confirmation', true);
+  const maxPricePerHour = resource.get('max_price_per_hour');
+  const reservableMinDaysInAdvance = resource.get(
+    'reservable_min_days_in_advance',
+  );
+
+  return (
+    needManualConfirmation &&
+    (maxPricePerHour === null || Number(maxPricePerHour) === 0) &&
+    (reservableMinDaysInAdvance && reservableMinDaysInAdvance > 1)
+  );
+}
+
+const defaultLocale = 'fi';
+function getLocalizedString(localizationObject, locale = defaultLocale) {
+  if (!localizationObject) {
+    return '';
+  }
+
+  const localizedString = localizationObject.get(locale, null);
+
+  // If we do not find a localized string, we'll try to use the default
+  // locale.
+  if (localizedString === null) {
+    return localizationObject.get(defaultLocale);
+  }
+
+  return localizedString;
+}
+
 const AreaBooking = ({
   availableUntil,
   currentSlot,
@@ -48,15 +81,16 @@ const AreaBooking = ({
   const { locale } = useIntl();
 
   const resource = resourceWithoutDefault || new Map();
-  const localeWithDefault = locale || 'fi';
   const resourceId = resource.get('id');
-  const resourceName = resource.getIn(['name', localeWithDefault], '');
+  const resourceName = getLocalizedString(resource.get('name'), locale);
   const resourcePeopleCount = resource.get('people_capacity');
   const resourceMaxReservationDuration = resource.get('max_period');
   const resourceMinReservationDuration = resource.get('min_period');
   const resourceSlotSize = resource.get('slot_size');
-  const resourceDescription = resource
-    .getIn(['description', localeWithDefault], '')
+  const resourceDescription = getLocalizedString(
+    resource.get('description'),
+    locale,
+  )
     // Show line breaks
     .replace(/\n/, '<br /><br />');
   const wrapperClass = Object.entries({
@@ -66,6 +100,7 @@ const AreaBooking = ({
     .filter(([, isIncluded]) => isIncluded)
     .map(([className]) => className)
     .join(' ');
+  const isOnlyInfoAllowed = getOnlyInfoAllowed(resource);
 
   const handleStartBooking = useCallback(
     () => {
@@ -108,23 +143,25 @@ const AreaBooking = ({
           resourceMaxReservationTime={resourceMaxReservationDuration}
           nextAvailableTime={nextAvailableTime}
           availableUntil={availableUntil}
+          isOnlyInfoAllowed={isOnlyInfoAllowed}
           isResourceAvailable={isResourceAvailable}
         />
-        {isResourceAvailable && (
-          <QuickBooking
-            isHidden={isDescriptionOpen}
-            onConfirmBooking={handleConfirmBooking}
-            onDecreaseBookingDuration={handleOnDecreaseBookingDuration}
-            onDismissBooking={onDismissBooking}
-            onIncreaseBookingDuration={handleOnIncreaseBookingDuration}
-            onStartBooking={handleStartBooking}
-            reservationBeingCreated={reservationBeingCreated}
-            resourceMaxReservationDuration={resourceMaxReservationDuration}
-            resourceMinReservationDuration={resourceMinReservationDuration}
-            resourceSlotSize={resourceSlotSize}
-          />
-        )}
-        {!isResourceAvailable && (
+        {isResourceAvailable &&
+          !isOnlyInfoAllowed && (
+            <QuickBooking
+              isHidden={isDescriptionOpen}
+              onConfirmBooking={handleConfirmBooking}
+              onDecreaseBookingDuration={handleOnDecreaseBookingDuration}
+              onDismissBooking={onDismissBooking}
+              onIncreaseBookingDuration={handleOnIncreaseBookingDuration}
+              onStartBooking={handleStartBooking}
+              reservationBeingCreated={reservationBeingCreated}
+              resourceMaxReservationDuration={resourceMaxReservationDuration}
+              resourceMinReservationDuration={resourceMinReservationDuration}
+              resourceSlotSize={resourceSlotSize}
+            />
+          )}
+        {(!isResourceAvailable || isOnlyInfoAllowed) && (
           <StrongAuth isHidden={isDescriptionOpen} resourceId={resourceId} />
         )}
       </MidAreaWrapper>

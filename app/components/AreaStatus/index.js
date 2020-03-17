@@ -6,8 +6,6 @@ import { compose } from 'redux';
 import { Map } from 'immutable';
 
 import injectReducer from 'utils/injectReducer';
-import SceneCancel from 'components/SceneCancel';
-import SceneAction from 'components/SceneAction';
 import SceneVerify from 'components/SceneVerify';
 import SceneError from 'components/SceneError';
 import SceneSetup from 'components/SceneSetup';
@@ -15,11 +13,10 @@ import SceneLoading from 'components/SceneLoading';
 import reducer from 'containers/HomePage/reducer';
 import {
   makeSelectScene,
-  makeSelectSelectedSlot,
   makeSelectErrorMessage,
   makeSelectResource,
 } from 'containers/HomePage/selectors';
-import { changeScene, makeReservation } from 'containers/HomePage/actions';
+import { changeScene } from 'containers/HomePage/actions';
 import Calendar from 'components/Calendar';
 import { Wrapper, Div } from './Wrapper';
 
@@ -51,26 +48,24 @@ function useElementSize(ref) {
 const AreaStatus = ({
   errorMessage,
   onChangeSceneToStart,
-  onMakeReservation,
-  onChangeSceneToCancel,
   onCalendarViewChange,
   resource: resourceWithoutDefault,
   reservationBeingCreated,
   scene,
-  selectedSlot,
 }) => {
   const wrapperRef = useRef(null);
   const [, height] = useElementSize(wrapperRef);
 
   const resource = resourceWithoutDefault || new Map();
-  const currentDate = new Date();
+  const currentDate = new Date().toISOString();
 
   return (
     <Wrapper innerRef={wrapperRef}>
       <Div>
-        {resource &&
-          height &&
-          scene === 'Start' && (
+        {/* View displaying calendar */}
+        {scene === 'Start' &&
+          resource &&
+          height && (
             <Calendar
               date={currentDate}
               // Approximately remove padding from wrapper height
@@ -88,29 +83,18 @@ const AreaStatus = ({
               }
             />
           )}
-
+        {/* Loading indicator */}
         {scene === 'Loading' && <SceneLoading />}
+        {/* Instructions for giving all the required parameters */}
         {scene === 'Setup' && <SceneSetup />}
-        {scene === 'Action' && (
-          <SceneAction
-            onTimesUp={onChangeSceneToStart}
-            selectedSlot={selectedSlot}
-            onButtonClick={onMakeReservation}
-            onCancelClick={onChangeSceneToCancel}
-          />
-        )}
-        {scene === 'Cancel' && (
-          <SceneCancel
-            onTimesUp={onChangeSceneToStart}
-            onButtonClick={onChangeSceneToStart}
-          />
-        )}
+        {/* A notice of reservation success */}
         {scene === 'Verify' && (
           <SceneVerify
             onTimesUp={onChangeSceneToStart}
             onButtonClick={onChangeSceneToStart}
           />
         )}
+        {/* Shows possible error */}
         {scene === 'Error' && (
           <SceneError
             errorMessage={errorMessage}
@@ -125,28 +109,22 @@ const AreaStatus = ({
 AreaStatus.propTypes = {
   errorMessage: PropTypes.any,
   onChangeSceneToStart: PropTypes.any,
-  onChangeSceneToCancel: PropTypes.any,
-  onMakeReservation: PropTypes.any,
   onCalendarViewChange: PropTypes.func,
   resource: PropTypes.any,
   reservationBeingCreated: PropTypes.object,
   scene: PropTypes.any,
-  selectedSlot: PropTypes.any,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onMakeReservation: () => dispatch(makeReservation()),
     onChangeSceneToStart: () => dispatch(changeScene('Start')),
-    onChangeSceneToCancel: () => dispatch(changeScene('Cancel')),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  scene: makeSelectScene(),
-  selectedSlot: makeSelectSelectedSlot(),
   errorMessage: makeSelectErrorMessage(),
   resource: makeSelectResource(),
+  scene: makeSelectScene(),
 });
 
 const withConnect = connect(

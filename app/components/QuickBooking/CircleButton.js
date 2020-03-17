@@ -9,6 +9,10 @@ const isSuperBig = rules => props =>
   props.variant === VARIANTS[1] ? rules : '';
 
 const Button = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   &:disabled {
     opacity: 0.2;
   }

@@ -16,10 +16,7 @@ describe('makeSelectAvailableUntil', () => {
     });
     expect(selector(mockedState)).toEqual(false);
   });
-});
 
-describe('makeSelectAvailableUntil', () => {
-  const selector = makeSelectAvailableUntil();
   it('is false at 21:00 when day is fully booked', () => {
     const mockedState = fromJS({
       home: {
@@ -29,10 +26,7 @@ describe('makeSelectAvailableUntil', () => {
     });
     expect(selector(mockedState)).toEqual(false);
   });
-});
 
-describe('makeSelectAvailableUntil', () => {
-  const selector = makeSelectAvailableUntil();
   it('is 20:00 (closing time) at 12:00 when day is empty', () => {
     const mockedState = fromJS({
       home: {
@@ -43,24 +37,17 @@ describe('makeSelectAvailableUntil', () => {
     expect(selector(mockedState).getUTCHours()).toEqual(17);
     expect(selector(mockedState).getUTCMinutes()).toEqual(0);
   });
-});
 
-describe('makeSelectAvailableUntil', () => {
-  const selector = makeSelectAvailableUntil();
-  it('is 20:00 (closing time) at 21:00 when day is empty', () => {
+  it('is false at 21:00 when day is empty', () => {
     const mockedState = fromJS({
       home: {
         date: new Date('2018-09-17T21:00:00+03:00'),
         resource: mockResourceNoReservations,
       },
     });
-    expect(selector(mockedState).getUTCHours()).toEqual(17);
-    expect(selector(mockedState).getUTCMinutes()).toEqual(0);
+    expect(selector(mockedState)).toEqual(false);
   });
-});
 
-describe('makeSelectAvailableUntil', () => {
-  const selector = makeSelectAvailableUntil();
   it('is 09:00 at 08:00 when some reservations', () => {
     const mockedState = fromJS({
       home: {
@@ -71,10 +58,7 @@ describe('makeSelectAvailableUntil', () => {
     expect(selector(mockedState).getUTCHours()).toEqual(6);
     expect(selector(mockedState).getUTCMinutes()).toEqual(0);
   });
-});
 
-describe('makeSelectAvailableUntil', () => {
-  const selector = makeSelectAvailableUntil();
   it('is false at 09:30 when resource is not free at that point', () => {
     const mockedState = fromJS({
       home: {
@@ -84,10 +68,7 @@ describe('makeSelectAvailableUntil', () => {
     });
     expect(selector(mockedState)).toEqual(false);
   });
-});
 
-describe('makeSelectAvailableUntil', () => {
-  const selector = makeSelectAvailableUntil();
   it('is 15:00 at 12:00', () => {
     const mockedState = fromJS({
       home: {
