@@ -1,9 +1,6 @@
 import findIndex from 'lodash/findIndex';
-import find from 'lodash/find';
 import get from 'lodash/get';
 import moment from 'moment';
-
-import { DATE_FORMAT } from './calendarConstants';
 
 /**
  * getOpeningHours();
@@ -21,7 +18,12 @@ const getOpeningHours = (resource, date = null) => {
     return null;
   }
 
-  const index = date ? findIndex(openingHours, item => item.date === date) : 0;
+  const index = date
+    ? findIndex(
+        openingHours,
+        item => item.date === moment(date).format('YYYY-MM-DD'),
+      )
+    : 0;
   return {
     closes: get(openingHours, `[${index}].closes`),
     opens: get(openingHours, `[${index}].opens`),
@@ -41,8 +43,8 @@ const getOpeningHoursForWeek = (resource, date = null) => {
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 7; i++) {
     openingHours.push({
-      date: momentDate.format(DATE_FORMAT),
-      ...getOpeningHours(resource, momentDate.format(DATE_FORMAT)),
+      date: momentDate.toISOString(),
+      ...getOpeningHours(resource, momentDate.toISOString()),
     });
     momentDate = momentDate.add(1, 'day');
   }
@@ -72,19 +74,6 @@ export const getFullCalendarBusinessHours = (resource, date = null) => {
   });
 
   return businessHours;
-};
-
-/**
- * getFullCalendarBusinessHoursForDate();
- * @param resource Resource object.
- * @param date Date string that can be parsed as moment object.
- */
-const getFullCalendarBusinessHoursForDate = (resource, date) => {
-  const businessHoursForWeek = getFullCalendarBusinessHours(resource, date);
-  let dayNumber = Number(moment(date).format('E'));
-  dayNumber = dayNumber < 7 ? dayNumber : 0;
-
-  return find(businessHoursForWeek, item => item.daysOfWeek[0] === dayNumber);
 };
 
 /**
@@ -223,55 +212,6 @@ export const getFullCalendarSlotLabelInterval = resource => {
   }
 
   return '01:00:00';
-};
-
-/**
- * getFullCalendarSlotDuration();
- * @param resource {object} Resource object.
- * @param date {string} Date string that can be parsed as moment object.
- * @param viewType {string} Type of a FullCalendar View Object (https://fullcalendar.io/docs/view-object).
- * @returns {string}
- */
-export const getFullCalendarSlotDuration = (resource, date, viewType) => {
-  const slotSize = get(resource, 'slot_size', null);
-  const slotSizeDuration = moment.duration(slotSize);
-  let durationMinutes =
-    slotSizeDuration.hours() * 60 + slotSizeDuration.minutes();
-
-  const businessHours =
-    viewType === 'timeGridWeek'
-      ? getFullCalendarBusinessHours(resource, date)
-      : [getFullCalendarBusinessHoursForDate(resource, date)];
-
-  // Make sure that slot duration is not bigger than business hour minutes.
-  // (e.g. it's not possible to reserve the last 30 minutes
-  // if slot size is 01:00:00 and business hours is 07:00 - 20:30).
-  let minutes = 60;
-  businessHours.filter(item => item).forEach(item => {
-    const startTimeMinutes = moment.duration(item.startTime).minutes();
-    const endTimeMinutes = moment.duration(item.endTime).minutes();
-
-    if (startTimeMinutes > 0) {
-      minutes = Math.min(minutes, startTimeMinutes);
-    }
-
-    if (endTimeMinutes > 0) {
-      minutes = Math.min(minutes, endTimeMinutes);
-    }
-  });
-
-  if (minutes < 60) {
-    durationMinutes = minutes;
-  }
-
-  let duration = '01:00:00';
-  if (durationMinutes < 30) {
-    duration = '00:15:00';
-  } else if (durationMinutes < 60) {
-    duration = '00:30:00';
-  }
-
-  return duration;
 };
 
 /**

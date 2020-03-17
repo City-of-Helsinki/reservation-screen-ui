@@ -1,151 +1,181 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
-import LocaleToggle from 'containers/LocaleToggle';
-import PropTypes from 'prop-types';
-import camelCaseKeys from 'camelcase-keys';
-
-import { createStructuredSelector } from 'reselect';
+import React, { useCallback } from 'react';
+import Clock from 'components/Clock';
+import Status from 'components/Status';
+import SlideUpContent from 'components/SlideUpContent';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import injectReducer from 'utils/injectReducer';
-import SceneCancel from 'components/SceneCancel';
-import SceneAction from 'components/SceneAction';
-import SceneVerify from 'components/SceneVerify';
-import SceneError from 'components/SceneError';
-import SceneSetup from 'components/SceneSetup';
-import SceneLoading from 'components/SceneLoading';
-import SceneStrongAuth from 'components/SceneStrongAuth';
-import reducer from 'containers/HomePage/reducer';
-
+import { createStructuredSelector } from 'reselect';
+import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import { Map } from 'immutable';
 import {
-  makeSelectScene,
-  makeSelectSelectedSlot,
-  makeSelectErrorMessage,
-  makeSelectResourceId,
+  makeSelectAvailableUntil,
+  makeSelectDate,
+  makeSelectFreeSlots,
+  makeSelectIsDescriptionOpen,
+  makeSelectNextAvailableTime,
   makeSelectResource,
 } from 'containers/HomePage/selectors';
-import { changeScene, makeReservation } from 'containers/HomePage/actions';
-import Calendar from 'components/Calendar';
-import { Wrapper, Div } from './Wrapper';
+import {
+  toggleIsDescriptionOpen,
+  makeReservation,
+} from 'containers/HomePage/actions';
+import LocaleToggle from 'containers/LocaleToggle';
+import QuickBooking from 'components/QuickBooking';
+import StrongAuth from 'components/StrongAuth';
 
-function useElementSize(ref) {
-  const [size, setSize] = useState([0, 0]);
-
-  useLayoutEffect(() => {
-    function updateSize() {
-      const currentElement = ref.current;
-      if (currentElement) {
-        setSize([ref.current.clientWidth, ref.current.clientHeight]);
-      }
-    }
-
-    window.addEventListener('resize', updateSize);
-    updateSize();
-
-    return () => {
-      window.removeEventListener('resize', updateSize);
-    };
-  }, []);
-
-  return size;
-}
+import Wrapper from './Wrapper';
+import TopAreaWrapper from './TopAreaWrapper';
+import MidAreaWrapper from './MidAreaWrapper';
 
 const AreaBooking = ({
-  resource,
-  scene,
-  selectedSlot,
-  onChangeSceneToStart,
-  onMakeReservation,
-  onChangeSceneToCancel,
-  onCalendarViewChange,
-  errorMessage,
-  resourceId,
+  availableUntil,
+  currentSlot,
+  date,
+  isCondensed,
+  isDescriptionOpen,
+  isResourceAvailable,
+  nextAvailableTime,
+  onConfirmBooking,
+  onDecreaseBookingDuration,
+  onDismissBooking,
+  onIncreaseBookingDuration,
+  onToggleDescriptionOpen,
+  onStartBooking,
+  reservationBeingCreated,
+  resource: resourceWithoutDefault,
 }) => {
-  const wrapperRef = useRef(null);
-  const [, height] = useElementSize(wrapperRef);
+  const { locale } = useIntl();
+
+  const resource = resourceWithoutDefault || new Map();
+  const localeWithDefault = locale || 'fi';
+  const resourceId = resource.get('id');
+  const resourceName = resource.getIn(['name', localeWithDefault], '');
+  const resourcePeopleCount = resource.get('people_capacity');
+  const resourceMaxReservationDuration = resource.get('max_period');
+  const resourceMinReservationDuration = resource.get('min_period');
+  const resourceSlotSize = resource.get('slot_size');
+  const resourceDescription = resource
+    .getIn(['description', localeWithDefault], '')
+    // Show line breaks
+    .replace(/\n/, '<br /><br />');
+  const wrapperClass = Object.entries({
+    'slide-down': true,
+    'hide-on-toggle': isCondensed,
+  })
+    .filter(([, isIncluded]) => isIncluded)
+    .map(([className]) => className)
+    .join(' ');
+
+  const handleStartBooking = useCallback(
+    () => {
+      onStartBooking(currentSlot[0], resource);
+    },
+    [onStartBooking, currentSlot, resource],
+  );
+
+  const handleOnDecreaseBookingDuration = useCallback(
+    () => {
+      onDecreaseBookingDuration(resource);
+    },
+    [onDecreaseBookingDuration, resource],
+  );
+
+  const handleOnIncreaseBookingDuration = useCallback(
+    () => {
+      onIncreaseBookingDuration(resource);
+    },
+    [onIncreaseBookingDuration, resource],
+  );
+
+  const handleConfirmBooking = useCallback(
+    () => {
+      onConfirmBooking(reservationBeingCreated);
+    },
+    [onConfirmBooking, reservationBeingCreated],
+  );
 
   return (
-    <Wrapper innerRef={wrapperRef}>
-      <Div>
+    <Wrapper className={wrapperClass}>
+      <TopAreaWrapper>
+        <Clock className={isDescriptionOpen} date={date} />
         <LocaleToggle />
-        {resource &&
-          height && (
-            <Calendar
-              // Approximately remove padding from wrapper height
-              height={height - 2 * 84}
-              // Transform immutable data structure into a JSON object,
-              // and transform snake_case in that object into camelCase.
-              resource={camelCaseKeys(resource.toJS())}
-              onDateChange={() => {}}
-              onTimeChange={() => {}}
-              onViewTypeChange={onCalendarViewChange}
-            />
-          )}
-
-        {scene === 'Loading' && <SceneLoading />}
-        {scene === 'Setup' && <SceneSetup />}
-        {scene === 'Action' && (
-          <SceneAction
-            onTimesUp={onChangeSceneToStart}
-            selectedSlot={selectedSlot}
-            onButtonClick={onMakeReservation}
-            onCancelClick={onChangeSceneToCancel}
+      </TopAreaWrapper>
+      <MidAreaWrapper>
+        <Status
+          resourceName={resourceName}
+          resourcePeopleCount={resourcePeopleCount}
+          resourceMaxReservationTime={resourceMaxReservationDuration}
+          nextAvailableTime={nextAvailableTime}
+          availableUntil={availableUntil}
+          isResourceAvailable={isResourceAvailable}
+        />
+        {isResourceAvailable && (
+          <QuickBooking
+            isHidden={isDescriptionOpen}
+            onConfirmBooking={handleConfirmBooking}
+            onDecreaseBookingDuration={handleOnDecreaseBookingDuration}
+            onDismissBooking={onDismissBooking}
+            onIncreaseBookingDuration={handleOnIncreaseBookingDuration}
+            onStartBooking={handleStartBooking}
+            reservationBeingCreated={reservationBeingCreated}
+            resourceMaxReservationDuration={resourceMaxReservationDuration}
+            resourceMinReservationDuration={resourceMinReservationDuration}
+            resourceSlotSize={resourceSlotSize}
           />
         )}
-        {scene === 'Cancel' && (
-          <SceneCancel
-            onTimesUp={onChangeSceneToStart}
-            onButtonClick={onChangeSceneToStart}
-          />
+        {!isResourceAvailable && (
+          <StrongAuth isHidden={isDescriptionOpen} resourceId={resourceId} />
         )}
-        {scene === 'Verify' && (
-          <SceneVerify
-            onTimesUp={onChangeSceneToStart}
-            onButtonClick={onChangeSceneToStart}
-          />
-        )}
-        {scene === 'Error' && (
-          <SceneError
-            errorMessage={errorMessage}
-            onButtonClick={onChangeSceneToStart}
-          />
-        )}
-        {scene === 'StrongAuth' && (
-          <SceneStrongAuth
-            resource={resource}
-            resourceId={resourceId}
-            errorMessage={errorMessage}
-          />
-        )}
-      </Div>
+      </MidAreaWrapper>
+      {resourceDescription && (
+        <SlideUpContent
+          visible={isDescriptionOpen}
+          content={resourceDescription}
+          onButtonClick={() => onToggleDescriptionOpen()}
+        />
+      )}
     </Wrapper>
   );
 };
 
 AreaBooking.propTypes = {
-  scene: PropTypes.any,
-  selectedSlot: PropTypes.any,
-  onChangeSceneToStart: PropTypes.any,
-  onChangeSceneToCancel: PropTypes.any,
-  onMakeReservation: PropTypes.any,
-  onCalendarViewChange: PropTypes.func,
-  errorMessage: PropTypes.any,
-  resource: PropTypes.any,
-  resourceId: PropTypes.any,
+  availableUntil: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
+  currentSlot: PropTypes.array,
+  date: PropTypes.instanceOf(Date).isRequired,
+  isCondensed: PropTypes.bool.isRequired,
+  isDescriptionOpen: PropTypes.bool,
+  isResourceAvailable: PropTypes.bool.isRequired,
+  nextAvailableTime: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
+  onConfirmBooking: PropTypes.func.isRequired,
+  onDismissBooking: PropTypes.func.isRequired,
+  onDecreaseBookingDuration: PropTypes.func.isRequired,
+  onIncreaseBookingDuration: PropTypes.func.isRequired,
+  onToggleDescriptionOpen: PropTypes.func.isRequired,
+  onStartBooking: PropTypes.func.isRequired,
+  reservationBeingCreated: PropTypes.object,
+  resource: PropTypes.object,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onMakeReservation: () => dispatch(makeReservation()),
-    onChangeSceneToStart: () => dispatch(changeScene('Start')),
-    onChangeSceneToCancel: () => dispatch(changeScene('Cancel')),
+    onConfirmBooking: reservation => dispatch(makeReservation(reservation)),
+    onToggleDescriptionOpen: () => dispatch(toggleIsDescriptionOpen()),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  scene: makeSelectScene(),
-  selectedSlot: makeSelectSelectedSlot(),
-  errorMessage: makeSelectErrorMessage(),
-  resourceId: makeSelectResourceId(),
+  availableUntil: makeSelectAvailableUntil(),
+  currentSlot: makeSelectFreeSlots(1),
+  date: makeSelectDate(),
+  isDescriptionOpen: makeSelectIsDescriptionOpen(),
+  nextAvailableTime: makeSelectNextAvailableTime(),
   resource: makeSelectResource(),
 });
 
@@ -154,9 +184,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'home', reducer });
-
-export default compose(
-  withReducer,
-  withConnect,
-)(AreaBooking);
+export default compose(withConnect)(AreaBooking);

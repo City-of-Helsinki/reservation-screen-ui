@@ -1,45 +1,94 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
+
 import H1 from 'components/H1';
 import FormattedTime from 'components/FormattedTime';
 import P from './P';
 import messages from './messages';
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   margin-bottom: 30px;
 `;
 
-// eslint-disable-next-line react/prefer-stateless-function
-class Status extends React.Component {
-  render() {
-    const showNextAvailableTime =
-      !this.props.isResourceAvailable && this.props.nextAvailableTime;
-    const showAvailableUntil =
-      this.props.isResourceAvailable && this.props.availableUntil;
+const ReservationRules = styled.div`
+  font-size: ${props => props.theme.fontSize[4]};
+`;
 
-    return (
-      <Wrapper>
-        <H1>{this.props.resourceName}</H1>
-        {showAvailableUntil && (
-          <P className="sau">
-            <FormattedMessage {...messages.availableUntilClock} />
-            <FormattedTime date={this.props.availableUntil} />
-            <FormattedMessage {...messages.availableUntilUntil} />
-          </P>
-        )}
-
-        {showNextAvailableTime && (
-          <P className="snat">
-            <FormattedMessage {...messages.nextAvailableTimeClock} />
-            <FormattedTime date={this.props.nextAvailableTime} />
-            <FormattedMessage {...messages.nextAvailableTimeUntil} />
-          </P>
-        )}
-      </Wrapper>
-    );
+function getHours(stringHours) {
+  if (!stringHours) {
+    return 0;
   }
+
+  const [hours, minutes] = stringHours.split(':');
+
+  const wholeHours = Number(hours);
+  const minutesAsHours = Number(minutes) / 60;
+
+  return wholeHours + minutesAsHours;
 }
+
+const Status = ({
+  isResourceAvailable,
+  nextAvailableTime,
+  availableUntil,
+  resourceName,
+  resourcePeopleCount,
+  resourceMaxReservationTime,
+}) => {
+  const showNextAvailableTime = !isResourceAvailable && nextAvailableTime;
+  const showAvailableUntil = isResourceAvailable && availableUntil;
+  const resourceMaxReservationTimeHours = getHours(resourceMaxReservationTime);
+  const hasReservationRules = resourcePeopleCount || resourceMaxReservationTime;
+
+  return (
+    <Wrapper>
+      <H1>{resourceName}</H1>
+      {showAvailableUntil && (
+        <P className="sau">
+          <FormattedMessage {...messages.resourceIsAvailable} />{' '}
+          <FormattedMessage {...messages.availableUntilClock} />{' '}
+          <FormattedTime date={availableUntil} />{' '}
+          <FormattedMessage {...messages.availableUntilUntil} />
+        </P>
+      )}
+      {showNextAvailableTime && (
+        <P className="snat">
+          <FormattedMessage {...messages.resourceIsNotAvailable} />{' '}
+          <FormattedMessage {...messages.availableUntilClock} />{' '}
+          <FormattedTime date={nextAvailableTime} />{' '}
+          <FormattedMessage {...messages.availableUntilUntil} />
+        </P>
+      )}
+      {hasReservationRules && (
+        <ReservationRules>
+          {resourcePeopleCount} <FormattedMessage {...messages.persons} />{' '}
+          <span>&middot;</span> <FormattedMessage {...messages.max} />{' '}
+          {resourceMaxReservationTimeHours}h
+        </ReservationRules>
+      )}
+    </Wrapper>
+  );
+};
+
+Status.propTypes = {
+  isResourceAvailable: PropTypes.bool,
+  nextAvailableTime: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
+  availableUntil: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.bool,
+  ]).isRequired,
+  resourceName: PropTypes.string,
+  resourcePeopleCount: PropTypes.number,
+  resourceMaxReservationTime: PropTypes.string,
+};
 
 export default Status;

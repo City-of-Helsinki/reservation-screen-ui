@@ -22,7 +22,6 @@ import {
   getFullCalendarBusinessHours,
   getFullCalendarMaxTime,
   getFullCalendarMinTime,
-  getFullCalendarSlotDuration,
   getFullCalendarSlotLabelInterval,
 } from './resourceUtils';
 import CalendarStyleOverrides from './CalendarStyleOverrides';
@@ -32,21 +31,25 @@ import {
   DEFAULT_CALENDAR_VIEW,
 } from './calendarConstants';
 
+const ONE_HOUR_IN_MS = 3600000;
+
 moment.tz.setDefault(TIME_ZONE);
 // Re-apply moment-timezone default timezone, cause FullCalendar import have override the import
 
 class TimePickerCalendar extends Component {
   calendarRef = React.createRef();
+  timer = null;
 
   static propTypes = {
     date: PropTypes.string,
-    resource: PropTypes.object.isRequired,
-    onDateChange: PropTypes.func.isRequired,
-    intl: PropTypes.object.isRequired,
-    onTimeChange: PropTypes.func.isRequired,
     editingReservation: PropTypes.object,
     height: PropTypes.number,
+    intl: PropTypes.object.isRequired,
+    onDateChange: PropTypes.func.isRequired,
+    onTimeChange: PropTypes.func.isRequired,
     onViewTypeChange: PropTypes.func.isRequired,
+    resource: PropTypes.object.isRequired,
+    reservationBeingCreated: PropTypes.object,
   };
 
   state = {
@@ -57,6 +60,21 @@ class TimePickerCalendar extends Component {
       right: '',
     },
   };
+
+  componentDidMount() {
+    // Scroll calendar to current time when mounted.
+    this.scrollCalendarToCurrentTime();
+
+    // And scroll again after each passing hour.
+    this.timer = setInterval(
+      () => this.scrollCalendarToCurrentTime(),
+      ONE_HOUR_IN_MS,
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
 
   shouldComponentUpdate(prevProps, prevState) {
     // For some (god forsaken) reason, changes in into the viewType end
@@ -86,18 +104,18 @@ class TimePickerCalendar extends Component {
   }
 
   onEventRender = info => {
-    // add cancel button for new selected event
-    let duration;
-
-    if (info.event.id === '') {
-      duration = this.getDurationText(info.event);
-    }
+    const duration = this.getDurationText(info.event);
 
     if (duration) {
       const eventDuration = document.createElement('span');
-      eventDuration.textContent = duration;
+      eventDuration.textContent = ` (${duration})`;
       eventDuration.classList.add('app-TimePickerCalendar__maxDuration');
-      info.el.append(eventDuration);
+
+      const timeElement = info.el.querySelector('div.fc-time');
+
+      if (timeElement) {
+        timeElement.append(eventDuration);
+      }
     }
   };
 
@@ -122,25 +140,31 @@ class TimePickerCalendar extends Component {
     if (resource.max_period) {
       const maxDuration = get(resource, 'max_period', null);
       const maxDurationSeconds = moment.duration(maxDuration).asSeconds();
-      maxDurationText = `(${maxDurationSeconds / 3600}h max)`;
+      maxDurationText = `, max ${maxDurationSeconds / 3600}h`;
     }
 
-    return `${duration / 3600000}h ${maxDurationText}`;
+    return `${duration / 3600000}h${maxDurationText}`;
   };
 
   getReservedEvents = () => {
-    const { resource, date } = this.props;
+    const { resource, date, reservationBeingCreated } = this.props;
 
     // Add the resources reservations as normal FullCalendar events.
-    const reservations = get(resource, 'reservations', []);
+    const realReservations = get(resource, 'reservations', []);
+    const reservations = reservationBeingCreated
+      ? [...realReservations, reservationBeingCreated]
+      : realReservations;
     const events = isEmpty(reservations)
       ? []
       : reservations.map(reservation => ({
-          classNames: 'app-TimePickerCalendar__event',
+          classNames: reservation.id
+            ? 'app-TimePickerCalendar__event'
+            : 'app-TimePickerCalendar__event--unconfirmed',
           editable: false,
           id: reservation.id,
           start: moment(reservation.begin).toDate(),
           end: moment(reservation.end).toDate(),
+          title: reservation.event_subject,
         }));
 
     // Check resources reservation rules and disable days if needed.
@@ -203,6 +227,18 @@ class TimePickerCalendar extends Component {
 
   getEvents = () => this.getReservedEvents();
 
+  scrollCalendarToCurrentTime = () => {
+    const calendarApi = this.calendarRef.current.getApi();
+    const now = new Date().getTime();
+    const startOfToday = new Date(now).setHours(0, 0, 0, 0);
+    // Find the amount of time that has passed today, and take away two
+    // hours. This way the calendar will scroll with current time, while
+    // leaving revealing a bit of the past as well.
+    const twoHoursAgo = now - startOfToday - 2 * ONE_HOUR_IN_MS;
+
+    calendarApi.scrollToTime(twoHoursAgo);
+  };
+
   render() {
     const { date, resource } = this.props;
     const { viewType, header } = this.state;
@@ -219,8 +255,9 @@ class TimePickerCalendar extends Component {
           header={header}
           maxTime={getFullCalendarMaxTime(resource, date, viewType)}
           minTime={getFullCalendarMinTime(resource, date, viewType)}
+          eventRender={this.onEventRender}
           ref={this.calendarRef}
-          slotDuration={getFullCalendarSlotDuration(resource, date, viewType)}
+          slotDuration="00:15:00"
           slotLabelInterval={getFullCalendarSlotLabelInterval(resource)}
         />
         <CalendarLegend />

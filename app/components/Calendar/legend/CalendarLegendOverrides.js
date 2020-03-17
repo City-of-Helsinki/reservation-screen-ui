@@ -24,12 +24,13 @@ const CalendarLegendOverrides = styled.div.attrs({ className })`
   }
 
   & .color-box__selection {
-    background-color: #bddbf0;
-    border: 1px solid ${theme.HEL_COAT};
+    background-color: ${theme.HEL_COAT};
+    border: none;
   }
 
   & .color-box__taken {
     background-color: ${theme.RED};
+    border: none;
   }
 
   & .color-box__available {

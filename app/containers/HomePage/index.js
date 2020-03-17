@@ -23,13 +23,7 @@ import {
 } from 'containers/App/selectors';
 import { loadRepos } from '../App/actions';
 import { loadReservations, updateClock } from './actions';
-import {
-  makeUpcomingReservations,
-  makeSelectResourceName,
-  makeSelectResourceId,
-  makeSelectResourceDescription,
-  makeSelectIsResourceAvailable,
-} from './selectors';
+import { makeSelectIsResourceAvailable } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -38,6 +32,8 @@ import saga from './saga';
 import BackgroundImage from './images/bg-wave-green.png';
 import BackgroundImageSoon from './images/bg-wave-yellow.png';
 import BackgroundImageTaken from './images/bg-wave-red.png';
+
+const fontSize = ['63px', '60px', '30px', '20px', '18px', '16px'];
 
 const themeAvailableNow = {
   // vapaa
@@ -122,18 +118,15 @@ export class HomePage extends React.PureComponent {
     }
 
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={{ ...theme, fontSize }}>
         <Article>
           <Helmet>
             <title>Home</title>
             <meta name="description" content="Reservation status" />
           </Helmet>
           <Booking
-            upcomingReservations={this.props.upcomingReservations}
-            resourceName={this.props.resourceName}
-            resourceId={this.props.resourceId}
+            currentSlot={this.props.currentSlot}
             isResourceAvailable={this.props.isResourceAvailable}
-            resourceDescription={this.props.resourceDescription}
           />
         </Article>
       </ThemeProvider>
@@ -168,11 +161,7 @@ const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  upcomingReservations: makeUpcomingReservations(3),
   isResourceAvailable: makeSelectIsResourceAvailable(),
-  resourceName: makeSelectResourceName(),
-  resourceId: makeSelectResourceId(),
-  resourceDescription: makeSelectResourceDescription(),
 });
 
 const withConnect = connect(

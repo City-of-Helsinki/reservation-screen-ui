@@ -51,10 +51,6 @@
     "*.js": [
       "npm run lint:eslint:fix",
       "git add --force"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add --force"
     ]
   },
   "pre-commit": "lint:staged",
@@ -140,13 +136,14 @@
     ]
   },
   "dependencies": {
+    "@formatjs/intl-pluralrules": "^1.5.2",
+    "@formatjs/intl-relativetimeformat": "^4.5.9",
     "@fullcalendar/core": "^4.4.0",
     "@fullcalendar/interaction": "^4.4.0",
     "@fullcalendar/moment-timezone": "^4.4.0",
     "@fullcalendar/react": "^4.4.0",
     "@fullcalendar/timegrid": "^4.4.0",
     "babel-polyfill": "6.26.0",
-    "camelcase-keys": "^6.2.0",
     "chalk": "2.4.1",
     "compression": "1.7.2",
     "cross-env": "5.2.0",
@@ -169,7 +166,7 @@
     "react-circular-progressbar": "^1.2.1",
     "react-dom": "^16.13.0",
     "react-helmet": "5.2.0",
-    "react-intl": "2.4.0",
+    "react-intl": "^4.1.1",
     "react-loadable": "5.4.0",
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
@@ -216,6 +213,7 @@
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-react": "7.9.1",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "eslint-plugin-redux-saga": "0.9.0",
     "eventsource-polyfill": "0.9.6",
     "exports-loader": "0.7.0",

@@ -65,9 +65,10 @@ export function resourceLoadingError(error) {
   };
 }
 
-export function makeReservation() {
+export function makeReservation(reservation) {
   return {
     type: MAKE_RESERVATION,
+    reservation,
   };
 }
 
