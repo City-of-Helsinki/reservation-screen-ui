@@ -44,6 +44,23 @@ function getOnlyInfoAllowed(resource) {
   );
 }
 
+const defaultLocale = 'fi';
+function getLocalizedString(localizationObject, locale = defaultLocale) {
+  if (!localizationObject) {
+    return '';
+  }
+
+  const localizedString = localizationObject.get(locale, null);
+
+  // If we do not find a localized string, we'll try to use the default
+  // locale.
+  if (localizedString === null) {
+    return localizationObject.get(defaultLocale);
+  }
+
+  return localizedString;
+}
+
 const AreaBooking = ({
   availableUntil,
   currentSlot,
@@ -64,15 +81,16 @@ const AreaBooking = ({
   const { locale } = useIntl();
 
   const resource = resourceWithoutDefault || new Map();
-  const localeWithDefault = locale || 'fi';
   const resourceId = resource.get('id');
-  const resourceName = resource.getIn(['name', localeWithDefault], '');
+  const resourceName = getLocalizedString(resource.get('name'), locale);
   const resourcePeopleCount = resource.get('people_capacity');
   const resourceMaxReservationDuration = resource.get('max_period');
   const resourceMinReservationDuration = resource.get('min_period');
   const resourceSlotSize = resource.get('slot_size');
-  const resourceDescription = resource
-    .getIn(['description', localeWithDefault], '')
+  const resourceDescription = getLocalizedString(
+    resource.get('description'),
+    locale,
+  )
     // Show line breaks
     .replace(/\n/, '<br /><br />');
   const wrapperClass = Object.entries({
