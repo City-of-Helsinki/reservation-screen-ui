@@ -1,10 +1,6 @@
 {
   "AreaStatus.HideMoreButton.text": "Piilota lisätieto",
-  "AreaStatus.ShowMoreButton.text": "Lisätietoja",
-  "AreaStatus.area.max": "max",
-  "AreaStatus.area.persons": "henkilöä",
-  "AreaStatus.area.resourceIsAvailable": "Tila on vapaa",
-  "AreaStatus.area.resourceIsNotAvailable": "Tila on varattu",
+  "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
   "CalendarLegend.available": "Varattavissa",
   "CalendarLegend.closed": "Ei varattavissa",
   "CalendarLegend.selection": "Varauksesi",
@@ -14,60 +10,19 @@
   "QuickBooking.startBookingNewReservation": "Tee uusi varaus",
   "SceneError.link.cancel": "Peruuta",
   "SceneError.title": "Varaus ei onnistunut",
+  "Status.max": "max",
+  "Status.persons": "henkilöä",
+  "Status.resourceIsAvailableUntil": "Tila on vapaa klo {time} asti",
+  "Status.resourceIsNotAvailableUntil": "Vapautuu klo {time}",
   "boilerplate.components.AreaBooking.button.submit": "Varaa",
-  "boilerplate.components.AreaBooking.link.reset": "Palaa alkuun",
-  "boilerplate.components.AreaStatus.area.clock": "klo",
-  "boilerplate.components.AreaStatus.area.until.until": "asti",
   "boilerplate.components.Confirm.cancel": "Peruuta varaus",
   "boilerplate.components.Confirm.ends": "Varauksesi loppuu {br} kello {time}",
   "boilerplate.components.Confirm.finishedLink": "Valmis!",
   "boilerplate.components.Confirm.resetLink": "Palaa alkuun",
   "boilerplate.components.Confirm.starts": "Varauksesi alkaa {br} kello {time}",
-  "boilerplate.components.Footer.author.message": "Made with love by {author}.",
-  "boilerplate.components.Footer.license.message":
-    "This project is licensed under the MIT license.",
-  "boilerplate.components.Header.features": "Features",
-  "boilerplate.components.Header.home": "Home",
   "boilerplate.components.SceneVerify.link.cancel": "Valmis",
   "boilerplate.components.SceneVerify.title": "Varaus onnistui!",
-  "boilerplate.containers.FeaturePage.css.header": "Features",
-  "boilerplate.containers.FeaturePage.css.message": "Next generation CSS",
-  "boilerplate.containers.FeaturePage.feedback.header": "Instant feedback",
-  "boilerplate.containers.FeaturePage.feedback.message":
-    "Enjoy the best DX and code your app at the speed of thought! Your\n    saved changes to the CSS and JS are reflected instantaneously\n    without refreshing the page. Preserve application state even when\n    you update something in the underlying code!",
-  "boilerplate.containers.FeaturePage.header": "Features",
-  "boilerplate.containers.FeaturePage.internationalization.header":
-    "Complete i18n Standard Internationalization & Pluralization",
-  "boilerplate.containers.FeaturePage.internationalization.message":
-    "Scalable apps need to support multiple languages, easily add and support multiple languages with `react-intl`.",
-  "boilerplate.containers.FeaturePage.javascript.header":
-    "Next generation JavaScript",
-  "boilerplate.containers.FeaturePage.javascript.message":
-    "Use template strings, object destructuring, arrow functions, JSX\n    syntax and more, today.",
-  "boilerplate.containers.FeaturePage.network.header": "Offline-first",
-  "boilerplate.containers.FeaturePage.network.message":
-    "The next frontier in performant web apps: availability without a\n      network connection from the instant your users load the app.",
-  "boilerplate.containers.FeaturePage.routing.header":
-    "Industry-standard routing",
-  "boilerplate.containers.FeaturePage.routing.message":
-    "Write composable CSS that's co-located with your components for\n    complete modularity. Unique generated class names keep the\n    specificity low while eliminating style clashes. Ship only the\n    styles that are on the page for the best performance.",
-  "boilerplate.containers.FeaturePage.scaffolding.header": "Quick scaffolding",
-  "boilerplate.containers.FeaturePage.scaffolding.message":
-    "Automate the creation of components, containers, routes, selectors\n  and sagas - and their tests - right from the CLI!",
-  "boilerplate.containers.FeaturePage.state_management.header":
-    "Predictable state management",
-  "boilerplate.containers.FeaturePage.state_management.message":
-    "Unidirectional data flow allows for change logging and time travel\n    debugging.",
-  "boilerplate.containers.HomePage.start_project.header":
-    "Start your next react project in seconds",
-  "boilerplate.containers.HomePage.start_project.message":
-    "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
-  "boilerplate.containers.HomePage.tryme.atPrefix": "@",
-  "boilerplate.containers.HomePage.tryme.header": "Try me!",
-  "boilerplate.containers.HomePage.tryme.message":
-    "Show Github repositories by",
-  "boilerplate.containers.LocaleToggle.de": "de",
-  "boilerplate.containers.LocaleToggle.en": "en",
+  "boilerplate.containers.LocaleToggle.en": "In English",
   "boilerplate.containers.LocaleToggle.fi": "Suomeksi",
   "boilerplate.containers.LocaleToggle.sv": "På svenska",
   "boilerplate.containers.NotFoundPage.header": "Sivua ei löydy.",
@@ -78,8 +33,8 @@
   "link.cancel.booking": "Peruuta varaus",
   "oodi.components.ButtonList.until": "asti",
   "oodi.components.ListItem.defaultTitle": "Varattu",
-  "strongauth.bookAt": "Varaa osoitteessa: <b>{linkLabel}</b>",
-  "strongauth.qrinfo": "Tai skannaamalla oheisen QR-koodin",
+  "strongauth.bookAt": "Varaa tila osoitteessa <b>{linkLabel}</b>",
+  "strongauth.qrinfo": "tai skannaa oheinen QR-koodin",
   "text.ends.at": "Varauksesi loppuu {br} kello ",
   "text.starts.at": "Varauksesi alkaa {br} kello ",
   "title.book": "Varaa tila",

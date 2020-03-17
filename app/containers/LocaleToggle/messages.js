@@ -10,10 +10,6 @@ export default defineMessages({
     id: 'boilerplate.containers.LocaleToggle.en',
     defaultMessage: 'In English',
   },
-  de: {
-    id: 'boilerplate.containers.LocaleToggle.de',
-    defaultMessage: 'Deutch',
-  },
   fi: {
     id: 'boilerplate.containers.LocaleToggle.fi',
     defaultMessage: 'Suomeksi',

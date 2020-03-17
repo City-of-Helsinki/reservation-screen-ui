@@ -51,18 +51,18 @@ const Status = ({
       <H1>{resourceName}</H1>
       {showAvailableUntil && (
         <P className="sau">
-          <FormattedMessage {...messages.resourceIsAvailable} />{' '}
-          <FormattedMessage {...messages.availableUntilClock} />{' '}
-          <FormattedTime date={availableUntil} />{' '}
-          <FormattedMessage {...messages.availableUntilUntil} />
+          <FormattedMessage
+            {...messages.resourceIsAvailableUntil}
+            values={{ time: <FormattedTime date={availableUntil} /> }}
+          />
         </P>
       )}
       {showNextAvailableTime && (
         <P className="snat">
-          <FormattedMessage {...messages.resourceIsNotAvailable} />{' '}
-          <FormattedMessage {...messages.availableUntilClock} />{' '}
-          <FormattedTime date={nextAvailableTime} />{' '}
-          <FormattedMessage {...messages.availableUntilUntil} />
+          <FormattedMessage
+            {...messages.resourceIsNotAvailableUntil}
+            values={{ time: <FormattedTime date={nextAvailableTime} /> }}
+          />
         </P>
       )}
       {hasReservationRules && (

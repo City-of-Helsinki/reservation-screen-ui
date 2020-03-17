@@ -181,6 +181,19 @@ const makeSelectFreeSlots = amount =>
     },
   );
 
+function getFallbackClosingTime(allSlots, openingHours) {
+  const closes = new Date(openingHours.get('closes'));
+  const lastSlot = allSlots[allSlots.length - 1];
+
+  // If there are no hours the current time is past opening hours.
+  // In that case, use closing time as a fallback.
+  if (!lastSlot) {
+    return closes;
+  }
+
+  return lastSlot.end;
+}
+
 /**
  * Find time until resource is occupied again.
  */
@@ -196,16 +209,24 @@ const makeSelectAvailableUntil = () =>
         return false;
       }
 
+      const openingHours = getOpeningHoursForDay(resource, now);
+      const fallbackTime = getFallbackClosingTime(
+        allUpcomingSlotsForToday,
+        openingHours,
+      );
       const reservations = resource.get('reservations');
 
       if (reservations && reservations.size > 0) {
         const reservedSlots = allUpcomingSlotsForToday.filter(slot =>
           slotOverlapsWithReservations(slot, reservations),
         );
+
         const [nextReservedSlot] = reservedSlots;
 
+        // If there is no next reservation, the resource is open until
+        // fallbackTime.
         if (!nextReservedSlot) {
-          return false;
+          return fallbackTime;
         }
 
         // If the slot has already started, the resource is not
@@ -218,23 +239,12 @@ const makeSelectAvailableUntil = () =>
       }
 
       // If there are no reservations, the resource is open until the
-      // last slot.
+      // last slot or closing time.
       if (!reservations || reservations.size === 0) {
-        const lastSlot =
-          allUpcomingSlotsForToday[allUpcomingSlotsForToday.length - 1];
-
-        // If there are no hours the current time is past opening hours.
-        // In that case, use closing time as a fallback.
-        if (!lastSlot) {
-          const openingHours = getOpeningHoursForDay(resource, now);
-          const closes = new Date(openingHours.get('closes'));
-
-          return closes;
-        }
-
-        return lastSlot.end;
+        return fallbackTime;
       }
 
+      // If we could not find a next available time, just return false.
       return false;
     },
   );
