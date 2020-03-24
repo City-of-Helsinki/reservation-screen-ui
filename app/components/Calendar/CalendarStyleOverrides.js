@@ -7,7 +7,9 @@ const rootClassName = 'app-TimePickerCalendar';
 const CalendarStyleOverrides = styled.div.attrs({
   className: rootClassName,
 })`
-  & .${rootClassName}__event {
+  &&& .${rootClassName}__event {
+    margin-bottom: 1px;
+
     color: ${theme.WHITE};
 
     background-color: ${theme.RED};
