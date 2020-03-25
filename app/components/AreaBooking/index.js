@@ -103,6 +103,9 @@ const AreaBooking = ({
   const isOnlyInfoAllowed = getOnlyInfoAllowed(resource);
   const isNeedManualConfirmation =
     resource.get('need_manual_confirmation') === true;
+  // Max price can be of type hours, day, week and fixed. It's enough
+  // for us to know that it's greater than zero for any of these types.
+  const hasMaxPrice = resource.get('max_price', 0) > 0;
 
   const handleStartBooking = useCallback(
     () => {
@@ -151,7 +154,8 @@ const AreaBooking = ({
         />
         {isResourceAvailable &&
           !isOnlyInfoAllowed &&
-          !isNeedManualConfirmation && (
+          !isNeedManualConfirmation &&
+          !hasMaxPrice && (
             <QuickBooking
               isHidden={isDescriptionOpen}
               onConfirmBooking={handleConfirmBooking}
@@ -167,7 +171,8 @@ const AreaBooking = ({
           )}
         {(!isResourceAvailable ||
           isOnlyInfoAllowed ||
-          isNeedManualConfirmation) && (
+          isNeedManualConfirmation ||
+          hasMaxPrice) && (
           <StrongAuth isHidden={isDescriptionOpen} resourceId={resourceId} />
         )}
       </MidAreaWrapper>
