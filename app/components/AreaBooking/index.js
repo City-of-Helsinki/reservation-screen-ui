@@ -101,6 +101,8 @@ const AreaBooking = ({
     .map(([className]) => className)
     .join(' ');
   const isOnlyInfoAllowed = getOnlyInfoAllowed(resource);
+  const isNeedManualConfirmation =
+    resource.get('need_manual_confirmation') === true;
 
   const handleStartBooking = useCallback(
     () => {
@@ -138,16 +140,18 @@ const AreaBooking = ({
       </TopAreaWrapper>
       <MidAreaWrapper>
         <Status
+          availableUntil={availableUntil}
+          isNeedManualConfirmation={isNeedManualConfirmation}
+          isOnlyInfoAllowed={isOnlyInfoAllowed}
+          isResourceAvailable={isResourceAvailable}
+          nextAvailableTime={nextAvailableTime}
           resourceName={resourceName}
           resourcePeopleCount={resourcePeopleCount}
           resourceMaxReservationTime={resourceMaxReservationDuration}
-          nextAvailableTime={nextAvailableTime}
-          availableUntil={availableUntil}
-          isOnlyInfoAllowed={isOnlyInfoAllowed}
-          isResourceAvailable={isResourceAvailable}
         />
         {isResourceAvailable &&
-          !isOnlyInfoAllowed && (
+          !isOnlyInfoAllowed &&
+          !isNeedManualConfirmation && (
             <QuickBooking
               isHidden={isDescriptionOpen}
               onConfirmBooking={handleConfirmBooking}
@@ -161,7 +165,9 @@ const AreaBooking = ({
               resourceSlotSize={resourceSlotSize}
             />
           )}
-        {(!isResourceAvailable || isOnlyInfoAllowed) && (
+        {(!isResourceAvailable ||
+          isOnlyInfoAllowed ||
+          isNeedManualConfirmation) && (
           <StrongAuth isHidden={isDescriptionOpen} resourceId={resourceId} />
         )}
       </MidAreaWrapper>
