@@ -33,7 +33,7 @@ import configureStore from './configureStore';
 import { translationMessages } from './i18n';
 
 // Import CSS reset and Global Styles
-import './global-styles';
+import GlobalStyles from './global-styles';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -55,7 +55,10 @@ const render = messages => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <React.Fragment>
+            <GlobalStyles />
+            <App />
+          </React.Fragment>
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,

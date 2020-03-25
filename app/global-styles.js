@@ -1,8 +1,8 @@
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import Woff from './fonts/HelsinkiGrotesk-Regular.woff';
 import WoffBold from './fonts/HelsinkiGrotesk-Bold.woff';
-/* eslint no-unused-expressions: 0 */
-injectGlobal`
+
+export default createGlobalStyle`
 
   @font-face {
     font-family: "HelsinkiGroteskRegular";

@@ -60,7 +60,7 @@ const AreaStatus = ({
   const currentDate = new Date().toISOString();
 
   return (
-    <Wrapper innerRef={wrapperRef}>
+    <Wrapper ref={wrapperRef}>
       <Div>
         {/* View displaying calendar */}
         {scene === 'Start' &&

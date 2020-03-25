@@ -4,9 +4,9 @@ import theme from './calendarTheme';
 
 const rootClassName = 'app-TimePickerCalendar';
 
-const CalendarStyleOverrides = styled.div.attrs({
+const CalendarStyleOverrides = styled.div.attrs(() => ({
   className: rootClassName,
-})`
+}))`
   &&& .${rootClassName}__event {
     margin-bottom: 1px;
 
