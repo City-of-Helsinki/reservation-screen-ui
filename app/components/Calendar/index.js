@@ -13,7 +13,6 @@ import '@fullcalendar/timegrid/main.css';
 import moment from 'moment';
 import 'moment-timezone';
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 import { injectIntl } from 'react-intl';
 
 import CalendarLegend from './legend/CalendarLegend';
@@ -133,18 +132,22 @@ class TimePickerCalendar extends Component {
     const reservations = reservationBeingCreated
       ? [...realReservations, reservationBeingCreated]
       : realReservations;
-    const events = isEmpty(reservations)
-      ? []
-      : reservations.map(reservation => ({
-          classNames: reservation.id
-            ? 'app-TimePickerCalendar__event'
-            : 'app-TimePickerCalendar__event--unconfirmed',
-          editable: false,
-          id: reservation.id,
-          start: moment(reservation.begin).toDate(),
-          end: moment(reservation.end).toDate(),
-          title: reservation.event_subject,
-        }));
+    const events = reservations.map(reservation => {
+      const isUnconfirmedReservation = reservation.id === undefined;
+      const classNames = !isUnconfirmedReservation
+        ? 'app-TimePickerCalendar__event'
+        : 'app-TimePickerCalendar__event--unconfirmed';
+      const title = reservation.event_subject;
+
+      return {
+        classNames,
+        editable: false,
+        id: reservation.id,
+        start: moment(reservation.begin).toDate(),
+        end: moment(reservation.end).toDate(),
+        title,
+      };
+    });
 
     // Check resources reservation rules and disable days if needed.
     const now = moment();
@@ -248,22 +251,20 @@ class TimePickerCalendar extends Component {
       return;
     }
 
-    if (viewType === TIME_GRID_DAY) {
-      dayButton.classList.add(activeClass);
-      weekButton.classList.remove(activeClass);
-    }
+    const isDayGrid = viewType === TIME_GRID_DAY;
+    const isWeekGrid = viewType === TIME_GRID_WEEK;
 
-    if (viewType === TIME_GRID_WEEK) {
-      dayButton.classList.remove(activeClass);
-      weekButton.classList.add(activeClass);
-    }
+    dayButton.classList.toggle(activeClass, isDayGrid);
+    weekButton.classList.toggle(activeClass, isWeekGrid);
   };
 
   handleEventRender = info => {
     const isBeingCreated = info.event.id === '';
     const duration = this.getDurationText(info.event);
     const isDayGrid = this.viewType === TIME_GRID_DAY;
+    const isWeekGrid = this.viewType === TIME_GRID_WEEK;
 
+    // Add duration label
     if (duration && isDayGrid && isBeingCreated) {
       const eventDuration = document.createElement('span');
       eventDuration.textContent = ` (${duration})`;
@@ -274,6 +275,13 @@ class TimePickerCalendar extends Component {
       if (timeElement) {
         timeElement.append(eventDuration);
       }
+    }
+
+    // Hide title in week view because it takes too much space.
+    const titleElement = info.el.querySelector('div.fc-title');
+
+    if (titleElement) {
+      titleElement.classList.toggle('hidden', isWeekGrid);
     }
   };
 

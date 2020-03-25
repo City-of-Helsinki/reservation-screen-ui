@@ -106,6 +106,10 @@ const CalendarStyleOverrides = styled.div.attrs(() => ({
     line-height: 1.3;
   }
 
+  & .hidden.fc-title {
+    display: none;
+  }
+
   .fc-header-toolbar .fc-customTimeGridWeekButton-button,
   .fc-header-toolbar .fc-customTimeGridDayButton-button {
     padding: 0.5rem 3rem;
