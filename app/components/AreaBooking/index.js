@@ -92,7 +92,7 @@ const AreaBooking = ({
     locale,
   )
     // Show line breaks
-    .replace(/\n/, '<br /><br />');
+    .replace(/\n/g, '<br />');
   const wrapperClass = Object.entries({
     'slide-down': true,
     'hide-on-toggle': isCondensed,
