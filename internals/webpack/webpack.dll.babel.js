@@ -28,7 +28,7 @@ module.exports = require('./webpack.base.babel')({
   optimization: {
     minimize: false,
   },
-  devtool: 'eval',
+  devtool: 'inline-source-map',
   output: {
     filename: '[name].dll.js',
     path: outputPath,
