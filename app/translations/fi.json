@@ -1,6 +1,8 @@
 {
   "AreaStatus.HideMoreButton.text": "Piilota lisätieto",
   "AreaStatus.ShowMoreButton.text": "Tilan tarkemmat tiedot",
+  "Calendar.dayViewLabel": "Päivä",
+  "Calendar.weekViewLabel": "Viikko",
   "CalendarLegend.available": "Varattavissa",
   "CalendarLegend.closed": "Ei varattavissa",
   "CalendarLegend.selection": "Varauksesi",

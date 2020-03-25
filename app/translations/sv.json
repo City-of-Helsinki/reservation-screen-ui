@@ -1,6 +1,8 @@
 {
   "AreaStatus.HideMoreButton.text": "Mera information",
   "AreaStatus.ShowMoreButton.text": "Mera information",
+  "Calendar.dayViewLabel": "Dag",
+  "Calendar.weekViewLabel": "Vecka",
   "CalendarLegend.available": "Tillgängligt",
   "CalendarLegend.closed": "Inte tillgänglig",
   "CalendarLegend.selection": "Vald",
