@@ -1,0 +1,13 @@
+internals/templates/
+internals/scripts/
+
+coverage
+build
+node_modules
+stats.json
+__snapshots__
+
+.DS_Store
+._*
+npm-debug.log
+.idea
