@@ -260,9 +260,11 @@ class TimePickerCalendar extends Component {
   };
 
   handleEventRender = info => {
+    const isBeingCreated = info.event.id === '';
     const duration = this.getDurationText(info.event);
+    const isDayGrid = this.viewType === TIME_GRID_DAY;
 
-    if (duration && this.viewType === TIME_GRID_DAY) {
+    if (duration && isDayGrid && isBeingCreated) {
       const eventDuration = document.createElement('span');
       eventDuration.textContent = ` (${duration})`;
       eventDuration.classList.add('app-TimePickerCalendar__maxDuration');
