@@ -2,6 +2,8 @@ import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import moment from 'moment';
 
+import { DATE_FORMAT } from './calendarConstants';
+
 /**
  * getOpeningHours();
  * @param resource {object} Resource object.
@@ -230,10 +232,10 @@ export const isDateReservable = (resource, date) => {
 
   const isAdmin = get(resource, 'user_permissions.is_admin', false);
   const isBefore = reservableBefore
-    ? moment(date).isSameOrBefore(moment(reservableBefore), 'day')
+    ? moment(date, DATE_FORMAT).isSameOrBefore(moment(reservableBefore), 'day')
     : true;
   const isAfter = reservableAfter
-    ? moment(date).isSameOrAfter(moment(reservableAfter), 'day')
+    ? moment(date, DATE_FORMAT).isSameOrAfter(moment(reservableAfter), 'day')
     : true;
 
   return isAdmin || (isBefore && isAfter);
