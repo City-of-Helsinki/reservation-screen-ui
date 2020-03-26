@@ -60,7 +60,7 @@ const AreaStatus = ({
   const currentDate = new Date().toISOString();
 
   return (
-    <Wrapper innerRef={wrapperRef}>
+    <Wrapper ref={wrapperRef}>
       <Div>
         {/* View displaying calendar */}
         {scene === 'Start' &&
@@ -70,8 +70,6 @@ const AreaStatus = ({
               date={currentDate}
               // Approximately remove padding from wrapper height
               height={height - 2 * 84}
-              onDateChange={() => {}}
-              onTimeChange={() => {}}
               onViewTypeChange={onCalendarViewChange}
               // We pulled the calendar component from a different
               // project using a different data structure, so we need

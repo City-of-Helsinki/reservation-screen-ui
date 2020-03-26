@@ -1,6 +1,8 @@
 {
   "AreaStatus.HideMoreButton.text": "More information",
   "AreaStatus.ShowMoreButton.text": "More information",
+  "Calendar.dayViewLabel": "Day",
+  "Calendar.weekViewLabel": "Week",
   "CalendarLegend.available": "Available",
   "CalendarLegend.closed": "Unavailable",
   "CalendarLegend.selection": "Selected",

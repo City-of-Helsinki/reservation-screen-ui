@@ -92,7 +92,7 @@ const AreaBooking = ({
     locale,
   )
     // Show line breaks
-    .replace(/\n/, '<br /><br />');
+    .replace(/\n/g, '<br />');
   const wrapperClass = Object.entries({
     'slide-down': true,
     'hide-on-toggle': isCondensed,
@@ -101,6 +101,11 @@ const AreaBooking = ({
     .map(([className]) => className)
     .join(' ');
   const isOnlyInfoAllowed = getOnlyInfoAllowed(resource);
+  const isNeedManualConfirmation =
+    resource.get('need_manual_confirmation') === true;
+  // Max price can be of type hours, day, week and fixed. It's enough
+  // for us to know that it's greater than zero for any of these types.
+  const hasMaxPrice = resource.get('max_price', 0) > 0;
 
   const handleStartBooking = useCallback(
     () => {
@@ -138,16 +143,19 @@ const AreaBooking = ({
       </TopAreaWrapper>
       <MidAreaWrapper>
         <Status
+          availableUntil={availableUntil}
+          isNeedManualConfirmation={isNeedManualConfirmation}
+          isOnlyInfoAllowed={isOnlyInfoAllowed}
+          isResourceAvailable={isResourceAvailable}
+          nextAvailableTime={nextAvailableTime}
           resourceName={resourceName}
           resourcePeopleCount={resourcePeopleCount}
           resourceMaxReservationTime={resourceMaxReservationDuration}
-          nextAvailableTime={nextAvailableTime}
-          availableUntil={availableUntil}
-          isOnlyInfoAllowed={isOnlyInfoAllowed}
-          isResourceAvailable={isResourceAvailable}
         />
         {isResourceAvailable &&
-          !isOnlyInfoAllowed && (
+          !isOnlyInfoAllowed &&
+          !isNeedManualConfirmation &&
+          !hasMaxPrice && (
             <QuickBooking
               isHidden={isDescriptionOpen}
               onConfirmBooking={handleConfirmBooking}
@@ -161,7 +169,10 @@ const AreaBooking = ({
               resourceSlotSize={resourceSlotSize}
             />
           )}
-        {(!isResourceAvailable || isOnlyInfoAllowed) && (
+        {(!isResourceAvailable ||
+          isOnlyInfoAllowed ||
+          isNeedManualConfirmation ||
+          hasMaxPrice) && (
           <StrongAuth isHidden={isDescriptionOpen} resourceId={resourceId} />
         )}
       </MidAreaWrapper>

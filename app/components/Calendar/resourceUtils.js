@@ -2,6 +2,8 @@ import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import moment from 'moment';
 
+import { DATE_FORMAT } from './calendarConstants';
+
 /**
  * getOpeningHours();
  * @param resource {object} Resource object.
@@ -81,15 +83,9 @@ export const getFullCalendarBusinessHours = (resource, date = null) => {
  * @param resource {object}
  * @param date {string} Date string that can be parsed as moment object.
  * @param viewType {string} Type of a FullCalendar View Object (https://fullcalendar.io/docs/view-object).
- * @param buffer {number} buffer in hours.
  * @returns {string}
  */
-export const getFullCalendarMinTime = (
-  resource,
-  date,
-  viewType,
-  buffer = 1,
-) => {
+export const getFullCalendarMinTime = (resource, date, viewType) => {
   const defaultMin = '07:00:00';
   let openingHours = null;
   switch (viewType) {
@@ -107,31 +103,39 @@ export const getFullCalendarMinTime = (
     return defaultMin;
   }
 
-  let min;
-  openingHours.forEach(item => {
-    if (item && item.opens) {
-      const opens = moment(item.opens);
-
-      if (
-        !min ||
-        opens.minutes() + opens.hours() * 60 < min.minutes() + min.hours() * 60
-      ) {
-        min = opens;
-      }
-    }
-  });
-
-  if (min) {
-    // Subtract the buffer from the min value.
-    min.subtract(buffer, 'hour');
-
-    // Make sure that the min value is an even hour.
-    if (min.minutes() > 0) {
-      min.minutes(0);
-      min.subtract(1, 'hour');
+  const earliestOpeningTime = openingHours.reduce((incumbent, item) => {
+    if (item === null) {
+      return incumbent;
     }
 
-    return min.format('HH:mm:ss');
+    const opens = moment(item.opens);
+
+    if (incumbent === undefined) {
+      return opens;
+    }
+
+    const incumbentTimeSinceStartOfDay =
+      incumbent.valueOf() -
+      incumbent
+        .clone()
+        .startOf('day')
+        .valueOf();
+    const openTimeSinceStartOfDay =
+      opens.valueOf() -
+      opens
+        .clone()
+        .startOf('day')
+        .valueOf();
+
+    if (openTimeSinceStartOfDay < incumbentTimeSinceStartOfDay) {
+      return opens;
+    }
+
+    return incumbent;
+  }, undefined);
+
+  if (earliestOpeningTime) {
+    return earliestOpeningTime.format('HH:mm:ss');
   }
 
   return defaultMin;
@@ -142,15 +146,9 @@ export const getFullCalendarMinTime = (
  * @param resource {object}
  * @param date {string} Date string that can be parsed as moment object.
  * @param viewType {string} Type of a FullCalendar View Object (https://fullcalendar.io/docs/view-object).
- * @param buffer {number} buffer in hours.
  * @returns {string}
  */
-export const getFullCalendarMaxTime = (
-  resource,
-  date,
-  viewType,
-  buffer = 1,
-) => {
+export const getFullCalendarMaxTime = (resource, date, viewType) => {
   const defaultMax = '17:00:00';
   let openingHours = null;
   switch (viewType) {
@@ -168,32 +166,39 @@ export const getFullCalendarMaxTime = (
     return defaultMax;
   }
 
-  let max;
-  openingHours.forEach(item => {
-    if (item && item.closes) {
-      const closes = moment(item.closes);
-
-      if (
-        !max ||
-        closes.minutes() + closes.hours() * 60 >
-          max.minutes() + max.hours() * 60
-      ) {
-        max = closes;
-      }
-    }
-  });
-
-  if (max) {
-    // Add the buffer into the max value.
-    max.add(buffer, 'hour');
-
-    // Make sure that the max value is an even hour.
-    if (max.minutes() > 0) {
-      max.minutes(0);
-      max.add(1, 'hour');
+  const latestClosingTime = openingHours.reduce((incumbent, item) => {
+    if (item === null) {
+      return incumbent;
     }
 
-    return max.format('HH:mm:ss');
+    const closes = moment(item.closes);
+
+    if (incumbent === undefined) {
+      return closes;
+    }
+
+    const incumbentTimeSinceStartOfDay =
+      incumbent.valueOf() -
+      incumbent
+        .clone()
+        .startOf('day')
+        .valueOf();
+    const closeTimeSinceStartOfDay =
+      closes.valueOf() -
+      closes
+        .clone()
+        .startOf('day')
+        .valueOf();
+
+    if (closeTimeSinceStartOfDay > incumbentTimeSinceStartOfDay) {
+      return closes;
+    }
+
+    return incumbent;
+  }, undefined);
+
+  if (latestClosingTime) {
+    return latestClosingTime.format('HH:mm:ss');
   }
 
   return defaultMax;
@@ -230,10 +235,10 @@ export const isDateReservable = (resource, date) => {
 
   const isAdmin = get(resource, 'user_permissions.is_admin', false);
   const isBefore = reservableBefore
-    ? moment(date).isSameOrBefore(moment(reservableBefore), 'day')
+    ? moment(date, DATE_FORMAT).isSameOrBefore(moment(reservableBefore), 'day')
     : true;
   const isAfter = reservableAfter
-    ? moment(date).isSameOrAfter(moment(reservableAfter), 'day')
+    ? moment(date, DATE_FORMAT).isSameOrAfter(moment(reservableAfter), 'day')
     : true;
 
   return isAdmin || (isBefore && isAfter);

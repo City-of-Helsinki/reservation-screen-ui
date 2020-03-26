@@ -14,6 +14,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+// Import CSS reset and Global Styles
+import GlobalStyles from '../../global-styles';
 
 const AppWrapper = styled.div`
   margin: 0 auto;
@@ -34,6 +36,7 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
+      <GlobalStyles />
     </AppWrapper>
   );
 }

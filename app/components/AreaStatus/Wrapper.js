@@ -8,10 +8,10 @@ export const Wrapper = styled.div`
   width: 50%;
   flex-grow: 1;
   background-color: ${props => props.theme.secondaryColor};
-  padding: 5%;
+  padding: 5% 5% 5% 80px;
   background-image: url(${props => props.theme.bgImage});
   background-repeat: repeat-y;
-  background-size: auto 100%;
+  background-size: 60px auto;
   background-position: 0 0;
 `;
 

@@ -41,15 +41,6 @@ function homeReducer(state = initialState, action) {
     case UPDATE_CLOCK:
       return state.set('date', action.date);
     case LOAD_RESERVATIONS_SUCCESS:
-      if (
-        action &&
-        action.resource &&
-        action.resource.authentication === 'strong'
-      ) {
-        return state
-          .set('resource', fromJS(action.resource))
-          .set('scene', 'StrongAuth');
-      }
       return state.set('resource', fromJS(action.resource));
 
     case CHANGE_SCENE:

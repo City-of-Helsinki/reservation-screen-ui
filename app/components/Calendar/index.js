@@ -13,7 +13,6 @@ import '@fullcalendar/timegrid/main.css';
 import moment from 'moment';
 import 'moment-timezone';
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 import { injectIntl } from 'react-intl';
 
 import CalendarLegend from './legend/CalendarLegend';
@@ -32,6 +31,10 @@ import {
 } from './calendarConstants';
 
 const ONE_HOUR_IN_MS = 3600000;
+const TIME_GRID_DAY = 'timeGridDay';
+const TIME_GRID_WEEK = 'timeGridWeek';
+const CUSTOM_TIME_GRID_DAY_BUTTON = 'customTimeGridDayButton';
+const CUSTOM_TIME_GRID_WEEK_BUTTON = 'customTimeGridWeekButton';
 
 moment.tz.setDefault(TIME_ZONE);
 // Re-apply moment-timezone default timezone, cause FullCalendar import have override the import
@@ -42,92 +45,67 @@ class TimePickerCalendar extends Component {
 
   static propTypes = {
     date: PropTypes.string,
-    editingReservation: PropTypes.object,
     height: PropTypes.number,
     intl: PropTypes.object.isRequired,
-    onDateChange: PropTypes.func.isRequired,
-    onTimeChange: PropTypes.func.isRequired,
     onViewTypeChange: PropTypes.func.isRequired,
     resource: PropTypes.object.isRequired,
     reservationBeingCreated: PropTypes.object,
   };
 
-  state = {
-    viewType: DEFAULT_CALENDAR_VIEW,
-    header: {
-      left: '',
-      center: 'timeGridDay, timeGridWeek',
-      right: '',
-    },
-  };
+  get calendarApi() {
+    if (!this.calendarRef.current) {
+      return null;
+    }
+
+    return this.calendarRef.current.getApi();
+  }
+
+  get viewType() {
+    if (!this.calendarApi) {
+      // When the calendar has not loaded, the value is mocked to be the
+      // default value, because that's the next expected value.
+      return DEFAULT_CALENDAR_VIEW;
+    }
+
+    return this.calendarApi.view.type;
+  }
 
   componentDidMount() {
     // Scroll calendar to current time when mounted.
-    this.scrollCalendarToCurrentTime();
+    this.handleScrollCalendarToCurrentTime();
 
     // And scroll again after each passing hour.
     this.timer = setInterval(
-      () => this.scrollCalendarToCurrentTime(),
+      () => this.handleScrollCalendarToCurrentTime(),
       ONE_HOUR_IN_MS,
     );
+
+    // Set the button representing the initially activated view as
+    // active.
+    this.handleCustomButtonActiveState(DEFAULT_CALENDAR_VIEW);
   }
 
   componentWillUnmount() {
     clearInterval(this.timer);
   }
 
-  shouldComponentUpdate(prevProps, prevState) {
-    // For some (god forsaken) reason, changes in into the viewType end
-    // up messing the height of the calendar. I tried my best to find
-    // the code causing this, but I did not. I'll retain this check and
-    // hopefully I'll come across the root reason. If you are reading
-    // this, then likely I didn't.
-    if (this.state.viewType !== prevState.viewType) {
-      return false;
-    }
-
-    return true;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { date } = this.props;
-    const { viewType } = this.state;
-
-    const calendarApi = this.calendarRef.current.getApi();
 
     if (date !== prevProps.date) {
-      calendarApi.gotoDate(date);
+      this.calendarApi.gotoDate(date);
     }
-    if (viewType !== prevState.viewType) {
-      calendarApi.changeView(viewType);
-    }
+
+    // Set the button representing the currently activated view as
+    // active.
+    this.handleCustomButtonActiveState(this.viewType);
   }
 
-  onEventRender = info => {
-    const duration = this.getDurationText(info.event);
-
-    if (duration) {
-      const eventDuration = document.createElement('span');
-      eventDuration.textContent = ` (${duration})`;
-      eventDuration.classList.add('app-TimePickerCalendar__maxDuration');
-
-      const timeElement = info.el.querySelector('div.fc-time');
-
-      if (timeElement) {
-        timeElement.append(eventDuration);
-      }
-    }
-  };
-
-  onDatesRender = info => {
-    const { viewType } = this.state;
-    const view = info.view.type;
-
-    if (viewType !== view) {
-      this.props.onViewTypeChange(view);
-      this.setState({ viewType: view });
-    }
-  };
+  setViewType(viewType) {
+    this.calendarApi.changeView(viewType);
+    this.props.onViewTypeChange(viewType);
+    this.handleScrollCalendarToCurrentTime();
+  }
 
   getDurationText = selected => {
     const { resource } = this.props;
@@ -154,18 +132,22 @@ class TimePickerCalendar extends Component {
     const reservations = reservationBeingCreated
       ? [...realReservations, reservationBeingCreated]
       : realReservations;
-    const events = isEmpty(reservations)
-      ? []
-      : reservations.map(reservation => ({
-          classNames: reservation.id
-            ? 'app-TimePickerCalendar__event'
-            : 'app-TimePickerCalendar__event--unconfirmed',
-          editable: false,
-          id: reservation.id,
-          start: moment(reservation.begin).toDate(),
-          end: moment(reservation.end).toDate(),
-          title: reservation.event_subject,
-        }));
+    const events = reservations.map(reservation => {
+      const isUnconfirmedReservation = reservation.id === undefined;
+      const classNames = !isUnconfirmedReservation
+        ? 'app-TimePickerCalendar__event'
+        : 'app-TimePickerCalendar__event--unconfirmed';
+      const title = reservation.event_subject;
+
+      return {
+        classNames,
+        editable: false,
+        id: reservation.id,
+        start: moment(reservation.begin).toDate(),
+        end: moment(reservation.end).toDate(),
+        title,
+      };
+    });
 
     // Check resources reservation rules and disable days if needed.
     const now = moment();
@@ -195,40 +177,124 @@ class TimePickerCalendar extends Component {
     return events;
   };
 
-  getCalendarOptions = () => ({
-    timeZone: TIME_ZONE,
-    height: this.props.height || 'auto',
-    editable: false,
-    eventConstraint: 'businessHours',
-    eventOverlap: false,
-    firstDay: 1,
-    locale: this.props.intl.locale,
-    locales: [enLocale, svLocale, fiLocale],
-    nowIndicator: true,
-    plugins: [timeGridPlugin, momentTimezonePlugin, interactionPlugin],
-    selectable: false,
-    selectOverlap: false,
-    selectConstraint: 'businessHours',
-    selectMirror: true,
-    dragScroll: true,
-    slotLabelFormat: {
-      hour: 'numeric',
-      minute: '2-digit',
-      omitZeroMinute: false,
-      meridiem: 'short',
-    },
-    unselectAuto: false,
-    longPressDelay: 250,
-    eventLongPressDelay: 20,
-    selectLongPressDelay: 200,
-    // Almost invoke click event on mobile immediatelly without any delay
-    defaultView: DEFAULT_CALENDAR_VIEW,
-  });
+  getCalendarOptions = () => {
+    const { intl } = this.props;
+
+    return {
+      allDaySlot: false,
+      timeZone: TIME_ZONE,
+      height: this.props.height || 'auto',
+      editable: false,
+      eventConstraint: 'businessHours',
+      eventOverlap: false,
+      firstDay: 1,
+      locale: this.props.intl.locale,
+      locales: [enLocale, svLocale, fiLocale],
+      nowIndicator: true,
+      plugins: [timeGridPlugin, momentTimezonePlugin, interactionPlugin],
+      selectable: false,
+      selectOverlap: false,
+      selectConstraint: 'businessHours',
+      selectMirror: true,
+      dragScroll: true,
+      slotLabelFormat: {
+        hour: 'numeric',
+        minute: '2-digit',
+        omitZeroMinute: false,
+        meridiem: 'short',
+      },
+      slotDuration: '00:15:00',
+      unselectAuto: false,
+      longPressDelay: 250,
+      eventLongPressDelay: 20,
+      selectLongPressDelay: 200,
+      // Almost invoke click event on mobile immediately without any delay
+      defaultView: DEFAULT_CALENDAR_VIEW,
+      // Declare custom buttons for setting viewType to that we can hook
+      // into the change event. When viewType changes, we send the new
+      // viewType to the parent component. We also render the content of
+      // the component differently based on current view.
+      customButtons: {
+        [CUSTOM_TIME_GRID_DAY_BUTTON]: {
+          text: intl.formatMessage({ id: 'Calendar.dayViewLabel' }),
+          click: () => {
+            this.setViewType(TIME_GRID_DAY);
+          },
+        },
+        [CUSTOM_TIME_GRID_WEEK_BUTTON]: {
+          text: intl.formatMessage({ id: 'Calendar.weekViewLabel' }),
+          click: () => {
+            this.setViewType(TIME_GRID_WEEK);
+          },
+        },
+      },
+      header: {
+        left: '',
+        center: `${CUSTOM_TIME_GRID_DAY_BUTTON}, ${CUSTOM_TIME_GRID_WEEK_BUTTON}`,
+        right: '',
+      },
+    };
+  };
 
   getEvents = () => this.getReservedEvents();
 
-  scrollCalendarToCurrentTime = () => {
-    const calendarApi = this.calendarRef.current.getApi();
+  handleCustomButtonActiveState = viewType => {
+    const activeClass = 'fc-button-active';
+    const dayButtonSelector = `.fc-${CUSTOM_TIME_GRID_DAY_BUTTON}-button`;
+    const weekButtonSelector = `.fc-${CUSTOM_TIME_GRID_WEEK_BUTTON}-button`;
+    const dayButton = document.querySelector(dayButtonSelector);
+    const weekButton = document.querySelector(weekButtonSelector);
+
+    // If either of the buttons hasn't rendered yet, skip this
+    // procedure.
+    if (dayButton === null || weekButton === null) {
+      return;
+    }
+
+    const isDayGrid = viewType === TIME_GRID_DAY;
+    const isWeekGrid = viewType === TIME_GRID_WEEK;
+
+    dayButton.classList.toggle(activeClass, isDayGrid);
+    weekButton.classList.toggle(activeClass, isWeekGrid);
+  };
+
+  handleEventRender = info => {
+    const isBeingCreated = info.event.id === '';
+    const duration = this.getDurationText(info.event);
+    const isDayGrid = this.viewType === TIME_GRID_DAY;
+    const isWeekGrid = this.viewType === TIME_GRID_WEEK;
+
+    // Add duration label
+    if (duration && isDayGrid && isBeingCreated) {
+      const eventDuration = document.createElement('span');
+      eventDuration.textContent = ` (${duration})`;
+      eventDuration.classList.add('app-TimePickerCalendar__maxDuration');
+
+      const timeElement = info.el.querySelector('div.fc-time');
+
+      if (timeElement) {
+        timeElement.append(eventDuration);
+      }
+    }
+
+    // Hide title in week view because it takes too much space.
+    const titleElement = info.el.querySelector('div.fc-title');
+
+    if (titleElement) {
+      titleElement.classList.toggle('hidden', isWeekGrid);
+    }
+  };
+
+  // https://fullcalendar.io/docs/viewSkeletonRender
+  handleViewSkeletonRender = info => {
+    const viewType = info.view.type;
+
+    // Correctly set active class for the custom day and time grid
+    // buttons.
+    this.handleCustomButtonActiveState(viewType);
+  };
+
+  handleScrollCalendarToCurrentTime = () => {
     const now = new Date().getTime();
     const startOfToday = new Date(now).setHours(0, 0, 0, 0);
     // Find the amount of time that has passed today, and take away two
@@ -236,29 +302,31 @@ class TimePickerCalendar extends Component {
     // leaving revealing a bit of the past as well.
     const twoHoursAgo = now - startOfToday - 2 * ONE_HOUR_IN_MS;
 
-    calendarApi.scrollToTime(twoHoursAgo);
+    this.calendarApi.scrollToTime(twoHoursAgo);
   };
 
   render() {
     const { date, resource } = this.props;
-    const { viewType, header } = this.state;
+    const calendarOptions = this.getCalendarOptions();
+    const businessHours = getFullCalendarBusinessHours(resource, date);
+    const events = this.getEvents();
+    const maxTime = getFullCalendarMaxTime(resource, date, this.viewType);
+    const minTime = getFullCalendarMinTime(resource, date, this.viewType);
+    const slotLabelInterval = getFullCalendarSlotLabelInterval(resource);
 
     return (
       <CalendarStyleOverrides>
         <FullCalendar
-          {...this.getCalendarOptions()}
-          allDaySlot={false}
-          businessHours={getFullCalendarBusinessHours(resource, date)}
-          datesRender={this.onDatesRender}
+          {...calendarOptions}
+          businessHours={businessHours}
           defaultDate={date}
-          events={this.getEvents()}
-          header={header}
-          maxTime={getFullCalendarMaxTime(resource, date, viewType)}
-          minTime={getFullCalendarMinTime(resource, date, viewType)}
-          eventRender={this.onEventRender}
+          eventRender={this.handleEventRender}
+          events={events}
+          maxTime={maxTime}
+          minTime={minTime}
           ref={this.calendarRef}
-          slotDuration="00:15:00"
-          slotLabelInterval={getFullCalendarSlotLabelInterval(resource)}
+          slotLabelInterval={slotLabelInterval}
+          viewSkeletonRender={this.handleViewSkeletonRender}
         />
         <CalendarLegend />
       </CalendarStyleOverrides>
