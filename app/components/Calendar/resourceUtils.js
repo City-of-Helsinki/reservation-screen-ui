@@ -115,9 +115,17 @@ export const getFullCalendarMinTime = (resource, date, viewType) => {
     }
 
     const incumbentTimeSinceStartOfDay =
-      incumbent.getTime() - incumbent.startOf('day').getTime();
+      incumbent.valueOf() -
+      incumbent
+        .clone()
+        .startOf('day')
+        .valueOf();
     const openTimeSinceStartOfDay =
-      opens.getTime() - opens.startOf('day').getTime();
+      opens.valueOf() -
+      opens
+        .clone()
+        .startOf('day')
+        .valueOf();
 
     if (openTimeSinceStartOfDay < incumbentTimeSinceStartOfDay) {
       return opens;
@@ -170,11 +178,19 @@ export const getFullCalendarMaxTime = (resource, date, viewType) => {
     }
 
     const incumbentTimeSinceStartOfDay =
-      incumbent.getTime() - incumbent.startOf('day').getTime();
-    const openTimeSinceStartOfDay =
-      closes.getTime() - closes.startOf('day').getTime();
+      incumbent.valueOf() -
+      incumbent
+        .clone()
+        .startOf('day')
+        .valueOf();
+    const closeTimeSinceStartOfDay =
+      closes.valueOf() -
+      closes
+        .clone()
+        .startOf('day')
+        .valueOf();
 
-    if (openTimeSinceStartOfDay > incumbentTimeSinceStartOfDay) {
+    if (closeTimeSinceStartOfDay > incumbentTimeSinceStartOfDay) {
       return closes;
     }
 
