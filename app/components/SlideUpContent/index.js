@@ -1,21 +1,24 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import messages from './messages';
 import Wrapper from './Wrapper';
-import ButtonBase from 'components/BasicButton';
-import styled from 'styled-components';
-import P from 'components/P';
-import Chevron from 'components/Chevron';
 
-const ShowMoreButton = styled(ButtonBase)`
-  background: transparent;
+const ShowMoreButton = styled.button`
+  padding: 0;
+  margin: 20px auto 40px;
+
+  font-family: inherit;
   white-space: nowrap;
-  font-size: 18px;
-  margin: 20px auto;
+  font-size: ${props => props.theme.fontSize[4]};
+  text-decoration: underline;
+
+  background: transparent;
 `;
 
 const Div = styled.div`
-  font-size: 18px;
+  font-size: ${props => props.theme.fontSize[3]};
   line-height: 24px;
 
   p:empty {
@@ -23,37 +26,31 @@ const Div = styled.div`
   }
 `;
 
-class SlideUpContent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const SlideUpContent = ({ visible, content, onButtonClick }) => {
+  const cssClass = visible ? 'slide-up' : 'slide-down';
 
-  render() {
-    const cssClass = this.props.visible ? 'slide-up' : 'slide-down';
+  return (
+    <Wrapper className={cssClass}>
+      <Div className={cssClass} dangerouslySetInnerHTML={{ __html: content }} />
+      <ShowMoreButton onClick={onButtonClick}>
+        {!visible ? (
+          <span>
+            <FormattedMessage {...messages.showMore} />
+          </span>
+        ) : (
+          <span>
+            <FormattedMessage {...messages.hideMore} />
+          </span>
+        )}
+      </ShowMoreButton>
+    </Wrapper>
+  );
+};
 
-    return (
-      <Wrapper className={cssClass}>
-        <ShowMoreButton onClick={this.props.onButtonClick}>
-          {!this.props.visible ? (
-            <span>
-              <FormattedMessage {...messages.showMore} />
-              <Chevron className="up" />
-            </span>
-          ) : (
-            <span>
-              <FormattedMessage {...messages.hideMore} />
-              <Chevron className="down" />
-            </span>
-          )}
-        </ShowMoreButton>
-
-        <Div
-          className={cssClass}
-          dangerouslySetInnerHTML={{ __html: this.props.content }}
-        />
-      </Wrapper>
-    );
-  }
-}
+SlideUpContent.propTypes = {
+  visible: PropTypes.bool,
+  content: PropTypes.any,
+  onButtonClick: PropTypes.func.isRequired,
+};
 
 export default SlideUpContent;

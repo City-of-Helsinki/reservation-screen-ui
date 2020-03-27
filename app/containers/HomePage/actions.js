@@ -65,9 +65,10 @@ export function resourceLoadingError(error) {
   };
 }
 
-export function makeReservation() {
+export function makeReservation(reservation) {
   return {
     type: MAKE_RESERVATION,
+    reservation,
   };
 }
 
@@ -79,6 +80,7 @@ export function makeReservationCompleted(reservation) {
 }
 
 export function makeReservationError(error) {
+  // eslint-disable-next-line no-console
   console.log(error);
   return {
     type: MAKE_RESERVATION_ERROR,

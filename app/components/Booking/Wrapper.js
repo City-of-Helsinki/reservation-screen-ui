@@ -1,11 +1,10 @@
-// LAYOUTS BOOKIND WRAPPER
+// LAYOUTS BOOKING WRAPPER
 
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-	display: flex;
-	align-items: stretch;
-	width: 100%;
+  display: flex;
+  width: 100%;
 `;
 
 export default Wrapper;

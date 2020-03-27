@@ -1,40 +1,32 @@
-/**
- *
- * Clock.js
- *
- * A clock.
- */
-
 import React from 'react';
-import PropTypes from 'prop-types';
-import Wrapper from './Wrapper';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { toggleDisplayClass } from 'utils/toggleDisplayClass';
+import Wrapper from './Wrapper';
 
 const Span = styled.span`
   font-size: 4vw;
 `;
 
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const Clock = ({ date, className }) => {
+  const hours = date.getHours();
+  const mins = date.getMinutes();
 
-  render() {
-    let hours = this.props.date.getHours();
-    let mins = this.props.date.getMinutes();
+  return (
+    <Wrapper className={toggleDisplayClass(className)}>
+      <Span>
+        {hours < 10 ? '0' : ''}
+        {hours}:
+        {mins < 10 ? '0' : ''}
+        {mins}
+      </Span>
+    </Wrapper>
+  );
+};
 
-    return (
-      <Wrapper className={toggleDisplayClass(this.props.className)}>
-        <Span>
-          {hours < 10 ? '0' : ''}
-          {hours}:
-          {mins < 10 ? '0' : ''}
-          {mins}
-        </Span>
-      </Wrapper>
-    );
-  }
-}
+Clock.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
+  className: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+};
 
 export default Clock;

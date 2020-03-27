@@ -1,19 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FormattedMessage, defineMessages } from 'react-intl';
 
 const Wrapper = styled.div`
   display: block;
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SceneSetup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      disabled: false,
-    };
-  }
-
   render() {
     return (
       <Wrapper>

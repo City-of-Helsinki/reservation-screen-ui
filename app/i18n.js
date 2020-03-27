@@ -7,19 +7,19 @@
  *   script `extract-intl`, and must use CommonJS module syntax
  *   You CANNOT use import/export in this file.
  */
-const addLocaleData = require('react-intl').addLocaleData; //eslint-disable-line
+require('@formatjs/intl-pluralrules/polyfill');
+require('@formatjs/intl-pluralrules/dist/locale-data/en');
+require('@formatjs/intl-pluralrules/dist/locale-data/fi');
+require('@formatjs/intl-pluralrules/dist/locale-data/sv');
 
-const enLocaleData = require('react-intl/locale-data/en');
-const fiLocaleData = require('react-intl/locale-data/fi');
-const svLocaleData = require('react-intl/locale-data/sv');
+require('@formatjs/intl-relativetimeformat/polyfill');
+require('@formatjs/intl-relativetimeformat/dist/locale-data/en');
+require('@formatjs/intl-relativetimeformat/dist/locale-data/fi');
+require('@formatjs/intl-relativetimeformat/dist/locale-data/sv');
 
 const enTranslationMessages = require('./translations/en.json');
 const fiTranslationMessages = require('./translations/fi.json');
 const svTranslationMessages = require('./translations/sv.json');
-
-addLocaleData(enLocaleData);
-addLocaleData(fiLocaleData);
-addLocaleData(svLocaleData);
 
 const DEFAULT_LOCALE = 'fi';
 
@@ -27,7 +27,7 @@ const DEFAULT_LOCALE = 'fi';
 const appLocales = [
   'fi',
   'en',
-  'sv'
+  'sv',
 ];
 
 const formatTranslationMessages = (locale, messages) => {

@@ -1,20 +1,17 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   position: relative;
   display: flex;
-  align-items: center;
-  justify-items: center;
+  flex-direction: column;
   width: 50%;
-  background-color: ${props => props.theme.secondaryColor};
   padding: 5%;
-  background-image: url(${props => props.theme.bgImage});
-  background-repeat: repeat-y;
-  background-size: auto 100%;
-  background-position: 0 0;
+  background-color: ${props => props.theme.primaryColor};
+
+  &.hide-on-toggle,
+  .hide-on-toggle {
+    display: none;
+  }
 `;
 
-export const Div = styled.div`
-  width: 100%;
-  text-align: center;
-`;
+export default Wrapper;

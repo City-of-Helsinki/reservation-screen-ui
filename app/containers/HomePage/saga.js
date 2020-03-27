@@ -1,8 +1,8 @@
 import dateFormat from 'dateformat';
 import request from 'utils/request';
-import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
+import moment from 'moment';
 import { LOAD_RESERVATIONS, MAKE_RESERVATION } from './constants';
-import { makeSelectResourceId, makeSelectSelectedSlot } from './selectors';
 import {
   changeScene,
   setupRequired,
@@ -12,6 +12,20 @@ import {
   makeReservationCompleted,
   makeReservationError,
 } from './actions';
+
+function getCurrentWeekStartEnd() {
+  const now = moment();
+  const start = now
+    .clone()
+    .startOf('isoWeek')
+    .toDate();
+  const end = now
+    .clone()
+    .endOf('isoWeek')
+    .toDate();
+
+  return [start, end];
+}
 
 // TODO: Currently url request parameters are read in this saga. This is not a good practice.
 // Get parameter handling should be done before entering the app.
@@ -47,12 +61,15 @@ export function* getReservations() {
 
   // Start
   // ?start=2018-09-17T08%3A00%3A00%2B03%3A00&end=2018-09-17T20%3A00%3A00%2B03%3A00
-  let start = new Date();
-  let startTimeStr = encodeURIComponent(
+  // The calendar where we show events has a day and a week view.
+  // Because the difference in the request is negligible, we just always
+  // request all the events for the current week.
+  const [start, end] = getCurrentWeekStartEnd();
+  const startTimeStr = encodeURIComponent(
     `${dateFormat(start, 'yyyy-mm-dd')}T00:00:00Z`,
   );
-  let endTimeStr = encodeURIComponent(
-    `${dateFormat(start, 'yyyy-mm-dd')}T23:59:59Z`,
+  const endTimeStr = encodeURIComponent(
+    `${dateFormat(end, 'yyyy-mm-dd')}T23:59:59Z`,
   );
 
   if (!resourceId || !token) {
@@ -63,12 +80,10 @@ export function* getReservations() {
   // If id has "json" in it's name, use local file.
   if (resourceId.match(/\.json/)) {
     requestURL = `/api/${resourceId}`;
+  } else if (staging) {
+    requestURL = `https://respa.koe.hel.ninja/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
   } else {
-    if (staging) {
-      requestURL = `https://api.hel.fi/respa-test/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    } else {
-      requestURL = `https://api.hel.fi/respa/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
-    }
+    requestURL = `https://api.hel.fi/respa/v1/resource/${resourceId}/?start=${startTimeStr}&end=${endTimeStr}`;
   }
 
   try {
@@ -85,10 +100,13 @@ export function* getReservations() {
   }
 }
 
-export function* makeReservation() {
-  // Get resource id and selected slot.
-  const resourceId = yield select(makeSelectResourceId());
-  const currentSlot = yield select(makeSelectSelectedSlot());
+// eslint-disable-next-line consistent-return
+export function* makeReservation(action) {
+  const { reservation } = action;
+
+  if (!reservation) {
+    return false;
+  }
 
   let requestURL = '';
   let staging = false;
@@ -109,58 +127,30 @@ export function* makeReservation() {
   }
 
   if (staging) {
-    requestURL = 'https://api.hel.fi/respa-test/v1/reservation/';
+    requestURL = 'https://respa.koe.hel.ninja/v1/reservation/';
   } else {
     requestURL = 'https://api.hel.fi/respa/v1/reservation/';
-  }
-
-  // Expect date objects.
-  if (
-    typeof currentSlot.begin !== 'object' ||
-    typeof currentSlot.end !== 'object'
-  ) {
-    return false;
   }
 
   // Show loading screen.
   yield put(changeScene('Loading'));
 
-  // Data to send.
-  const data = {
-    begin: `${dateFormat(currentSlot.begin, 'yyyy-mm-dd')}T${dateFormat(
-      currentSlot.begin,
-      'HH:MM:ss.000o',
-    )}`,
-    end: `${dateFormat(currentSlot.end, 'yyyy-mm-dd')}T${dateFormat(
-      currentSlot.end,
-      'HH:MM:ss.000o',
-    )}`,
-    resource: resourceId,
-    event_subject: 'Varattu',
-    event_description: 'Varattu',
-    reserver_address_city: 'Helsinki',
-    reserver_address_zip: '00100',
-    reserver_address_street: 'Helsinki',
-    reserver_email_address: 'info@oodihelsinki.fi',
-    reserver_phone_number: '123456789',
-    reserver_name: 'Anonymous reserver',
-    reserver_id: 'anonymous',
-  };
-
   // Do request.
   try {
-    const reservation = yield call(request, requestURL, {
+    const createdReservation = yield call(request, requestURL, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
         authorization: `Token ${token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(reservation.toJS()),
     });
-    yield put(makeReservationCompleted(reservation));
+    yield put(makeReservationCompleted(createdReservation));
     yield put(loadReservations());
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.log(err);
+    // eslint-disable-next-line no-console
     console.log(err.message);
     yield put(makeReservationError(err));
   }

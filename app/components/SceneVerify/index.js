@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import HelperLink from 'components/HelperLink';
 import { FormattedMessage, defineMessages } from 'react-intl';
@@ -20,13 +21,13 @@ const messages = defineMessages({
 function SceneVerify(props) {
   return (
     <Wrapper>
-      <Timer className={'timer--hidden'} onTimesUp={props.onTimesUp} />
+      <Timer className="timer--hidden" onTimesUp={props.onTimesUp} />
       <Icon verified />
       <H3>
         <FormattedMessage {...messages.title} />
       </H3>
       <HelperLink
-        className={'helperlink--btn'}
+        className="helperlink--btn"
         onHelperLinkClick={props.onButtonClick}
       >
         <FormattedMessage {...messages.ready} />

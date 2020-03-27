@@ -1,33 +1,30 @@
 import { css } from 'styled-components';
-import { ThemeProvider } from 'styled-components';
 
-const color = 'black';
+const color = 'white';
 
 const buttonStyles = css`
   display: inline-block;
   box-sizing: border-box;
-  padding: 0 2em;
+  padding: 16px 35px;
   text-decoration: none;
-  border-radius: 4px;
   -webkit-font-smoothing: antialiased;
   -webkit-touch-callout: none;
   user-select: none;
   cursor: pointer;
   outline: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  border: 2px solid black;
-  border-radius: 25%;
 
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 500;
   color: ${color};
-  line-height: 3rem;
-  border-radius: 1.5rem;
-  background: white;
+  line-height: 1;
+
+  background: black;
 
   &:active,
   &.active {
-    background: black;
-    color: white;
+    background: white;
+    color: black;
   }
 `;
 

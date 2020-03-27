@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /*
  *
  * LanguageToggle
@@ -16,25 +17,19 @@ import { appLocales } from '../../i18n';
 import { changeLocale } from '../LanguageProvider/actions';
 import { makeSelectLocale } from '../LanguageProvider/selectors';
 
-export class LocaleToggle extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-
-  render() {
-    return (
-      <Wrapper>
-        <Toggle
-          value={this.props.locale} // default lang
-          values={appLocales} // fi en se
-          messages={messages} //
-          onLangClick={this.props.onLocaleClick}
-        />
-      </Wrapper>
-    );
-  }
-}
+export const LocaleToggle = ({ locale, onLocaleClick }) => (
+  <Wrapper>
+    <Toggle
+      value={locale} // default lang
+      values={appLocales} // fi en se
+      messages={messages} //
+      onLangClick={onLocaleClick}
+    />
+  </Wrapper>
+);
 
 LocaleToggle.propTypes = {
-  onLocaleToggle: PropTypes.func,
+  onLocaleClick: PropTypes.func,
   locale: PropTypes.string,
 };
 

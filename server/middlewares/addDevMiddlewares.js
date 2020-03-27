@@ -31,7 +31,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
   // Use real filesystem instead of virtual.
   app.get('/api/*', (req, res) => {
     const filename = req.path.replace(/.*\//, '');
-    realFs.readFile('server/api/' + filename, (err, file) => {
+    realFs.readFile(`server/api/${filename}`, (err, file) => {
       if (err) {
         res.sendStatus(404);
       } else {

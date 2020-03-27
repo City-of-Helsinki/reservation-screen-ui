@@ -3,230 +3,23 @@
  */
 
 import { createSelector } from 'reselect';
+import dateFormat from 'dateformat';
 import { initialState } from './reducer';
-import { fromJS } from 'immutable';
+
+function getOpeningHoursForDay(resource, day) {
+  return resource.get('opening_hours').find(openingHour => {
+    const date = dateFormat(new Date(day), 'yyyy-mm-dd');
+    const openingHourDate = dateFormat(
+      new Date(openingHour.get('date')),
+      'yyyy-mm-dd',
+    );
+
+    return date === openingHourDate;
+  });
+}
 
 // Home state from store.
 const selectHome = state => state.get('home', initialState);
-
-/**
- * Select list of free slots.
- */
-// const makeFreeSlots = () =>
-//  createSelector(selectHome, state => state.get('reservations'));
-
-/**
- * Select all upcoming reservations.
- */
-const makeUpcomingReservations = amount =>
-  createSelector(selectHome, state => {
-    // Start by getting resource from store.
-    const resource = state.get('resource');
-    const date = state.get('date');
-
-    // Continue only if resource exists and has reservations.
-    if (
-      resource &&
-      resource.has('reservations') &&
-      resource.get('reservations')
-    ) {
-      // Get list of upcoming reservations.
-      const futureReservations = resource
-        .get('reservations')
-        .filter(
-          reservation =>
-            new Date(reservation.get('end')).getTime() > date.getTime(),
-        );
-
-      // Slice the amount we wanted.
-      return futureReservations.slice(0, amount);
-    }
-    return fromJS([]);
-  });
-
-/**
- * Find time until resource is occupied again.
- */
-const makeSelectAvailableUntil = () =>
-  createSelector(selectHome, state => {
-    // Get resource.
-    const resource = state.get('resource');
-
-    if (!resource) {
-      return false;
-    }
-
-    // Get current time.
-    const currentTime = state.get('date');
-
-    // Continue if we have reservations.
-    if (
-      resource.has('reservations') &&
-      resource.get('reservations') &&
-      resource.get('reservations').size > 0
-    ) {
-      // Just a shortcut here...
-      const reservations = resource.get('reservations');
-
-      // Find current reservation.
-      const currentReservation = reservations.find(
-        reservation =>
-          new Date(reservation.get('begin')).getTime() <=
-            currentTime.getTime() &&
-          new Date(reservation.get('end')).getTime() >= currentTime.getTime(),
-      );
-
-      // Resource is not free at the moment!
-      // Impossible to say "how long the resource is still available."
-      if (currentReservation) {
-        return false;
-      }
-
-      // Find next reservation.
-      const nextReservation = reservations.find(
-        reservation =>
-          new Date(reservation.get('begin')).getTime() > currentTime.getTime(),
-      );
-
-      // Resource is available until the next reservation starts.
-      if (nextReservation) {
-        return new Date(nextReservation.get('begin'));
-      }
-    }
-    // No resevations at all. Next resource is available until closing time.
-    else {
-      // Get opening times.
-      const closes = resource.getIn(['opening_hours', 0, 'closes']);
-
-      // Space is available until closing time.
-      if (closes) {
-        return new Date(closes);
-      }
-      // Closing time not available. Default to 22.00.
-      else {
-        const newCloses = new Date();
-        newCloses.setHours(22);
-        newCloses.setMinutes(0);
-        newCloses.setSeconds(0);
-        return newCloses;
-      }
-    }
-
-    return false;
-  });
-
-/**
- * Find time when the resource is available next.
- */
-const makeSelectNextAvailableTime = () =>
-  createSelector(selectHome, state => {
-    // Get resource.
-    const resource = state.get('resource');
-
-    if (!resource) {
-      return false;
-    }
-
-    // Get opening times.
-    const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
-    const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
-
-    // Get current time.
-    const currentTime = state.get('date');
-
-    // List of free slots for the day.
-    const freeSlots = [];
-
-    // Continue if we have reservations.
-    if (
-      resource.has('reservations') &&
-      resource.get('reservations') &&
-      resource.get('reservations').size > 0
-    ) {
-      // Just a shortcut here...
-      const reservations = resource.get('reservations');
-
-      // First test if resource is free on opening time. If free, add to list.
-      if (opens != reservations.getIn([0, 'begin'])) {
-        freeSlots.push(new Date(opens));
-      }
-
-      // If space is free, add current time to list
-      const currentReservation = reservations.find(
-        reservation =>
-          new Date(reservation.get('begin')).getTime() <=
-            currentTime.getTime() &&
-          new Date(reservation.get('end')).getTime() >= currentTime.getTime(),
-      );
-      if (!currentReservation) {
-        freeSlots.push(currentTime);
-      }
-
-      // Loop through all reservations. Compare reservation's end time
-      // to next reservation's start time. If times differs there's
-      // a free slot!
-      for (let i = 0; i < reservations.size; i++) {
-        // Shortcuts.
-        const reservation = reservations.get(i);
-        const nextReservation =
-          i + 1 < reservations.size ? reservations.get(i + 1) : false;
-
-        // There is free time after current reservation, if:
-        //
-        // 1. There is no next reservation
-        // 2. The next reservation doesn't start immediately.
-        if (
-          !nextReservation ||
-          reservation.get('end') != nextReservation.get('begin')
-        ) {
-          freeSlots.push(new Date(reservation.get('end')));
-        }
-      }
-    }
-    // No reservations so next available time is when the resource is open.
-    else {
-      // If resource is still closed, next available time is when resource opens.
-      if (currentTime < opens.getTime()) {
-        freeSlots.push(new Date(opens));
-      }
-      // Otherwise next available time is immediately.
-      else {
-        freeSlots.push(currentTime);
-      }
-    }
-
-    // Find next free slot. Should be in the future before closing time.
-    const nextAvailableTime = freeSlots.find(
-      freeSlot =>
-        freeSlot.getTime() >= currentTime &&
-        freeSlot.getTime() < closes.getTime(),
-    );
-
-    return nextAvailableTime || false;
-  });
-
-/**
- * Select resource name.
- */
-const makeSelectResourceName = () =>
-  createSelector(selectHome, state => state.getIn(['resource', 'name', 'fi']));
-
-const makeSelectResourceId = () =>
-  createSelector(selectHome, state => state.getIn(['resource', 'id']));
-
-/**
- *Select resource description
- */
-const makeSelectResourceDescription = () =>
-  createSelector(selectHome, state => {
-    let description = state.getIn(['resource', 'description', 'fi']);
-    if (description) {
-      description = description.replace(/\n/, '<br /><br />');
-      return description;
-    } else {
-      return '';
-    }
-  });
 
 /**
  * Return true is the space is open right now.
@@ -257,87 +50,221 @@ const makeSelectIsResourceAvailable = () =>
     return true;
   });
 
+function getSlotSizeInTime(time) {
+  if (!time) {
+    return null;
+  }
+
+  const [hours, minutes] = time.split(':');
+  const startDateTime = new Date(2000, 0, 1, 0, 0, 0, 0);
+  const endDateTime = new Date(2000, 0, 1, hours, minutes, 0, 0);
+  const timeDifference = endDateTime.getTime() - startDateTime.getTime();
+
+  return timeDifference;
+}
+
+function slotOverlapsWithReservations(slot, reservations) {
+  const slotBegin = slot.begin.getTime();
+  const slotEnd = slot.end.getTime();
+
+  return reservations.reduce((acc, reservation) => {
+    const reservationBegin = new Date(reservation.get('begin')).getTime();
+    const reservationEnd = new Date(reservation.get('end')).getTime();
+
+    const isAfter = slotBegin >= reservationEnd && slotEnd >= reservationEnd;
+    const isBefore =
+      slotEnd <= reservationBegin && slotBegin <= reservationBegin;
+    const overlaps = !(isAfter || isBefore);
+
+    return acc || overlaps;
+  }, false);
+}
+
 /**
- * Get list of free slots. I'm not proud of this implementation. If someone has better ideas feel free to fix :)
+ * Get list of free slots.
  */
-const makeSelectFreeSlots = amount =>
+const makeSelectSlots = () =>
   createSelector(selectHome, state => {
     // Get variables from state.
     const resource = state.get('resource');
-    const minPeriod = state.getIn(['resource', 'min_period']);
-    let begin = state.get('date');
-    let freeSlots = [];
-    const minPeriodTimestamp = `1970-01-01T${minPeriod}Z`;
-    const minPeriodMilliseconds = new Date(minPeriodTimestamp); //.getTime();
+    const slotSize = state.getIn(['resource', 'slot_size']);
+    const date = state.get('date');
 
-    // Begin always on even minute.
-    begin.setSeconds(0);
-    begin.setMilliseconds(0);
-
-    // Calculate new begin time. Slot begins always at previous even hours or
-    // half hours. So if the time is 15:15 fixed begin time is 15:00.
-    // If time is 15:35 fixed time is 15:30.
-    let fixedBeginTime = new Date(begin);
-    fixedBeginTime.setSeconds(0);
-    fixedBeginTime.setMilliseconds(0);
-    if (fixedBeginTime.getMinutes() >= 30) {
-      fixedBeginTime.setMinutes(30);
-    } else {
-      fixedBeginTime.setMinutes(0);
-    }
+    const now = new Date(date);
+    // Ignore current seconds and milliseconds.
+    now.setSeconds(0, 0);
 
     if (resource) {
-      const opens = new Date(resource.getIn(['opening_hours', 0, 'opens']));
-      const closes = new Date(resource.getIn(['opening_hours', 0, 'closes']));
+      // Transform timestamp (HH:MM:SS...) into milliseconds
+      const slotSizeInTime = getSlotSizeInTime(slotSize);
 
-      // Begin from opening time.
-      if (begin.getTime() < opens.getTime()) {
-        begin = opens;
-        fixedBeginTime = opens;
-      }
+      const nowTime = now.getTime();
+      const startOfNowDayTime = new Date(nowTime).setHours(0, 0, 0, 0); // setHours returns unix time
+      // The remainder represents the amount of time that is left over
+      // when nowTime is fitted into slots. NowTime is the amount of
+      // milliseconds relative to the seventies, so we are shifting
+      // that to only take the day in question into account in order to
+      // avoid big numbers. Do the toFixed hack to avoid dealing with
+      // floats.
+      const remainder = Number(
+        ((nowTime - startOfNowDayTime) % slotSizeInTime).toFixed(0),
+      );
+      // Go to current slot's beginning by ignoring left over time.
+      const currentSlotStartTime = new Date(nowTime - remainder);
 
-      // Shortcut.
-      const reservations = resource.get('reservations');
+      const defaultOpeningTime = new Date(new Date(now).setHours(0, 0, 0, 0));
+      const defaultClosingTime = new Date(
+        new Date(now).setHours(23, 59, 59, 59),
+      );
+      const openingHours = getOpeningHoursForDay(resource, now);
+      // Opening ang closing hours are date time stamps.
+      const opens = new Date(openingHours.get('opens', defaultOpeningTime));
+      const closes = new Date(openingHours.get('closes', defaultClosingTime));
 
-      // Check if current time is free.
-      const currentReservations = reservations.filter(
-        reservation =>
-          new Date(reservation.get('begin')).getTime() < begin.getTime() &&
-          new Date(reservation.get('end')).getTime() > begin.getTime(),
+      const currentSlotIsBeforeOpeningTime =
+        currentSlotStartTime.getTime() < opens.getTime();
+      // If current slot begins before opening time, use opening time
+      // instead.
+      const slotsStartTime = currentSlotIsBeforeOpeningTime
+        ? opens
+        : currentSlotStartTime;
+      const slotsEndTime = closes;
+
+      // Build all the possible slots for today. This is done by finding
+      // the difference between slotsEndTime and slotsStartTime and then
+      // finding out how many slots can be fitted into it. The yielded
+      // slot count is used for creating all current and upcoming slots
+      // for today.
+      const slotCount =
+        (slotsEndTime.getTime() - slotsStartTime.getTime()) / slotSizeInTime;
+      const allUpcomingSlotsForToday = Array.from(
+        { length: slotCount },
+        (_, i) => {
+          const slotBegin = new Date(
+            slotsStartTime.getTime() + i * slotSizeInTime,
+          );
+          const slotEnd = new Date(slotBegin.getTime() + slotSizeInTime);
+
+          return { begin: slotBegin, end: slotEnd };
+        },
       );
 
-      // Current time is not free. Cannot make new reservations.
-      if (currentReservations.size > 0) {
-        return [];
-      }
+      return allUpcomingSlotsForToday;
+    }
 
-      // Iterate upcoming four hours and add slots to list if duration exceeds min time limit.
-      for (let minute = 1; minute < 4 * 60; minute++) {
-        // Create end time.
-        const end = new Date(begin.getTime() + minute * 60 * 1000);
+    return [];
+  });
 
-        // Check if the time is free.
-        const currentReservations = reservations.filter(
-          reservation =>
-            new Date(reservation.get('begin')).getTime() < end.getTime() &&
-            new Date(reservation.get('end')).getTime() > end.getTime(),
+/**
+ * Get list of free slots.
+ */
+const makeSelectFreeSlots = amount =>
+  createSelector(
+    selectHome,
+    makeSelectSlots(),
+    (state, allUpcomingSlotsForToday) => {
+      const resource = state.get('resource');
+
+      if (resource) {
+        const reservations = resource.get('reservations');
+
+        // Filter slots that overlap with a reservation because they are
+        // not free.
+        const freeSlotsForToday = allUpcomingSlotsForToday.filter(
+          slot => !slotOverlapsWithReservations(slot, reservations),
         );
 
-        // Given end time is not available anymore. Quit.
-        if (currentReservations.size > 0) {
-          break;
+        return freeSlotsForToday.slice(0, amount);
+      }
+
+      return [];
+    },
+  );
+
+function getFallbackClosingTime(allSlots, closes) {
+  const lastSlot = allSlots[allSlots.length - 1];
+
+  // As a last resort use closing time.
+  if (!lastSlot) {
+    return closes;
+  }
+
+  return lastSlot.end;
+}
+
+/**
+ * Find time until resource is occupied again.
+ */
+const makeSelectAvailableUntil = () =>
+  createSelector(
+    selectHome,
+    makeSelectSlots(),
+    (state, allUpcomingSlotsForToday) => {
+      const now = new Date(state.get('date'));
+      const resource = state.get('resource');
+
+      if (!resource) {
+        return false;
+      }
+
+      const openingHours = getOpeningHoursForDay(resource, now);
+      const closes = new Date(openingHours.get('closes'));
+
+      // If current time is past closing time, return false because the
+      // resource can't be booked anymore.
+      if (closes.getTime() < now.getTime()) {
+        return false;
+      }
+
+      const fallbackTime = getFallbackClosingTime(
+        allUpcomingSlotsForToday,
+        openingHours,
+      );
+      const reservations = resource.get('reservations');
+
+      if (reservations && reservations.size > 0) {
+        const reservedSlots = allUpcomingSlotsForToday.filter(slot =>
+          slotOverlapsWithReservations(slot, reservations),
+        );
+
+        const [nextReservedSlot] = reservedSlots;
+
+        // If there is no next reservation, the resource is open until
+        // fallbackTime.
+        if (!nextReservedSlot) {
+          return fallbackTime;
         }
 
-        // If current time is even minute and slot duration is long enough, add to list.
-        if (
-          (end.getMinutes() == 0 || end.getMinutes() == 30) &&
-          end.getTime() - fixedBeginTime.getTime() >= minPeriodMilliseconds
-        ) {
-          freeSlots.push({ begin: fixedBeginTime, end: end });
+        // If the slot has already started, the resource is not
+        // currently available, so it can't be "available until a time".
+        if (nextReservedSlot.begin.getTime() <= now.getTime()) {
+          return false;
         }
+
+        return nextReservedSlot.begin;
       }
+
+      // If there are no reservations, the resource is open until the
+      // last slot or closing time.
+      if (!reservations || reservations.size === 0) {
+        return fallbackTime;
+      }
+
+      // If we could not find a next available time, just return false.
+      return false;
+    },
+  );
+
+/**
+ * Find time when the resource is available next.
+ */
+const makeSelectNextAvailableTime = () =>
+  createSelector(makeSelectFreeSlots(1), ([slot]) => {
+    if (!slot) {
+      return false;
     }
-    return freeSlots.slice(0, amount);
+
+    return new Date(slot.begin);
   });
 
 const makeSelectScene = () =>
@@ -355,12 +282,12 @@ const makeSelectIsDescriptionOpen = () =>
 const makeSelectErrorMessage = () =>
   createSelector(selectHome, homeState => homeState.get('errorMessage'));
 
+const makeSelectResource = () =>
+  createSelector(selectHome, state => state.get('resource', undefined));
+
 export {
   selectHome,
-  makeUpcomingReservations,
-  makeSelectResourceId,
-  makeSelectResourceName,
-  makeSelectResourceDescription,
+  makeSelectResource,
   makeSelectIsResourceAvailable,
   makeSelectDate,
   makeSelectScene,

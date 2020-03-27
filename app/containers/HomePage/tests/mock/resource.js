@@ -204,4 +204,5 @@ export default {
   created_by: 12822,
   modified_by: 24829,
   location: null,
+  slot_size: '00:30:00',
 };

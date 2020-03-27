@@ -5,7 +5,8 @@
 import styled from 'styled-components';
 
 const P = styled.p`
-	color: #111;
+  font-size: ${props => props.theme.fontSize[4]};
+  color: #111;
 `;
 
 export default P;

@@ -68,7 +68,7 @@ If you don't want to install node you can run it inside Docker:
 
 ## Requirements
 
-- Node 8
+- Node 12
 
 ## Technology stack
 
