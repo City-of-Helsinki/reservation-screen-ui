@@ -104,7 +104,7 @@ export const getFullCalendarMinTime = (resource, date, viewType) => {
   }
 
   const earliestOpeningTime = openingHours.reduce((incumbent, item) => {
-    if (item === null) {
+    if (item === null || item.opens === null) {
       return incumbent;
     }
 
@@ -167,7 +167,7 @@ export const getFullCalendarMaxTime = (resource, date, viewType) => {
   }
 
   const latestClosingTime = openingHours.reduce((incumbent, item) => {
-    if (item === null) {
+    if (item === null || item.closes === null) {
       return incumbent;
     }
 

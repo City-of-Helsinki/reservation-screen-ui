@@ -1,16 +1,15 @@
 {
-  "name": "react-boilerplate",
-  "version": "3.6.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "name": "reservation-screen-ui",
+  "version": "0.1.0",
+  "description": "On-screen reservation client built for Helsingin Kaupunki",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": "https://github.com/City-of-Helsinki/reservation-screen-ui.git"
   },
   "engines": {
     "npm": ">=5",
     "node": ">=12"
   },
-  "author": "Max Stoiber",
   "license": "MIT",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
