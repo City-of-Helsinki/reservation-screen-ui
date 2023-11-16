@@ -186,7 +186,7 @@
     "lodash": "^4.17.15",
     "minimist": "1.2.3",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.28",
+    "moment-timezone": "^0.5.43",
     "prop-types": "15.6.1",
     "qrcode.react": "^0.8.0",
     "react": "^16.13.0",
