@@ -193,7 +193,7 @@
     "react-circular-progressbar": "^1.2.1",
     "react-dom": "^16.13.0",
     "react-helmet": "^6.0.0-beta.2",
-    "react-intl": "^4.1.1",
+    "react-intl": "^4.7.6",
     "react-loadable": "5.4.0",
     "react-redux": "^7.2.0",
     "react-router": "5.1.2",
